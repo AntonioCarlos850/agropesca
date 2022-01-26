@@ -78,7 +78,7 @@ class User extends DAOUser{
 	}
 
     public function insertUser( $params = array() ){
-		$return = $this->select($params);
+		$return = $this->insert($params);
 
         $formatted_return = [];
         foreach($return as $data){
@@ -100,7 +100,7 @@ class User extends DAOUser{
 	}
 
     public function updateUser( $params = array() ){
-		$return = $this->select($params);
+		$return = $this->update($params);
 
         $formatted_return = [];
         foreach($return as $data){
