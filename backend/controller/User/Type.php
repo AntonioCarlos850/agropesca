@@ -21,7 +21,7 @@ class TypeUser extends DAOTypeUser{
 	}
 
     public function insertType( $params = array() ){
-		$return = $this->select($params);
+		$return = $this->insert($params);
 
         $formatted_return = [];
         foreach($return as $data){
@@ -37,7 +37,7 @@ class TypeUser extends DAOTypeUser{
 	}
 
     public function updateType( $params = array() ){
-		$return = $this->select($params);
+		$return = $this->update($params);
 
         $formatted_return = [];
         foreach($return as $data){

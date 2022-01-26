@@ -24,7 +24,7 @@ class VisitPost extends DAOVisitPost{
 	}
 
     public function insertVisit( $params = array() ){
-		$return = $this->select($params);
+		$return = $this->insert($params);
 
         $formatted_return = [];
         foreach($return as $data){
@@ -43,7 +43,7 @@ class VisitPost extends DAOVisitPost{
 	}
 
     public function updateVisit( $params = array() ){
-		$return = $this->select($params);
+		$return = $this->update($params);
 
         $formatted_return = [];
         foreach($return as $data){
