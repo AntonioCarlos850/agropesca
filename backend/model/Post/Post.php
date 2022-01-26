@@ -36,8 +36,6 @@ class ModelPost extends Builder{
 	}
 
 	protected function insert($params_query){
-		$salt = random_string(5);
-
 		$params = [
 			[
 				"key"=>"category_id",
@@ -82,20 +80,19 @@ class ModelPost extends Builder{
 	}
 
 	protected function update($params_query){
-		$salt = random_string(5);
 
 		$params = [
 			[
-				"key"=>"email",
-				"reference"=>":EMAIL"
+				"key"=>"title",
+				"reference"=>":TITLE"
 			],
 			[
-				"key"=>"password",
-				"reference"=>"SHA1(CONCAT(CONCAT(:PASSWORD,:SALT),'agropesca'))"
+				"key"=>"description",
+				"reference"=>":DESCRIPTION"
 			],
 			[
-				"key"=>"password_salt",
-				"reference"=>":SALT"
+				"key"=>"body",
+				"reference"=>":BODY"
 			]
 		];
 
@@ -110,9 +107,9 @@ class ModelPost extends Builder{
 
 		$sql = new Sql();
 		$return = $sql->doQuery($query, array(
-				':EMAIL'=>$params_query["email"],
-				':PASSWORD'=>$params_query["password"],
-				':SALT'=>$salt,
+				':TITLE'=>$params_query["title"],
+				':DESCRIPTION'=>$params_query["description"],
+				':BODY'=>$params_query["body"],
 				':ID'=>$params_query["id"]
 			)
 		);
