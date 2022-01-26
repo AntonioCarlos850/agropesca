@@ -36,7 +36,9 @@ class ModelUser {
     public function getData(){
 		return [
             "id"=>$this->getId(),
-            "type_id"=>$this->getTypeId(),
+            "type"=>[
+                "id"=>$this->getTypeId()
+            ],
             "name"=>$this->getName(),
             "email"=>$this->getEmail(),
             "password"=>$this->getPassword(),

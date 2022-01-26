@@ -63,7 +63,7 @@ class DAOUser extends Builder{
 			[
 				"key"=>"type_id",
 				"reference"=>":TYPE_ID"
-			],
+			]
 		];
 
 		$query = $this->build_insert($this->bd,$params);
@@ -74,7 +74,7 @@ class DAOUser extends Builder{
 				':PASSWORD'=>$params_query["password"],
 				':SALT'=>$salt,
 				':NAME'=>$params_query["name"],
-				':TYPE_ID'=>$params_query["type_id"],
+				':TYPE_ID'=>isset($params_query["type_id"]) ? $params_query["type_id"] : "2",
 			)
 		);
 
