@@ -40,36 +40,41 @@ class ModelPost extends Builder{
 
 		$params = [
 			[
-				"key"=>"email",
-				"reference"=>":EMAIL"
+				"key"=>"category_id",
+				"reference"=>":CATEGORY_ID"
 			],
 			[
-				"key"=>"password",
-				"reference"=>"SHA1(CONCAT(CONCAT(:PASSWORD,:SALT),'agropesca'))"
+				"key"=>"autor_id",
+				"reference"=>":AUTOR_ID"
 			],
 			[
-				"key"=>"password_salt",
-				"reference"=>":SALT"
+				"key"=>"slug",
+				"reference"=>":SLUG"
 			],
 			[
-				"key"=>"name",
-				"reference"=>":NAME"
+				"key"=>"title",
+				"reference"=>":TITLE"
 			],
 			[
-				"key"=>"type_id",
-				"reference"=>":TYPE_ID"
+				"key"=>"description",
+				"reference"=>":DESCRIPTION"
 			],
+			[
+				"key"=>"body",
+				"reference"=>":BODY"
+			]
 		];
 
 		$query = $this->build_insert($this->bd,$params);
 
 		$sql = new Sql();
 		$return = $sql->doQuery($query, array(
-				':EMAIL'=>$params_query["email"],
-				':PASSWORD'=>$params_query["password"],
-				':SALT'=>$salt,
-				':NAME'=>$params_query["name"],
-				':TYPE_ID'=>$params_query["type_id"],
+				':CATEGORY_ID'=>$params_query["category_id"],
+				':AUTOR_ID'=>$params_query["autor_id"],
+				':SLUG'=>$params_query["slug"],
+				':TITLE'=>$params_query["title"],
+				':DESCRIPTION'=>$params_query["description"],
+				':BODY'=>$params_query["body"],
 			)
 		);
 
