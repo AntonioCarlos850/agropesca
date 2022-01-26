@@ -1,8 +1,8 @@
 <?php 
 
-require_once __DIR__ . "/../../model/Post/Category.php";
+require_once __DIR__ . "/../../model/User/Autor.php";
 
-class ControllerCategoryPost extends ModelCategoryPost{
+class ControllerAutorUsuario extends ModelAutorUsuario{
 
 	public function select_user( $params = array() ){
         $return = $this->select($params);
@@ -10,8 +10,12 @@ class ControllerCategoryPost extends ModelCategoryPost{
         $formatted_return = [];
         foreach($return as $data){
             $formatted_return[] = [
-                "id" => $data["id"],
+                "user" => [
+                    "id"=>$data["user_id"]
+                ],
+                "slug" => $data["slug"],
                 "name" => $data["name"],
+                "description" => $data["description"],
                 "creation_date" => $data["creation_date"],
                 "update_date" => $data["update_date"],
             ];
@@ -26,8 +30,12 @@ class ControllerCategoryPost extends ModelCategoryPost{
         $formatted_return = [];
         foreach($return as $data){
             $formatted_return[] = [
-                "id" => $data["id"],
+                "user" => [
+                    "id"=>$data["user_id"]
+                ],
+                "slug" => $data["slug"],
                 "name" => $data["name"],
+                "description" => $data["description"],
                 "creation_date" => $data["creation_date"],
                 "update_date" => $data["update_date"],
             ];
@@ -42,8 +50,12 @@ class ControllerCategoryPost extends ModelCategoryPost{
         $formatted_return = [];
         foreach($return as $data){
             $formatted_return[] = [
-                "id" => $data["id"],
+                "user" => [
+                    "id"=>$data["user_id"]
+                ],
+                "slug" => $data["slug"],
                 "name" => $data["name"],
+                "description" => $data["description"],
                 "creation_date" => $data["creation_date"],
                 "update_date" => $data["update_date"],
             ];

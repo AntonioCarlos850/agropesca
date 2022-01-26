@@ -1,8 +1,8 @@
 <?php 
 
-require_once __DIR__ . "/../../model/User/User.php";
+require_once __DIR__ . "/../../model/Post/Visit.php";
 
-class ControllerCategoryPost extends ModelCategoryPost{
+class ControllerVisitPost extends ModelVisitPost{
 
 	public function select_user( $params = array() ){
         $return = $this->select($params);

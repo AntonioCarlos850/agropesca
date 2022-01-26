@@ -4,12 +4,12 @@ require_once __DIR__ . "/../Builder.php";
 require_once __DIR__ . "/../../Sql.php";
 require_once __DIR__ . "/../../../helpers/string.php";
 
-class ModelVisitPost extends Builder{
+class ModelAutorUsuario extends Builder{
 
     private $bd;
 
     public function __construct(){
-        $this->bd = "blg_post_visit";
+        $this->bd = "blg_user_autor";
 	}
 
 	protected function select($params_query = []){
@@ -38,12 +38,16 @@ class ModelVisitPost extends Builder{
 	protected function insert($params_query){
 		$params = [
 			[
-				"key"=>"user_id",
-				"reference"=>":USER_ID"
-            ],
-            [
-				"key"=>"post_id",
-				"reference"=>":POST_ID"
+				"key"=>"slug",
+				"reference"=>":SLUG"
+			],
+			[
+				"key"=>"description",
+				"reference"=>":DESCRIPTION"
+			],
+			[
+				"key"=>"name",
+				"reference"=>":NAME"
 			]
 		];
 
@@ -51,8 +55,9 @@ class ModelVisitPost extends Builder{
 
 		$sql = new Sql();
 		$return = $sql->doQuery($query, array(
-				':USER_ID'=>$params_query["user_id"],
-                ':POST_ID'=>$params_query["post_id"]
+				':SLUG'=>$params_query["slug"],
+				':DESCRIPTION'=>$params_query["description"],
+				':NAME'=>$params_query["name"],
 			)
 		);
 
@@ -60,14 +65,20 @@ class ModelVisitPost extends Builder{
 	}
 
 	protected function update($params_query){
+		$salt = random_string(5);
+
 		$params = [
 			[
-				"key"=>"user_id",
-				"reference"=>":USER_ID"
+				"key"=>"slug",
+				"reference"=>":SLUG"
 			],
-            [
-				"key"=>"post_id",
-				"reference"=>":POST_ID"
+			[
+				"key"=>"description",
+				"reference"=>":DESCRIPTION"
+			],
+			[
+				"key"=>"name",
+				"reference"=>":NAME"
 			]
 		];
 
@@ -82,8 +93,9 @@ class ModelVisitPost extends Builder{
 
 		$sql = new Sql();
 		$return = $sql->doQuery($query, array(
-				':POST_ID'=>$params_query["post_id"],
-                ':USER_ID'=>$params_query["user_id"],
+				':NAME'=>$params_query["name"],
+				':DESCRIPTION'=>$params_query["description"],
+				':SLUG'=>$params_query["slug"],
 				':ID'=>$params_query["id"]
 			)
 		);
