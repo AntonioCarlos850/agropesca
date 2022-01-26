@@ -8,6 +8,7 @@ function Input(array $options = []):string{
             '.(isset($options["name"]) ? ('name="'.$options["name"].'"') : "").' 
             '.(isset($options["placeholder"]) ? ('placeholder="'.$options["placeholder"].'"') : "").' 
             '.(isset($options["class"]) ? ('class="'.$options["class"].'"') : "").' 
+            '.(isset($options["value"]) ? ('value="'.$options["value"].'"') : "").' 
         >
     ';
 }

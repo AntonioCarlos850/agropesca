@@ -11,27 +11,52 @@ if(isset($_POST["email"]) && isset($_POST["password"])){
 
     if(isset($usuario_info["id"])){
         $_SESSION["usuario"] = $usuario_info;
+        header("Location: localhost/");
+    }else{
+        echo Pagina([
+            "title" => "Login",
+            "css" => "css/login.css",
+            "content" => '
+                <div class="col-image"></div>
+                <div class="col-form">
+                    <form method="POST">
+                        <h1>Login</h1>
+                        <span>Email ou senha incorretos</span>
+                        '.Input(["type" => "text", "name" => "email", "placeholder"=> "Email", "value" => $_POST["email"]]).'
+                        '.Input(["type" => "password", "name" => "password", "placeholder"=> "Senha"]).'
+                        <div class="cadastro-div">
+                            <a href="/cadastro.php">Cadastrar</a>
+                        </div>
+                        <div class="button-div">
+                            <button type="submit">Entrar</button>
+                        </div>
+                    </form>
+                </div>
+            '
+        ]);
     }
+}else{
+    echo Pagina([
+        "title" => "Login",
+        "css" => "css/login.css",
+        "content" => '
+            <div class="col-image"></div>
+            <div class="col-form">
+                <form method="POST">
+                    <h1>Login</h1>
+                    '.Input(["type" => "text", "name" => "email", "placeholder"=> "Email"]).'
+                    '.Input(["type" => "password", "name" => "password", "placeholder"=> "Senha"]).'
+                    <div class="cadastro-div">
+                        <a href="/cadastro.php">Cadastrar</a>
+                    </div>
+                    <div class="button-div">
+                        <button type="submit">Entrar</button>
+                    </div>
+                </form>
+            </div>
+        '
+    ]);
 }
 
-echo Pagina([
-    "title" => "Login",
-    "css" => "css/login.css",
-    "content" => '
-        <div class="col-image"></div>
-        <div class="col-form">
-            <form method="POST">
-                <h1>Login</h1>
-                '.Input(["type" => "text", "name" => "email", "placeholder"=> "Email"]).'
-                '.Input(["type" => "password", "name" => "password", "placeholder"=> "Senha"]).'
-                <div class="cadastro-div">
-                    <a href="/cadastro.php">Cadastrar</a>
-                </div>
-                <div class="button-div">
-                    <button type="submit">Entrar</button>
-                </div>
-            </form>
-        </div>
-    '
-]);
+
 ?>

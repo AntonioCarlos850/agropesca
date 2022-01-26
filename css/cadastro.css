@@ -65,9 +65,18 @@ form > input {
     transition: all 200ms ease-out;
 }
 
+form > input.invalid{
+    border-bottom: 2px rgb(173, 57, 57) solid;
+}
+
 form > input:focus {
     padding-bottom: 12px;
     border-color: #646464;
+}
+
+form > input.invalid:focus {
+    padding-bottom: 12px;
+    border-color: rgb(173, 57, 57);
 }
 
 form > input::placeholder{
