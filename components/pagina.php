@@ -19,7 +19,7 @@ function pagina(array $options = []):string{
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <link rel="stylesheet" href="css/global.css">
             '.join("\n ", $links_css).'
-            <title>'.(isset($options["titule"]) ? $options["titule"] : "Agropesca").'</title>
+            <title>'.(isset($options["title"]) ? $options["title"] : "Agropesca").'</title>
         </head>
         <body>
             '.(isset($options["content"]) ? $options["content"] : "").'
