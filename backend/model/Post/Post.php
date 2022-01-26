@@ -4,12 +4,12 @@ require_once __DIR__ . "/../Builder.php";
 require_once __DIR__ . "/../../Sql.php";
 require_once __DIR__ . "/../../../helpers/string.php";
 
-class ModelUsuario extends Builder{
+class ModelPost extends Builder{
 
     private $bd;
 
     public function __construct(){
-        $this->bd = "blg_user";
+        $this->bd = "blg_post";
 	}
 
 	protected function select($params_query = []){
