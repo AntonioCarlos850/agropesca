@@ -1,10 +1,10 @@
 <?php 
 
-require_once __DIR__ . "/../../model/User/Autor.php";
+require_once __DIR__ . "/../../dao/User/Autor.php";
 
-class ControllerAutorUsuario extends ModelAutorUsuario{
+class ControllerAutorUsuario extends DAOAutorUsuario{
 
-	public function select_user( $params = array() ){
+	public function selectAutor( $params = array() ){
         $return = $this->select($params);
 
         $formatted_return = [];
@@ -24,7 +24,7 @@ class ControllerAutorUsuario extends ModelAutorUsuario{
 		return $formatted_return;
 	}
 
-    public function insert_user( $params = array() ){
+    public function insertAutor( $params = array() ){
 		$return = $this->select($params);
 
         $formatted_return = [];
@@ -44,7 +44,7 @@ class ControllerAutorUsuario extends ModelAutorUsuario{
 		return $formatted_return;
 	}
 
-    public function update_user( $params = array() ){
+    public function updateAutor( $params = array() ){
 		$return = $this->select($params);
 
         $formatted_return = [];
@@ -64,7 +64,7 @@ class ControllerAutorUsuario extends ModelAutorUsuario{
 		return $formatted_return;
 	}
 
-    public function delete_user( $id ){
+    public function deleteAutor( $id ){
 		$return = $this->delete($id);
 
 		return $return;

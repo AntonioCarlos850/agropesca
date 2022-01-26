@@ -1,101 +1,67 @@
-<?php 
+<?php
 
-require_once __DIR__ . "/../Builder.php";
-require_once __DIR__ . "/../../Sql.php";
-require_once __DIR__ . "/../../../helpers/string.php";
+class ModelCategoryPost {
+    private $id;
+    private $name;
+    private $creation_date;
+    private $update_date;
 
-class ModelCategoryPost extends Builder{
+    public function __construct($data){
+        $this->setData($data);
+    }
 
-    private $bd;
+    public function __toString(){
+        $data = $this->getData();
 
-    public function __construct(){
-        $this->bd = "blg_post_category";
+        return "id".$data["id"].","."name".$data["name"].
+        ","."creation_date".$data["creation_date"].","."update_date".$data["update_date"];
+    }
+
+    private function setData($data){
+		$this->setId($data['id']);
+		$this->setName($data['name']);
+		$this->setCreationDate($data['creation_date']);
+        $this->setUpdateDate($data['update_date']);
 	}
 
-	protected function select($params_query = []){
-
-		$sql = new Sql();
-		$params = [];
-		$params2 = [];
-
-		foreach($params_query as $param){
-			$params[] = [
-					"key"=>$param["key"],
-					"reference"=>$param["reference"]
-			];
-
-			$params2[$param["reference"]] = $param["value"];
-		}
-		
-		$query = $this->build_select($this->bd,$params);
-
-		$sql = new Sql();
-		$return = $sql->doQuery($query, $params2);
-
-		return $return;
+    public function getData(){
+		return [
+            "id"=>$this->getId(),
+            "name"=>$this->getName(),
+            "creation_date"=> $this->getCreationDate()->format("d/m/Y H:i:s"),
+            "update_date"=>$this->getUpdateDate()->format("d/m/Y H:i:s")
+        ];
 	}
 
-	protected function insert($params_query){
-		$params = [
-			[
-				"key"=>"name",
-				"reference"=>":NAME"
-			]
-		];
+    private function setId($id){
+        $this->id = $id;
+    }
 
-		$query = $this->build_insert($this->bd,$params);
+    private function getId(){
+        return $this->id;
+    }
 
-		$sql = new Sql();
-		$return = $sql->doQuery($query, array(
-				':NAME'=>$params_query["name"]
-			)
-		);
+    private function setName($name){
+        $this->name = $name;
+    }
 
-		return $return;
-	}
+    private function getName(){
+        return $this->name;
+    }
 
-	protected function update($params_query){
-		$params = [
-			[
-				"key"=>"name",
-				"reference"=>":NAME"
-			]
-		];
+    private function setCreationDate($creation_date){
+        $this->creation_date = $creation_date;
+    }
 
-		$conditions=[
-			[
-				"key" => "id",
-				"reference" => ":ID"
-			]
-		];
+    private function getCreationDate(){
+        return $this->creation_date;
+    }
 
-		$query = $this->build_update($this->bd,$params,$conditions);
+    private function setUpdateDate($update_date){
+        $this->update_date = $update_date;
+    }
 
-		$sql = new Sql();
-		$return = $sql->doQuery($query, array(
-				':NAME'=>$params_query["name"],
-				':ID'=>$params_query["id"]
-			)
-		);
-
-		return $return;
-	}
-
-	protected function delete($id){
-		$params = [
-			[
-				"key"=>"id",
-				"reference"=>":ID"
-			]
-		];
-
-		$query = $this->build_delete($this->bd,$params);
-
-		$sql = new Sql();
-		$sql->doQuery($query, array(
-			':ID'=>$id
-		));
-
-		return $id;
-	}
-} 
+    private function getUpdateDate(){
+        return $this->update_date;
+    }
+}

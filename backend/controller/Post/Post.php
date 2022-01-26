@@ -1,10 +1,10 @@
 <?php 
 
-require_once __DIR__ . "/../../model/User/User.php";
+require_once __DIR__ . "/../../dao/User/User.php";
 
-class ControllerPost extends ModelPost{
+class ControllerPost extends DAOPost{
 
-	public function select_user( $params = array() ){
+	public function selectPost( $params = array() ){
         $return = $this->select($params);
 
         $formatted_return = [];
@@ -29,7 +29,7 @@ class ControllerPost extends ModelPost{
 		return $formatted_return;
 	}
 
-    public function insert_user( $params = array() ){
+    public function insertPost( $params = array() ){
 		$return = $this->select($params);
 
         $formatted_return = [];
@@ -54,7 +54,7 @@ class ControllerPost extends ModelPost{
 		return $formatted_return;
 	}
 
-    public function update_user( $params = array() ){
+    public function updatePost( $params = array() ){
 		$return = $this->select($params);
 
         $formatted_return = [];
@@ -79,7 +79,7 @@ class ControllerPost extends ModelPost{
 		return $formatted_return;
 	}
 
-    public function delete_user( $id ){
+    public function deletePost( $id ){
 		$return = $this->delete($id);
 
 		return $return;

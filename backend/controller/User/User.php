@@ -1,10 +1,60 @@
 <?php 
 
+require_once __DIR__ . "/../../dao/User/User.php";
 require_once __DIR__ . "/../../model/User/User.php";
 
-class ControllerUsuario extends ModelUsuario{
+class ControllerUsuario extends DAOUsuario{
 
-	public function select_user( $params = array() ){
+    public function tryLogin($email, $password){
+
+        $params = [
+            [
+                "key"=>"email",
+                "reference"=>":EMAIL",
+                "value"=>$email
+            ]
+        ];
+
+        $return = $this->select($params);
+
+        if($return){
+            $params = [
+                [
+                    "key"=>"email",
+                    "reference"=>":EMAIL",
+                    "value"=>$email
+                ],
+                [
+                    "key"=>"password",
+                    "reference"=>"SHA1(CONCAT(CONCAT(:PASSWORD,:SALT),'agropesca'))"
+                ],
+                [
+				    "reference"=>":SALT",
+                    "value"=>$return["password_salt"]
+                ],
+                [
+				    "reference"=>":PASSWORD",
+                    "value"=>$password
+                ]
+            ];
+    
+            $return = $this->select($params);
+    
+            if ($return) {
+
+                $data = new ModelUser($return);
+
+                return $data->getData();
+            } else {
+                return [];
+            }
+
+        } else{
+            return [];
+        }
+	}
+
+	public function selectUser( $params = array() ){
         $return = $this->select($params);
 
         $formatted_return = [];
@@ -19,14 +69,14 @@ class ControllerUsuario extends ModelUsuario{
                 "password" => $data["password"],
                 "salt" => $data["password_salt"],
                 "creation_date" => $data["creation_date"],
-                "update_date" => $data["update_date"]//->format("d/m/Y H:i:s")
+                "update_date" => $data["update_date"]
             ];
         }
 
 		return $formatted_return;
 	}
 
-    public function insert_user( $params = array() ){
+    public function insertUser( $params = array() ){
 		$return = $this->select($params);
 
         $formatted_return = [];
@@ -48,7 +98,7 @@ class ControllerUsuario extends ModelUsuario{
 		return $formatted_return;
 	}
 
-    public function update_user( $params = array() ){
+    public function updateUser( $params = array() ){
 		$return = $this->select($params);
 
         $formatted_return = [];
@@ -70,7 +120,7 @@ class ControllerUsuario extends ModelUsuario{
 		return $formatted_return;
 	}
 
-    public function delete_user( $id ){
+    public function deleteUser( $id ){
 		$return = $this->delete($id);
 
 		return $return;

@@ -1,111 +1,55 @@
-<?php 
+<?php
 
-require_once __DIR__ . "/../Builder.php";
-require_once __DIR__ . "/../../Sql.php";
-require_once __DIR__ . "/../../../helpers/string.php";
+class ModelPost {
+    private $user_id;
+    private $post_id;
+    private $creation_date;
 
-class ModelVisitPost extends Builder{
+    public function __construct($data){
+        $this->setData($data);
+    }
 
-    private $bd;
+    public function __toString(){
+        $data = $this->getData();
 
-    public function __construct(){
-        $this->bd = "blg_post_visit";
+        return "user_id".$data["user_id"].","."post_id".$data["post_id"].","."creation_date".$data["creation_date"];
+    }
+
+    private function setData($data){
+		$this->setUserId($data['user_id']);
+		$this->setPostId($data['post_id']);
+        $this->setCreationDate($data['creation_date']);
 	}
 
-	protected function select($params_query = []){
-
-		$sql = new Sql();
-		$params = [];
-		$params2 = [];
-
-		foreach($params_query as $param){
-			$params[] = [
-					"key"=>$param["key"],
-					"reference"=>$param["reference"]
-			];
-
-			$params2[$param["reference"]] = $param["value"];
-		}
-		
-		$query = $this->build_select($this->bd,$params);
-
-		$sql = new Sql();
-		$return = $sql->doQuery($query, $params2);
-
-		return $return;
+    public function getData(){
+		return [
+            "user_id"=>$this->getUserId(),
+            "post_id"=>$this->getPostId(),
+            "creation_date"=> $this->getCreationDate()->format("d/m/Y H:i:s")
+        ];
 	}
 
-	protected function insert($params_query){
-		$params = [
-			[
-				"key"=>"user_id",
-				"reference"=>":USER_ID"
-            ],
-            [
-				"key"=>"post_id",
-				"reference"=>":POST_ID"
-			]
-		];
+    private function setUserId($user_id){
+        $this->user_id = $user_id;
+    }
 
-		$query = $this->build_insert($this->bd,$params);
+    private function getUserId(){
+        return $this->user_id;
+    }
 
-		$sql = new Sql();
-		$return = $sql->doQuery($query, array(
-				':USER_ID'=>$params_query["user_id"],
-                ':POST_ID'=>$params_query["post_id"]
-			)
-		);
+    private function setPostId($post_id){
+        $this->post_id = $post_id;
+    }
 
-		return $return;
-	}
+    private function getPostId(){
+        return $this->post_id;
+    }
 
-	protected function update($params_query){
-		$params = [
-			[
-				"key"=>"user_id",
-				"reference"=>":USER_ID"
-			],
-            [
-				"key"=>"post_id",
-				"reference"=>":POST_ID"
-			]
-		];
+    private function setCreationDate($creation_date){
+        $this->creation_date = $creation_date;
+    }
 
-		$conditions=[
-			[
-				"key" => "id",
-				"reference" => ":ID"
-			]
-		];
-
-		$query = $this->build_update($this->bd,$params,$conditions);
-
-		$sql = new Sql();
-		$return = $sql->doQuery($query, array(
-				':POST_ID'=>$params_query["post_id"],
-                ':USER_ID'=>$params_query["user_id"],
-				':ID'=>$params_query["id"]
-			)
-		);
-
-		return $return;
-	}
-
-	protected function delete($id){
-		$params = [
-			[
-				"key"=>"id",
-				"reference"=>":ID"
-			]
-		];
-
-		$query = $this->build_delete($this->bd,$params);
-
-		$sql = new Sql();
-		$sql->doQuery($query, array(
-			':ID'=>$id
-		));
-
-		return $id;
-	}
-} 
+    private function getCreationDate(){
+        return $this->creation_date;
+    }
+}

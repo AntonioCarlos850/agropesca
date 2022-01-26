@@ -1,10 +1,10 @@
 <?php 
 
-require_once __DIR__ . "/../../model/Post/Category.php";
+require_once __DIR__ . "/../../dao/Post/Category.php";
 
-class ControllerCategoryPost extends ModelCategoryPost{
+class ControllerCategoryPost extends DAOCategoryPost{
 
-	public function select_user( $params = array() ){
+	public function selectCategory( $params = array() ){
         $return = $this->select($params);
 
         $formatted_return = [];
@@ -20,7 +20,7 @@ class ControllerCategoryPost extends ModelCategoryPost{
 		return $formatted_return;
 	}
 
-    public function insert_user( $params = array() ){
+    public function insertCategory( $params = array() ){
 		$return = $this->select($params);
 
         $formatted_return = [];
@@ -36,7 +36,7 @@ class ControllerCategoryPost extends ModelCategoryPost{
 		return $formatted_return;
 	}
 
-    public function update_user( $params = array() ){
+    public function updateCategory( $params = array() ){
 		$return = $this->select($params);
 
         $formatted_return = [];
@@ -52,7 +52,7 @@ class ControllerCategoryPost extends ModelCategoryPost{
 		return $formatted_return;
 	}
 
-    public function delete_user( $id ){
+    public function deleteCategory( $id ){
 		$return = $this->delete($id);
 
 		return $return;

@@ -1,12 +1,8 @@
 <?php
 
-class ModelUser {
+class ModelTypeUser {
     private $id;
-    private $type_id;
     private $name;
-    private $email;
-    private $password;
-    private $password_salt;
     private $creation_date;
     private $update_date;
 
@@ -17,18 +13,13 @@ class ModelUser {
     public function __toString(){
         $data = $this->getData();
 
-        return "id".$data["id"].","."type_id".$data["type_id"].","."name".$data["name"].","."email".$data["email"].
-        ","."password".$data["password"].","."password_salt".$data["password_salt"].","."creation_date".$data["creation_date"].
+        return "id".$data["id"].","."name".$data["name"].","."creation_date".$data["creation_date"].
         ","."update_date".$data["update_date"];
     }
 
     private function setData($data){
 		$this->setId($data['id']);
-		$this->setTypeId($data['type_id']);
 		$this->setName($data['name']);
-		$this->setEmail($data['email']);
-        $this->setPassword($data['password']);
-        $this->setPasswordSalt($data['password_salt']);
         $this->setCreationDate($data['creation_date']);
         $this->setUpdateDate($data['update_date']);
 	}
@@ -36,11 +27,7 @@ class ModelUser {
     public function getData(){
 		return [
             "id"=>$this->getId(),
-            "type_id"=>$this->getTypeId(),
             "name"=>$this->getName(),
-            "email"=>$this->getEmail(),
-            "password"=>$this->getPassword(),
-            "password_salt"=>$this->getPasswordSalt(),
             "creation_date"=> $this->getCreationDate()->format("d/m/Y H:i:s"),
             "update_date"=>$this->getUpdateDate()->format("d/m/Y H:i:s")
         ];
@@ -54,14 +41,6 @@ class ModelUser {
         return $this->id;
     }
 
-    private function setTypeId($type_id){
-        $this->id = $type_id;
-    }
-
-    private function getTypeId(){
-        return $this->type_id;
-    }
-
     private function setName($name){
         $this->name = $name;
     }
@@ -69,31 +48,7 @@ class ModelUser {
     private function getName(){
         return $this->name;
     }
-
-    private function setEmail($email){
-        $this->email = $email;
-    }
-
-    private function getEmail(){
-        return $this->email;
-    }
-
-    private function setPassword($password){
-        $this->password = $password;
-    }
-
-    private function getPassword(){
-        return $this->password;
-    }
-
-    private function setPasswordSalt($password_salt){
-        $this->password_salt = $password_salt;
-    }
-
-    private function getPasswordSalt(){
-        return $this->password_salt;
-    }
-
+    
     private function setCreationDate($creation_date){
         $this->creation_date = $creation_date;
     }
