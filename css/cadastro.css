@@ -76,12 +76,16 @@ form > input::placeholder{
     font-weight: 400;
 }
 
-form > .cadastro-div {
+form > .login-div {
     display: flex;
     justify-content: end;
 }
 
-form > .cadastro-div > a {
+form > .login-div > span {
+    font-size: 0.8em;
+}
+
+form > .login-div > span > a{
     color: var(--dark-green);
     text-decoration: none;
 }
@@ -96,6 +100,7 @@ form > .button-div > button {
 
     border:0px;
     border-radius: 30px;
+
     padding: 10px 0px;
     width: 30%;
 

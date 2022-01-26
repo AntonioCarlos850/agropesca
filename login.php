@@ -9,7 +9,9 @@ if(isset($_POST["email"]) && isset($_POST["password"])){
 
     $usuario_info = $usuarioController->tryLogin($_POST["email"], $_POST["password"]);
 
-    var_dump($usuario_info);
+    if(isset($usuario_info["id"])){
+        $_SESSION["usuario"] = $usuario_info;
+    }
 }
 
 echo Pagina([
@@ -20,10 +22,10 @@ echo Pagina([
         <div class="col-form">
             <form method="POST">
                 <h1>Login</h1>
-                '.Input(["type" => "text", "name" => "email", "placeholder"=> "Nome"]).'
+                '.Input(["type" => "text", "name" => "email", "placeholder"=> "Email"]).'
                 '.Input(["type" => "password", "name" => "password", "placeholder"=> "Senha"]).'
                 <div class="cadastro-div">
-                    <a href="/cadastro">Cadastrar</a>
+                    <a href="/cadastro.php">Cadastrar</a>
                 </div>
                 <div class="button-div">
                     <button type="submit">Entrar</button>
