@@ -43,6 +43,10 @@ class DAOAutorUser extends Builder{
 	protected function insert($params_query){
 		$params = [
 			[
+				"key"=>"user_id",
+				"reference"=>":USER_ID"
+			],
+			[
 				"key"=>"slug",
 				"reference"=>":SLUG"
 			],
@@ -59,7 +63,8 @@ class DAOAutorUser extends Builder{
 		$query = $this->build_insert($this->bd,$params);
 
 		$sql = new Sql();
-		$return = $sql->doQuery($query, array(
+		$return = $sql->doQueryCount($query, array(
+				':USER_ID'=>$params_query["user_id"],
 				':SLUG'=>$params_query["slug"],
 				':DESCRIPTION'=>$params_query["description"],
 				':NAME'=>$params_query["name"],
@@ -97,7 +102,7 @@ class DAOAutorUser extends Builder{
 		$query = $this->build_update($this->bd,$params,$conditions);
 
 		$sql = new Sql();
-		$return = $sql->doQuery($query, array(
+		$return = $sql->doQueryCount($query, array(
 				':NAME'=>$params_query["name"],
 				':DESCRIPTION'=>$params_query["description"],
 				':SLUG'=>$params_query["slug"],
@@ -119,7 +124,7 @@ class DAOAutorUser extends Builder{
 		$query = $this->build_delete($this->bd,$params);
 
 		$sql = new Sql();
-		$sql->doQuery($query, array(
+		$sql->doQueryCount($query, array(
 			':ID'=>$id
 		));
 

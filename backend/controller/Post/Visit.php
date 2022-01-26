@@ -1,6 +1,7 @@
 <?php 
 
 require_once __DIR__ . "/../../dao/Post/Visit.php";
+require_once __DIR__ . "/../../model/Post/Visit.php";
 
 class VisitPost extends DAOVisitPost{
 
@@ -9,15 +10,8 @@ class VisitPost extends DAOVisitPost{
 
         $formatted_return = [];
         foreach($return as $data){
-            $formatted_return[] = [
-                "user" => [
-                    "id"=>$data["user_id"]
-                ],
-                "post" => [
-                    "id"=>$data["post_id"]
-                ],
-                "creation_date" => $data["creation_date"],
-            ];
+            $user = new ModelVisitPost($data);
+            $formatted_return[] = $user->getData();
         }
 
 		return $formatted_return;
@@ -27,16 +21,24 @@ class VisitPost extends DAOVisitPost{
 		$return = $this->insert($params);
 
         $formatted_return = [];
-        foreach($return as $data){
-            $formatted_return[] = [
-                "user" => [
-                    "id"=>$data["user_id"]
+        if($return){
+            $params = [
+                [
+                    "key"=>"user_id",
+                    "reference"=>":USER_ID",
+                    "value"=>$params["user_id"]
                 ],
-                "post" => [
-                    "id"=>$data["post_id"]
-                ],
-                "creation_date" => $data["creation_date"],
+                [
+                    "key"=>"post_id",
+                    "reference"=>":POST_ID",
+                    "value"=>$params["post_id"]
+                ]
             ];
+    
+            $return = $this->select($params);
+
+            $user = new ModelVisitPost($return[0]);
+            $formatted_return = $user->getData();
         }
 
 		return $formatted_return;
@@ -46,16 +48,24 @@ class VisitPost extends DAOVisitPost{
 		$return = $this->update($params);
 
         $formatted_return = [];
-        foreach($return as $data){
-            $formatted_return[] = [
-                "user" => [
-                    "id"=>$data["user_id"]
+        if($return){
+            $params = [
+                [
+                    "key"=>"user_id",
+                    "reference"=>":USER_ID",
+                    "value"=>$params["user_id"]
                 ],
-                "post" => [
-                    "id"=>$data["post_id"]
-                ],
-                "creation_date" => $data["creation_date"],
+                [
+                    "key"=>"post_id",
+                    "reference"=>":POST_ID",
+                    "value"=>$params["post_id"]
+                ]
             ];
+    
+            $return = $this->select($params);
+
+            $user = new ModelVisitPost($return[0]);
+            $formatted_return = $user->getData();
         }
 
 		return $formatted_return;

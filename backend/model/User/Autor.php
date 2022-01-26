@@ -30,7 +30,9 @@ class ModelAutorUser {
 
     public function getData(){
 		return [
-            "user_id"=>$this->getUserId(),
+            "user"=>[
+                "id"=>$this->getUserId()
+            ],
             "slug"=>$this->getSlug(),
             "name"=>$this->getName(),
             "description"=>$this->getDescription(),

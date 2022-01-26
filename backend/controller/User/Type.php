@@ -1,6 +1,7 @@
 <?php 
 
 require_once __DIR__ . "/../../dao/User/Type.php";
+require_once __DIR__ . "/../../model/User/Type.php";
 
 class TypeUser extends DAOTypeUser{
 
@@ -9,12 +10,8 @@ class TypeUser extends DAOTypeUser{
 
         $formatted_return = [];
         foreach($return as $data){
-            $formatted_return[] = [
-                "id" => $data["id"],
-                "name" => $data["name"],
-                "creation_date" => $data["creation_date"],
-                "update_date" => $data["update_date"],
-            ];
+            $user = new ModelTypeUser($data);
+            $formatted_return[] = $user->getData();
         }
 
 		return $formatted_return;
@@ -24,13 +21,19 @@ class TypeUser extends DAOTypeUser{
 		$return = $this->insert($params);
 
         $formatted_return = [];
-        foreach($return as $data){
-            $formatted_return[] = [
-                "id" => $data["id"],
-                "name" => $data["name"],
-                "creation_date" => $data["creation_date"],
-                "update_date" => $data["update_date"],
+        if($return){
+            $params = [
+                [
+                    "key"=>"name",
+                    "reference"=>":NAME",
+                    "value"=>$params["name"]
+                ]
             ];
+    
+            $return = $this->select($params);
+
+            $user = new ModelTypeUser($return[0]);
+            $formatted_return = $user->getData();
         }
 
 		return $formatted_return;
@@ -40,13 +43,19 @@ class TypeUser extends DAOTypeUser{
 		$return = $this->update($params);
 
         $formatted_return = [];
-        foreach($return as $data){
-            $formatted_return[] = [
-                "id" => $data["id"],
-                "name" => $data["name"],
-                "creation_date" => $data["creation_date"],
-                "update_date" => $data["update_date"],
+        if($return){
+            $params = [
+                [
+                    "key"=>"name",
+                    "reference"=>":NAME",
+                    "value"=>$params["name"]
+                ]
             ];
+    
+            $return = $this->select($params);
+
+            $user = new ModelTypeUser($return[0]);
+            $formatted_return = $user->getData();
         }
 
 		return $formatted_return;
