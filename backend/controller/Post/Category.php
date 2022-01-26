@@ -1,6 +1,7 @@
 <?php 
 
 require_once __DIR__ . "/../../dao/Post/Category.php";
+require_once __DIR__ . "/../../model/Post/Category.php";
 
 class CategoryPost extends DAOCategoryPost{
 
@@ -9,12 +10,8 @@ class CategoryPost extends DAOCategoryPost{
 
         $formatted_return = [];
         foreach($return as $data){
-            $formatted_return[] = [
-                "id" => $data["id"],
-                "name" => $data["name"],
-                "creation_date" => $data["creation_date"],
-                "update_date" => $data["update_date"],
-            ];
+            $user = new ModelCategoryPost($data);
+            $formatted_return[] = $user->getData();
         }
 
 		return $formatted_return;
@@ -24,13 +21,19 @@ class CategoryPost extends DAOCategoryPost{
 		$return = $this->insert($params);
 
         $formatted_return = [];
-        foreach($return as $data){
-            $formatted_return[] = [
-                "id" => $data["id"],
-                "name" => $data["name"],
-                "creation_date" => $data["creation_date"],
-                "update_date" => $data["update_date"],
+        if($return){
+            $params = [
+                [
+                    "key"=>"name",
+                    "reference"=>":NAME",
+                    "value"=>$params["name"]
+                ]
             ];
+    
+            $return = $this->select($params);
+
+            $user = new ModelCategoryPost($return[0]);
+            $formatted_return = $user->getData();
         }
 
 		return $formatted_return;
@@ -40,13 +43,19 @@ class CategoryPost extends DAOCategoryPost{
 		$return = $this->update($params);
 
         $formatted_return = [];
-        foreach($return as $data){
-            $formatted_return[] = [
-                "id" => $data["id"],
-                "name" => $data["name"],
-                "creation_date" => $data["creation_date"],
-                "update_date" => $data["update_date"],
+        if($return){
+            $params = [
+                [
+                    "key"=>"name",
+                    "reference"=>":NAME",
+                    "value"=>$params["name"]
+                ]
             ];
+    
+            $return = $this->select($params);
+
+            $user = new ModelCategoryPost($return[0]);
+            $formatted_return = $user->getData();
         }
 
 		return $formatted_return;

@@ -1,6 +1,7 @@
 <?php 
 
 require_once __DIR__ . "/../../dao/User/Autor.php";
+require_once __DIR__ . "/../../model/User/Autor.php";
 
 class AutorUser extends DAOAutorUser{
 
@@ -9,16 +10,8 @@ class AutorUser extends DAOAutorUser{
 
         $formatted_return = [];
         foreach($return as $data){
-            $formatted_return[] = [
-                "user" => [
-                    "id"=>$data["user_id"]
-                ],
-                "slug" => $data["slug"],
-                "name" => $data["name"],
-                "description" => $data["description"],
-                "creation_date" => $data["creation_date"],
-                "update_date" => $data["update_date"],
-            ];
+            $user = new ModelAutorUser($data);
+            $formatted_return[] = $user->getData();
         }
 
 		return $formatted_return;
@@ -28,17 +21,19 @@ class AutorUser extends DAOAutorUser{
 		$return = $this->insert($params);
 
         $formatted_return = [];
-        foreach($return as $data){
-            $formatted_return[] = [
-                "user" => [
-                    "id"=>$data["user_id"]
-                ],
-                "slug" => $data["slug"],
-                "name" => $data["name"],
-                "description" => $data["description"],
-                "creation_date" => $data["creation_date"],
-                "update_date" => $data["update_date"],
+        if($return){
+            $params = [
+                [
+                    "key"=>"user_id",
+                    "reference"=>":USER_ID",
+                    "value"=>$params["user_id"]
+                ]
             ];
+    
+            $return = $this->select($params);
+
+            $user = new ModelAutorUser($return[0]);
+            $formatted_return = $user->getData();
         }
 
 		return $formatted_return;
@@ -48,17 +43,19 @@ class AutorUser extends DAOAutorUser{
 		$return = $this->update($params);
 
         $formatted_return = [];
-        foreach($return as $data){
-            $formatted_return[] = [
-                "user" => [
-                    "id"=>$data["user_id"]
-                ],
-                "slug" => $data["slug"],
-                "name" => $data["name"],
-                "description" => $data["description"],
-                "creation_date" => $data["creation_date"],
-                "update_date" => $data["update_date"],
+        if($return){
+            $params = [
+                [
+                    "key"=>"user_id",
+                    "reference"=>":USER_ID",
+                    "value"=>$params["user_id"]
+                ]
             ];
+    
+            $return = $this->select($params);
+
+            $user = new ModelAutorUser($return[0]);
+            $formatted_return = $user->getData();
         }
 
 		return $formatted_return;

@@ -93,9 +93,18 @@ class User extends DAOUser{
 		$return = $this->update($params);
 
         $formatted_return = [];
-        foreach($return as $data){
-            $user = new ModelUser($data);
-            $formatted_return[] = $user->getData();
+        if($return){
+            $params = [
+                [
+                    "key"=>"id",
+                    "reference"=>":ID",
+                    "value"=>$params["id"]
+                ]
+            ];
+    
+            $return = $this->select($params);
+            $user = new ModelUser($return[0]);
+            $formatted_return = $user->getData();
         }
 
 		return $formatted_return;

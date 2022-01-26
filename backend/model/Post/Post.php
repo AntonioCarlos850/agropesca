@@ -38,8 +38,12 @@ class ModelPost {
     public function getData(){
 		return [
             "id"=>$this->getId(),
-            "category_id"=>$this->getCategoryId(),
-            "autor_id"=>$this->getAutorId(),
+            "category"=>[
+                "id"=>$this->getCategoryId()
+            ],
+            "autor"=>[
+                "id"=>$this->getAutorId()
+            ],
             "slug"=>$this->getSlug(),
             "title"=>$this->getTitle(),
             "description"=>$this->getDescription(),

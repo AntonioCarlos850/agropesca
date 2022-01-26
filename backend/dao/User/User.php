@@ -109,7 +109,7 @@ class DAOUser extends Builder{
 		$query = $this->build_update($this->bd,$params,$conditions);
 
 		$sql = new Sql();
-		$return = $sql->doQuery($query, array(
+		$return = $sql->doQueryCount($query, array(
 				':EMAIL'=>$params_query["email"],
 				':PASSWORD'=>$params_query["password"],
 				':SALT'=>$salt,
@@ -131,10 +131,10 @@ class DAOUser extends Builder{
 		$query = $this->build_delete($this->bd,$params);
 
 		$sql = new Sql();
-		$sql->doQuery($query, array(
+		$return = $sql->doQueryCount($query, array(
 			':ID'=>$id
 		));
 
-		return $id;
+		return $return ? $id : 0;
 	}
 } 

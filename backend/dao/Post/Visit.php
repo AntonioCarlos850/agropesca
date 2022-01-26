@@ -55,7 +55,7 @@ class DAOVisitPost extends Builder{
 		$query = $this->build_insert($this->bd,$params);
 
 		$sql = new Sql();
-		$return = $sql->doQuery($query, array(
+		$return = $sql->doQueryCount($query, array(
 				':USER_ID'=>$params_query["user_id"],
                 ':POST_ID'=>$params_query["post_id"]
 			)
@@ -86,7 +86,7 @@ class DAOVisitPost extends Builder{
 		$query = $this->build_update($this->bd,$params,$conditions);
 
 		$sql = new Sql();
-		$return = $sql->doQuery($query, array(
+		$return = $sql->doQueryCount($query, array(
 				':POST_ID'=>$params_query["post_id"],
                 ':USER_ID'=>$params_query["user_id"],
 				':ID'=>$params_query["id"]
@@ -107,7 +107,7 @@ class DAOVisitPost extends Builder{
 		$query = $this->build_delete($this->bd,$params);
 
 		$sql = new Sql();
-		$sql->doQuery($query, array(
+		$sql->doQueryCount($query, array(
 			':ID'=>$id
 		));
 

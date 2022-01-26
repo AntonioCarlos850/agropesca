@@ -1,6 +1,7 @@
 <?php 
 
 require_once __DIR__ . "/../../dao/User/User.php";
+require_once __DIR__ . "/../../model/User/User.php";
 
 class Post extends DAOPost{
 
@@ -9,21 +10,8 @@ class Post extends DAOPost{
 
         $formatted_return = [];
         foreach($return as $data){
-            $formatted_return[] = [
-                "id" => $data["id"],
-                "category" => [
-                    "id"=>$data["category_id"]
-                ],
-                "autor" => [
-                    "id"=>$data["autor_id"]
-                ],
-                "slug" => $data["slug"],
-                "title" => $data["title"],
-                "description" => $data["description"],
-                "body" => $data["body"],
-                "creation_date" => $data["creation_date"],
-                "update_date" => $data["update_date"]
-            ];
+            $user = new ModelPost($data);
+            $formatted_return[] = $user->getData();
         }
 
 		return $formatted_return;
@@ -33,22 +21,19 @@ class Post extends DAOPost{
 		$return = $this->insert($params);
 
         $formatted_return = [];
-        foreach($return as $data){
-            $formatted_return[] = [
-                "id" => $data["id"],
-                "category" => [
-                    "id"=>$data["category_id"]
-                ],
-                "autor" => [
-                    "id"=>$data["autor_id"]
-                ],
-                "slug" => $data["slug"],
-                "title" => $data["title"],
-                "description" => $data["description"],
-                "body" => $data["body"],
-                "creation_date" => $data["creation_date"],
-                "update_date" => $data["update_date"]
+        if($return){
+            $params = [
+                [
+                    "key"=>"title",
+                    "reference"=>":TITLE",
+                    "value"=>$params["title"]
+                ]
             ];
+    
+            $return = $this->select($params);
+
+            $user = new ModelPost($return[0]);
+            $formatted_return = $user->getData();
         }
 
 		return $formatted_return;
@@ -58,22 +43,19 @@ class Post extends DAOPost{
 		$return = $this->update($params);
 
         $formatted_return = [];
-        foreach($return as $data){
-            $formatted_return[] = [
-                "id" => $data["id"],
-                "category" => [
-                    "id"=>$data["category_id"]
-                ],
-                "autor" => [
-                    "id"=>$data["autor_id"]
-                ],
-                "slug" => $data["slug"],
-                "title" => $data["title"],
-                "description" => $data["description"],
-                "body" => $data["body"],
-                "creation_date" => $data["creation_date"],
-                "update_date" => $data["update_date"]
+        if($return){
+            $params = [
+                [
+                    "key"=>"title",
+                    "reference"=>":TITLE",
+                    "value"=>$params["title"]
+                ]
             ];
+    
+            $return = $this->select($params);
+
+            $user = new ModelPost($return[0]);
+            $formatted_return = $user->getData();
         }
 
 		return $formatted_return;

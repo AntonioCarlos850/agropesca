@@ -71,7 +71,7 @@ class DAOPost extends Builder{
 		$query = $this->build_insert($this->bd,$params);
 
 		$sql = new Sql();
-		$return = $sql->doQuery($query, array(
+		$return = $sql->doQueryCount($query, array(
 				':CATEGORY_ID'=>$params_query["category_id"],
 				':AUTOR_ID'=>$params_query["autor_id"],
 				':SLUG'=>$params_query["slug"],
@@ -111,7 +111,7 @@ class DAOPost extends Builder{
 		$query = $this->build_update($this->bd,$params,$conditions);
 
 		$sql = new Sql();
-		$return = $sql->doQuery($query, array(
+		$return = $sql->doQueryCount($query, array(
 				':TITLE'=>$params_query["title"],
 				':DESCRIPTION'=>$params_query["description"],
 				':BODY'=>$params_query["body"],
@@ -133,7 +133,7 @@ class DAOPost extends Builder{
 		$query = $this->build_delete($this->bd,$params);
 
 		$sql = new Sql();
-		$sql->doQuery($query, array(
+		$sql->doQueryCount($query, array(
 			':ID'=>$id
 		));
 

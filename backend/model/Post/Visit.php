@@ -1,6 +1,6 @@
 <?php
 
-class ModelPost {
+class ModelVisitPost {
     private $user_id;
     private $post_id;
     private $creation_date;
@@ -23,8 +23,12 @@ class ModelPost {
 
     public function getData(){
 		return [
-            "user_id"=>$this->getUserId(),
-            "post_id"=>$this->getPostId(),
+            "user"=>[
+                "id"=>$this->getUserId()
+            ],
+            "post"=>[
+                "id"=>$this->getPostId()
+            ],
             "creation_date"=> $this->getCreationDate()->format("d/m/Y H:i:s")
         ];
 	}
