@@ -124,6 +124,6 @@ class ModelUsuario extends Builder{
 			':ID'=>$id
 		));
 
-		return $return;
+		return $id;
 	}
 } 
