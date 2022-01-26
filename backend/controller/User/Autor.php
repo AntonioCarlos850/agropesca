@@ -25,7 +25,7 @@ class AutorUser extends DAOAutorUser{
 	}
 
     public function insertAutor( $params = array() ){
-		$return = $this->select($params);
+		$return = $this->insert($params);
 
         $formatted_return = [];
         foreach($return as $data){
@@ -45,7 +45,7 @@ class AutorUser extends DAOAutorUser{
 	}
 
     public function updateAutor( $params = array() ){
-		$return = $this->select($params);
+		$return = $this->update($params);
 
         $formatted_return = [];
         foreach($return as $data){

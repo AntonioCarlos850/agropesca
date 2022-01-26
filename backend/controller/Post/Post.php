@@ -30,7 +30,7 @@ class Post extends DAOPost{
 	}
 
     public function insertPost( $params = array() ){
-		$return = $this->select($params);
+		$return = $this->insert($params);
 
         $formatted_return = [];
         foreach($return as $data){
@@ -55,7 +55,7 @@ class Post extends DAOPost{
 	}
 
     public function updatePost( $params = array() ){
-		$return = $this->select($params);
+		$return = $this->update($params);
 
         $formatted_return = [];
         foreach($return as $data){

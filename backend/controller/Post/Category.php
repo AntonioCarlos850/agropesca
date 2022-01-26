@@ -21,7 +21,7 @@ class CategoryPost extends DAOCategoryPost{
 	}
 
     public function insertCategory( $params = array() ){
-		$return = $this->select($params);
+		$return = $this->insert($params);
 
         $formatted_return = [];
         foreach($return as $data){
@@ -37,7 +37,7 @@ class CategoryPost extends DAOCategoryPost{
 	}
 
     public function updateCategory( $params = array() ){
-		$return = $this->select($params);
+		$return = $this->update($params);
 
         $formatted_return = [];
         foreach($return as $data){
