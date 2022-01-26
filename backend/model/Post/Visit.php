@@ -9,7 +9,7 @@ class ModelCategoryPost extends Builder{
     private $bd;
 
     public function __construct(){
-        $this->bd = "blg_post_category";
+        $this->bd = "blg_post_visit";
 	}
 
 	protected function select($params_query = []){
@@ -38,8 +38,12 @@ class ModelCategoryPost extends Builder{
 	protected function insert($params_query){
 		$params = [
 			[
-				"key"=>"name",
-				"reference"=>":NAME"
+				"key"=>"user_id",
+				"reference"=>":USER_ID"
+            ],
+            [
+				"key"=>"post_id",
+				"reference"=>":POST_ID"
 			]
 		];
 
@@ -47,7 +51,8 @@ class ModelCategoryPost extends Builder{
 
 		$sql = new Sql();
 		$return = $sql->doQuery($query, array(
-				':NAME'=>$params_query["name"]
+				':USER_ID'=>$params_query["user_id"],
+                ':POST_ID'=>$params_query["post_id"]
 			)
 		);
 
@@ -57,8 +62,12 @@ class ModelCategoryPost extends Builder{
 	protected function update($params_query){
 		$params = [
 			[
-				"key"=>"name",
-				"reference"=>":NAME"
+				"key"=>"user_id",
+				"reference"=>":USER_ID"
+			],
+            [
+				"key"=>"post_id",
+				"reference"=>":POST_ID"
 			]
 		];
 
@@ -73,7 +82,8 @@ class ModelCategoryPost extends Builder{
 
 		$sql = new Sql();
 		$return = $sql->doQuery($query, array(
-				':NAME'=>$params_query["name"],
+				':POST_ID'=>$params_query["post_id"],
+                ':USER_ID'=>$params_query["user_id"],
 				':ID'=>$params_query["id"]
 			)
 		);
