@@ -29,8 +29,8 @@ class ModelUser {
 		$this->setEmail($data['email']);
         $this->setPassword($data['password']);
         $this->setPasswordSalt($data['password_salt']);
-        $this->setCreationDate($data['creation_date']);
-        $this->setUpdateDate($data['update_date']);
+        $this->setCreationDate(new DateTime($data['creation_date']));
+        $this->setUpdateDate(new DateTime($data['update_date']));
 	}
 
     public function getData(){
@@ -55,7 +55,7 @@ class ModelUser {
     }
 
     private function setTypeId($type_id){
-        $this->id = $type_id;
+        $this->type_id = $type_id;
     }
 
     private function getTypeId(){

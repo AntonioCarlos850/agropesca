@@ -3,7 +3,7 @@
 require_once __DIR__ . "/../../dao/User/User.php";
 require_once __DIR__ . "/../../model/User/User.php";
 
-class ControllerUsuario extends DAOUsuario{
+class User extends DAOUsuario{
 
     public function tryLogin($email, $password){
 
@@ -18,6 +18,8 @@ class ControllerUsuario extends DAOUsuario{
         $return = $this->select($params);
 
         if($return){
+            $return = $return[0];
+            
             $params = [
                 [
                     "key"=>"email",
@@ -41,8 +43,7 @@ class ControllerUsuario extends DAOUsuario{
             $return = $this->select($params);
     
             if ($return) {
-
-                $data = new ModelUser($return);
+                $data = new ModelUser($return[0]);
 
                 return $data->getData();
             } else {
