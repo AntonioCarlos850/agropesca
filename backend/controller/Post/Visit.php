@@ -2,7 +2,7 @@
 
 require_once __DIR__ . "/../../dao/Post/Visit.php";
 
-class ControllerVisitPost extends DAOVisitPost{
+class VisitPost extends DAOVisitPost{
 
 	public function selectVisit( $params = array() ){
         $return = $this->select($params);

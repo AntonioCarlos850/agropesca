@@ -2,7 +2,7 @@
 
 require_once __DIR__ . "/../../dao/User/Type.php";
 
-class ControllerTypeUsuario extends DAOTypeUsuario{
+class TypeUser extends DAOTypeUser{
 
 	public function selectType( $params = array() ){
         $return = $this->select($params);

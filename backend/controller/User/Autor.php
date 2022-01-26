@@ -2,7 +2,7 @@
 
 require_once __DIR__ . "/../../dao/User/Autor.php";
 
-class ControllerAutorUsuario extends DAOAutorUsuario{
+class AutorUser extends DAOAutorUser{
 
 	public function selectAutor( $params = array() ){
         $return = $this->select($params);

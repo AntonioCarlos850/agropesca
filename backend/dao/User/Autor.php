@@ -4,7 +4,7 @@ require_once __DIR__ . "/../Builder.php";
 require_once __DIR__ . "/../../Sql.php";
 require_once __DIR__ . "/../../../helpers/string.php";
 
-class DAOAutorUsuario extends Builder{
+class DAOAutorUser extends Builder{
 
     private $bd;
 

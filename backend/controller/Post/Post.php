@@ -2,7 +2,7 @@
 
 require_once __DIR__ . "/../../dao/User/User.php";
 
-class ControllerPost extends DAOPost{
+class Post extends DAOPost{
 
 	public function selectPost( $params = array() ){
         $return = $this->select($params);

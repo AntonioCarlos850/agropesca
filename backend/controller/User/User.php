@@ -3,7 +3,7 @@
 require_once __DIR__ . "/../../dao/User/User.php";
 require_once __DIR__ . "/../../model/User/User.php";
 
-class User extends DAOUsuario{
+class User extends DAOUser{
 
     public function tryLogin($email, $password){
 

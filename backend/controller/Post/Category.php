@@ -2,7 +2,7 @@
 
 require_once __DIR__ . "/../../dao/Post/Category.php";
 
-class ControllerCategoryPost extends DAOCategoryPost{
+class CategoryPost extends DAOCategoryPost{
 
 	public function selectCategory( $params = array() ){
         $return = $this->select($params);
