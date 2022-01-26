@@ -34,6 +34,8 @@ class Sql extends PDO {
 
 		$stmt->execute();
 
+		//var_dump($stmt->errorInfo());
+
 		return $stmt;
 
 	}
@@ -45,6 +47,13 @@ class Sql extends PDO {
 
 		return $stmt->fetchAll(PDO::FETCH_ASSOC);
 
+	}
+
+	public function doQueryCount($rawQuery, $params = array()):int
+	{
+		$stmt = $this->execQuerry($rawQuery, $params);
+
+		return $stmt->rowCount();
 	}
 
 }

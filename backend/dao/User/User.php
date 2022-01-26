@@ -69,7 +69,7 @@ class DAOUser extends Builder{
 		$query = $this->build_insert($this->bd,$params);
 
 		$sql = new Sql();
-		$return = $sql->doQuery($query, array(
+		$return = $sql->doQueryCount($query, array(
 				':EMAIL'=>$params_query["email"],
 				':PASSWORD'=>$params_query["password"],
 				':SALT'=>$salt,

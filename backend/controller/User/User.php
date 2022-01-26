@@ -69,11 +69,21 @@ class User extends DAOUser{
 
     public function insertUser( $params = array() ){
 		$return = $this->insert($params);
-
         $formatted_return = [];
-        foreach($return as $data){
-            $user = new ModelUser($data);
-            $formatted_return[] = $user->getData();
+
+        if($return){
+            $params = [
+                [
+                    "key"=>"email",
+                    "reference"=>":EMAIL",
+                    "value"=>$params["email"]
+                ]
+            ];
+    
+            $return = $this->select($params);
+
+            $user = new ModelUser($return[0]);
+            $formatted_return = $user->getData();
         }
 
 		return $formatted_return;
