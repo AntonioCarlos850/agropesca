@@ -1,5 +1,6 @@
 <?php
-require_once __DIR__ . '/components/pagina.php';
-echo pagina([
-    "content" => '<h1>Eu sou a index</h1>'
-]);
+require __DIR__ . '/vendor/autoload.php';
+
+use \App\Controllers\Pages\Home;
+
+echo Home::getHome();
