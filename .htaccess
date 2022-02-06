@@ -1,0 +1,6 @@
+#Permite a reescrita de URL
+RewriteEngine on
+
+#Sempre que a URL não for referência direta de um arquivo vai encaminhar para o index.php
+RewriteCond  %{REQUEST_FILENAME} !-f
+RewriteRule ^(.*)$ ./index.php [QSA,NC]

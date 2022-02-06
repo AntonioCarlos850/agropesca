@@ -2,7 +2,8 @@
 
 namespace App\Http;
 
-class Response {
+class Response
+{
     private int $httpCode;
     private array $headers = [];
     private string $contentType;
@@ -14,32 +15,45 @@ class Response {
         $this->content = $content;
         $this->setContentType($contentType);
     }
-    
-    public function setHeader(string $key, $value){
+
+    /**
+     * Cria ou edita uma posição dos headers
+     */
+    public function setHeader(string $key, $value): void
+    {
         $this->header[$key] = $value;
     }
 
-    public function setContentType(string $contentType){
+    /**
+     * Altera o ContentType na classe e nos headers
+     */
+    public function setContentType(string $contentType): void
+    {
         $this->contentType = $contentType;
         $this->setHeader('Content-Type', $contentType);
     }
 
-    public function sendHeaders(){
+    private function sendHeaders(): void
+    {
         http_response_code($this->httpCode);
 
-        foreach($this->headers as $key=>$value){
-            header($key.": ".$value);
+        foreach ($this->headers as $key => $value) {
+            header($key . ": " . $value);
         }
     }
 
-   public function send(){
-       $this->sendHeaders();
+    /**
+     * Envia os headers e o conteúdo dependendo do contentType
+     */
+    public function send(): void
+    {
+        $this->sendHeaders();
 
-       switch($this->contentType){
-           case 'text/html': 
-            echo $this->content;
-            exit;
-       }
-   }
+        switch ($this->contentType) {
+            case 'text/html':
+                echo $this->content;
+        }
 
+        exit;
+    }
 }

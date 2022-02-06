@@ -34,7 +34,7 @@ class Request{
         return $this->postVars;
     }
 
-    public function getHeaders():string{
+    public function getHeaders():array{
         return $this->headers;
     }
 }

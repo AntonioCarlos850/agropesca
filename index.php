@@ -1,18 +1,20 @@
 <?php
 require __DIR__ . '/vendor/autoload.php';
 
-use \App\Controllers\Pages\Home;
-// echo Home::getHome();
+use \App\Utils\View;
 
-define("URL", "https://agropesca");
+define('URL', 'https://agroblog');
 
-$reponse = new \App\Http\Router(URL);
-
-$reponse->get("/", [
-    function() {
-        return Home::getHome();
-    }
+View::init([
+    'URL' => URL,
+    'nome' => 'Rafael' 
 ]);
 
-$reponse->run();
-exit;
+$router = new \App\Http\Router(URL);
+
+include __DIR__ . '/Routes/Pages.php';
+include __DIR__ . '/Routes/Post.php';
+include __DIR__ . '/Routes/User.php';
+
+$router->run()
+    ->send();
