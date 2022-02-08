@@ -14,7 +14,7 @@ class View
      * Método responsável por retornar o conteúdo de uma view
      */
     private static function getContentView(string $view): string {
-        $file = __DIR__.'/../../resources/view/'.$view.'.html';
+        $file = __DIR__.'/../../Resources/View/'.$view.'.html';
         return is_file($file) ? file_get_contents($file) : '';
     }
 

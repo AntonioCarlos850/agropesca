@@ -1,0 +1,17 @@
+* {
+    --blue: #2596BE;
+    --olive-green: #6C9C2F;
+    --orange: #FF8C42;
+    --dark-green: #132A13;
+    --white: #FAFAFA;
+}
+
+header > nav > ul {
+    display: flex;
+    flex-direction: row;
+
+    justify-content: space-around;
+}
+.brand {
+    height: 30px;
+}

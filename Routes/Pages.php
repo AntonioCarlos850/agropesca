@@ -14,3 +14,16 @@ $router->get("/teste/{slug}/{id}/{categoria}", [
         return new Response("Slug: $slug, ID: $id, Categoria: $categoria");
     }
 ]);
+
+$router->get("/formulario", [
+    function() {
+        return new Response(Pages\Formulario::getFormulario());
+    }
+]);
+
+$router->post("/formulario", [
+    function($request) {
+        var_dump($request);
+        return new Response("Recebi um post de formulário");
+    }
+]);
