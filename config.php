@@ -2,6 +2,7 @@
 require __DIR__ . '/vendor/autoload.php';
 
 use \App\Utils;
+use \App\Model\Repository\Repository;
 use \WilliamCosta\DotEnv\Environment;
 
 Environment::load(__DIR__);
@@ -18,3 +19,4 @@ Utils\SqlConnection::init(
     getenv("DB_NAME")
 );
 
+Repository::$connection = new Utils\SqlConnection();

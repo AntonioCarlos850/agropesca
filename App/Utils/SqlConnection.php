@@ -38,7 +38,14 @@ class SqlConnection {
 
     public static function select(string $rawQuery, array $params = []){
         $statement = self::prepareQuery($rawQuery, $params);
-        return $statement->execute();
+        $statement->execute();
+        return $statement->fetch(PDO::FETCH_ASSOC);
+	}
+
+    public static function insert(string $rawQuery, array $params = []){
+        $statement = self::prepareQuery($rawQuery, $params);
+        $statement->execute();
+        return self::$conn->lastInsertId();
 	}
 
     public static function update(string $rawQuery, array $params = []){
