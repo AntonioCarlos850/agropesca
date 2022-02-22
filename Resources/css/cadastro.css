@@ -24,6 +24,13 @@ body {
     justify-content: center;
 }
 
+.error-message span {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    color: white;
+    font-weight: bold;
+}
+
 .col-image{
     height: 100%;
     width: 30%;

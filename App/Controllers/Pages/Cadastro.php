@@ -21,7 +21,7 @@ class Cadastro extends Page {
                 "emailInputValue" => null,
                 "nameInputValue" => null,
                 "emailInputMessage" => null,
-                "errorMessage" => null,
+                "message" => null,
             ])
         ]);
     }
@@ -38,7 +38,10 @@ class Cadastro extends Page {
                 'content' => View::render('Pages/cadastro', [
                     "emailInputValue" => $postVars["email"],
                     "nameInputValue" => $postVars["name"],
-                    "errorMessage" => "As senhas precisam ser iguais",
+                    "message" => View::render('Components/Page/divMessage', [
+                        "message" => "As senhas precisam ser iguais",
+                        "divClass" => "error-message"
+                    ]),
                 ])
             ]);
         }else{
@@ -55,7 +58,10 @@ class Cadastro extends Page {
                     'content' => View::render('Pages/cadastro', [
                         "emailInputValue" => $postVars["email"],
                         "nameInputValue" => $postVars["name"],
-                        "errorMessage" => $exception->getMessage(),
+                        "message" => View::render('Components/Page/divMessage', [
+                            "message" => $exception->getMessage(),
+                            "divClass" => "error-message"
+                        ]),
                     ])
                 ]);
             }

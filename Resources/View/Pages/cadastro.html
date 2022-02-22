@@ -2,9 +2,7 @@
     <form method="POST">
         <h1>Bem Vindo(a)</h1>
         <span>Preencha os campos abaixo com suas informações e acesse a melhor comunidade de agropesca do Oeste Paranaense!</span>
-        <div class="error-message">
-            {{errorMessage}}
-        </div>
+        {{message}}
         <input type="text" name="name" placeholder="Nome" value="{{nameInputValue}}">
         <input type="email" name="email" placeholder="Email" value="{{emailInputValue}}">
         <input type="password" name="password" placeholder="Senha">
