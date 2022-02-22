@@ -50,21 +50,21 @@ class UserEntity{
         $this->password = sha1($password.$this->password_salt);
     }
 
-    public function try_login(string $email, string $password){
+    public static function tryLogin(string $email, string $password){
         if(!$email || !$password){
             throw new Exception("Email e senha necessários", 400);
         }
 
-        $userData = UserRepository::getUserByEmail($email);        
+        $userData = UserRepository::getUserByEmail($email);
 
         if(!$userData){
             throw new Exception("Email não encontrado");
         }
 
         if(sha1($password.$userData["password_salt"]) == $userData["password"]){
-            $this->setAttributes($userData);
+            $userEntity = new UserEntity($userData);
 
-            return true;
+            return $userEntity;
         }else{
             throw new Exception("Senha incorreta", 403);
         }

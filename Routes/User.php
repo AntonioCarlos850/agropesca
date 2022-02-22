@@ -10,9 +10,8 @@ $router->get("/login", [
 ]);
 
 $router->post("/login", [
-    function($email, $password) {
-        
-        return new Response(Pages\Login::getLogin());
+    function($request) {
+        return new Response(Pages\Login::tryLogin($request));
     }
 ]);
 

@@ -46,7 +46,7 @@ class Router
 
                     $keys = $methods[$httpMethod]['variables'];
                     $methods[$httpMethod]['variables'] = array_combine($keys, $matches);
-                    $methods[$httpMethod]['request'] = $this->request;
+                    $methods[$httpMethod]['variables']['request'] = $this->request;
 
                     return $methods[$httpMethod];
                 } else {

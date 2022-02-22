@@ -6,7 +6,7 @@ use \PDO;
 use \Exception;
 
 class SqlConnection {
-    private static $conn;
+    public static $conn;
     
     public static function init($host, $user, $pass, $dbName){
         self::$conn = new PDO("mysql:host=$host;dbname=$dbName", $user, $pass, [
@@ -16,7 +16,7 @@ class SqlConnection {
 
     private static function setParams($statement, array $parameters = []){
         foreach ($parameters as $key => $value) {
-            $statement->bindBaram($key, $value);
+            $statement->bindParam($key, $value);
         }
 
         return $statement;
@@ -27,9 +27,7 @@ class SqlConnection {
             $statement = self::$conn->prepare($rawQuery);
 
             $statement = self::setParams($statement, $params);
-    
-            $statement->execute();
-    
+
             return $statement;
         }else{
             throw new Exception("Atributo estático conn não é uma instância de PDO", 500);
@@ -39,7 +37,8 @@ class SqlConnection {
     public static function select(string $rawQuery, array $params = []){
         $statement = self::prepareQuery($rawQuery, $params);
         $statement->execute();
-        return $statement->fetch(PDO::FETCH_ASSOC);
+
+        return $statement->fetchAll(PDO::FETCH_ASSOC);
 	}
 
     public static function insert(string $rawQuery, array $params = []){

@@ -9,11 +9,13 @@ class Repository {
     }
 
     public static function selectRow(string $query, array $params = []){
-        return self::$connection::select($query, $params)[0];
+        $result = self::$connection::select($query, $params);
+        return isset($result[0]) ? $result[0] : null;
     }
 
     public static function selectValue(string $query, array $params = []){
-        return array_values(self::$connection::select($query, $params)[0])[0];
+        $result = self::$connection::select($query, $params);
+        return isset($result[0]) ? array_values($result[0])[0] : null;
     }
 
     public static function insert(string $query, array $params = []){
