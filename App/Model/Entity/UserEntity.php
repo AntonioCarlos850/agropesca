@@ -4,6 +4,7 @@ namespace App\Model\Entity;
 use Exception;
 use App\Model\Repository\UserRepository;
 use App\Utils\Helpers;
+use User;
 
 class UserEntity{
     public $id;
@@ -21,12 +22,22 @@ class UserEntity{
     }
 
     private function setAttributes(array $userData){
-        $this->id = $userData["id"];
+        if(!isset($userData["name"]) || !isset($userData["password"]) || !isset($userData["email"])){
+            throw new Exception("Nome, email e senha necessários", 400);
+        }
+
+        $this->id = $userData["id"] ?: null;
         $this->name = $userData["name"];
-        $this->password = $userData["password"];
-        $this->password_salt = $userData["password_salt"];
-        $this->creation_date = $userData["creation_date"];
-        $this->update_date = $userData["update_date"];
+
+        if(!isset($userData["password_salt"])){
+            $this->setPassword($userData["password"]);
+        }else{
+            $this->password = $userData["password"];
+            $this->password_salt = $userData["password_salt"];
+        }
+        
+        $this->creation_date = $userData["creation_date"] ?: null;
+        $this->update_date = $userData["update_date"] ?: null;
 
         $this->type = $userData["type_id"] ? new UserTypeEntity([
             "id" => $userData["type_id"] ?: null,
@@ -70,6 +81,29 @@ class UserEntity{
         }
     }
 
+    public static function createUser(string $email, string $name, string $password)
+    {
+        if(!$email || !$name || !$password){
+            throw new Exception("Nome, email ou senha não fornecidos", 400);
+        }
+
+        $userData = UserRepository::getUserByEmail($email);
+
+        if($userData){
+            throw new Exception("Email já cadastrado", 403);
+        }
+
+        $userEntity = new UserEntity([
+            "name" => $name,
+            "email" => $email,
+            "password" => $password
+        ]);
+
+        $userEntity->create();
+
+        return $userEntity;
+    }
+
     public static function getUserById($id){
         $userData = UserRepository::getUserById($id);
 
@@ -94,7 +128,18 @@ class UserEntity{
         }
     }
 
-    public function updateUser(){
+    public function create(){
+        $userId = UserRepository::createUser([
+            "name" => $this->name,
+            "email" => $this->email,
+            "password" => $this->password,
+            "password_salt" => $this->password_salt,
+        ]);
+
+        $this->id = $userId;
+    }
+
+    public function update(){
         UserRepository::updateUserById($this->id, [
             "name" => $this->name,
             "email" => $this->email,
@@ -103,7 +148,7 @@ class UserEntity{
         ]);
     }
 
-    public function deleteUser(){
+    public function delete(){
         UserRepository::deleteUserById($this->id);
     }
 }

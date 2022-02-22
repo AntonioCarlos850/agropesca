@@ -1,0 +1,19 @@
+<div class="col-form">
+    <form method="POST">
+        <h1>Bem Vindo(a)</h1>
+        <div class="error-message">
+            {{errorMessage}}
+        </div>
+        <input type="text" name="name" placeholder="Nome" value="{{nameInputValue}}">
+        <input type="email" name="email" placeholder="Email" value="{{emailInputValue}}">
+        <input type="password" name="password" placeholder="Senha">
+        <input type="password" name="confirmation-password" placeholder="****">
+        <div class="login-div">
+            <span>Já possui uma conta? <a href="/login.php">Login</a></span>
+        </div>
+        <div class="button-div">
+            <button type="submit">Cadastrar</button>
+        </div>
+    </form>
+</div>
+<div class="col-image"></div>

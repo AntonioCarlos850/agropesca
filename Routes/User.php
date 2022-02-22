@@ -16,5 +16,13 @@ $router->post("/login", [
 ]);
 
 $router->get("/cadastro", [
-    function() {}
+    function() {
+        return new Response(Pages\Cadastro::getCadastro());
+    }
+]);
+
+$router->post("/cadastro", [
+    function($request) {
+        return new Response(Pages\Cadastro::cadastrar($request));
+    }
 ]);

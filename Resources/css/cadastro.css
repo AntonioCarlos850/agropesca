@@ -1,0 +1,129 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,300;0,400;0,600;0,700;0,800;0,900;1,400&display=swap');
+
+body {
+    display: flex;
+    flex-direction: row;
+
+    width: 100vw;
+    height: 100vh;
+
+    overflow: hidden;
+
+    margin: 0;
+    padding: 0;
+
+    font-family: 'Nunito', sans-serif;
+}
+
+.error-message{
+    width: 100%;
+    background-color: rgb(194, 148, 148);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.col-image{
+    height: 100%;
+    width: 50%;
+
+    background-image: url("https://media.discordapp.net/attachments/904002157995515937/935777005188837417/Design_sem_nome.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.col-form{
+    height: 100%;
+    width: 50%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: var(--white);
+}
+
+form > * {
+    display: block;
+}
+
+form > h1 {
+    font-size: 4em;
+}
+
+form {
+    width: 70%;
+}
+
+form > input {
+    width: 100%;
+
+    margin: 25px 0px;
+
+    outline: none;
+    border: none;
+    border-bottom: 2px rgb(179, 179, 179) solid;
+    padding-bottom: 8px;
+
+    background: var(--white);
+    color: rgb(122, 122, 122);
+
+    font-size: 1em;
+
+    transition: all 200ms ease-out;
+}
+
+form > input.invalid{
+    border-bottom: 2px rgb(173, 57, 57) solid;
+}
+
+form > input:focus {
+    padding-bottom: 12px;
+    border-color: #646464;
+}
+
+form > input.invalid:focus {
+    padding-bottom: 12px;
+    border-color: rgb(173, 57, 57);
+}
+
+form > input::placeholder{
+    color: rgb(139, 139, 139);
+    font-size: 13px;
+    font-weight: 400;
+}
+
+form > .login-div {
+    display: flex;
+    justify-content: end;
+}
+
+form > .login-div > span {
+    font-size: 0.8em;
+}
+
+form > .login-div > span > a{
+    color: var(--dark-green);
+    text-decoration: none;
+}
+
+form > .button-div {
+    display: flex;
+    justify-content: center;
+}
+
+form > .button-div > button {
+    background: var(--olive-green);
+
+    border:0px;
+    border-radius: 30px;
+
+    padding: 10px 0px;
+    width: 30%;
+
+    font-size: 1.3em;
+    color: var(--white);
+
+    cursor: pointer;
+}
