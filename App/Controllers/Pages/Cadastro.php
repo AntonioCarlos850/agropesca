@@ -28,43 +28,38 @@ class Cadastro extends Page {
 
     public static function cadastrar($request) :string {
         $postVars = $request->getPostVars();
+
+        $cadastroParams = [
+            "emailInputValue" => $postVars["email"],
+            "nameInputValue" => $postVars["name"],
+            "message" => null
+        ];
+
         if($postVars["password"] != $postVars["confirmation-password"]){
-            return Page::getPage([
-                'title' => 'Cadastro',
-                'css' => View::render('Components/Page/link', [
-                    "rel" => "stylesheet",
-                    "href" => "/Resources/css/cadastro.css"
-                ]),
-                'content' => View::render('Pages/cadastro', [
-                    "emailInputValue" => $postVars["email"],
-                    "nameInputValue" => $postVars["name"],
-                    "message" => View::render('Components/Page/divMessage', [
-                        "message" => "As senhas precisam ser iguais",
-                        "divClass" => "error-message"
-                    ]),
-                ])
+            $cadastroParams["message"] = View::render('Components/Page/divMessage', [
+                "message" => "As senhas precisam ser iguais",
+                "divClass" => "error-message"
             ]);
         }else{
             try{
                 $userEntity = UserEntity::createUser($postVars["email"], $postVars["name"], $postVars["password"]);
-                header('Location: home');
+                $cadastroParams["emailInputValue"] = $userEntity->email;
+                $cadastroParams["nameInputValue"] = $userEntity->name;
             } catch (Exception $exception) {
-                return Page::getPage([
-                    'title' => 'Cadastro',
-                    'css' => View::render('Components/Page/link', [
-                        "rel" => "stylesheet",
-                        "href" => "/Resources/css/cadastro.css"
-                    ]),
-                    'content' => View::render('Pages/cadastro', [
-                        "emailInputValue" => $postVars["email"],
-                        "nameInputValue" => $postVars["name"],
-                        "message" => View::render('Components/Page/divMessage', [
-                            "message" => $exception->getMessage(),
-                            "divClass" => "error-message"
-                        ]),
-                    ])
+                $cadastroParams["message"] = View::render('Components/Page/divMessage', [
+                    "message" => $exception->getMessage(),
+                    "divClass" => "error-message"
                 ]);
             }
         }
+
+        return Page::getPage([
+            'title' => 'Cadastro',
+            'css' => View::render('Components/Page/link', [
+                "rel" => "stylesheet",
+                "href" => "/Resources/css/cadastro.css"
+            ]),
+            'content' => View::render('Pages/cadastro', $cadastroParams)
+        ]);
     }
 }

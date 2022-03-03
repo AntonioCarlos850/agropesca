@@ -4,30 +4,31 @@ namespace App\Model\Entity;
 use Exception;
 use App\Model\Repository\UserRepository;
 use App\Utils\Helpers;
-use User;
 
 class UserEntity{
-    public $id;
-    public $type;
-    public $author;
-    public $name;
-    public $email;
-    public $password;
-    public $password_salt;
-    public $creation_date;
-    public $update_date;
+    // Attributes
+    public ?int $id;
+    public string $name;
+    public string $email;
+    public string $password;
+    public string $password_salt;
+    public ?string $creation_date;
+    public ?string $update_date;
+    public ?UserTypeEntity $type;
 
     public function __construct(array $userData){
         $this->setAttributes($userData);
     }
 
-    private function setAttributes(array $userData){
+    // Setters
+    protected function setAttributes(array $userData){
         if(!isset($userData["name"]) || !isset($userData["password"]) || !isset($userData["email"])){
             throw new Exception("Nome, email e senha necessários", 400);
         }
 
-        $this->id = $userData["id"] ?: null;
-        $this->name = $userData["name"];
+        $this->id = $userData["id"] ?? null;
+        $this->setName($userData["name"]);
+        $this->setEmail($userData["email"]);
 
         if(!isset($userData["password_salt"])){
             $this->setPassword($userData["password"]);
@@ -35,32 +36,72 @@ class UserEntity{
             $this->password = $userData["password"];
             $this->password_salt = $userData["password_salt"];
         }
+
+        if(isset($userData["type_id"])){
+            $this->type = new UserTypeEntity([
+                "id" => $userData["type_id"],
+                "name" => $userData["type_name"],
+            ]);
+        }
         
-        $this->creation_date = $userData["creation_date"] ?: null;
-        $this->update_date = $userData["update_date"] ?: null;
-
-        $this->type = $userData["type_id"] ? new UserTypeEntity([
-            "id" => $userData["type_id"] ?: null,
-            "name" => $userData["type_name"] ?: null,
-            "create_date" => $userData["type_create_date"] ?: null,
-            "update_date" => $userData["type_update_date"] ?: null,
-        ]) : null;
-
-        $this->author = $userData["author_create_date"] ? new UserAuthorEntity([
-            "userId" => $userData["id"] ?: null,
-            "name" => $userData["author_name"] ?: null,
-            "slug" => $userData["author_slug"] ?: null,
-            "description" => $userData["author_description"] ?: null,
-            "create_date" => $userData["author_create_date"] ?: null,
-            "update_date" => $userData["author_update_date"] ?: null,
-        ]) : null;
+        $this->creation_date = $userData["creation_date"] ?? null;
+        $this->update_date = $userData["update_date"] ?? null;
     }
 
     public function setPassword(string $password){
+        if(strlen($password) < 8){
+            throw new Exception("Senha necessita ter ao menos 8 caracteres", 400);
+        }
+        if(!preg_match('/\d+/', $password)){
+            throw new Exception("Senha necessita ter ao menos um número", 400);
+        }
+
         $this->password_salt = Helpers::randomString();
         $this->password = sha1($password.$this->password_salt);
     }
 
+    public function setName(string $name){
+        if(strlen($name) < 4 || !strpos($name, " ")){
+            throw new Exception("Nome necessita estar completo", 400);
+        }
+
+        $this->name = $name;
+    }
+
+    public function setEmail(string $email){
+        if(strlen($email) < 8 || !strpos($email, "@") || !strpos($email, ".") || strpos($email, " ")){
+            throw new Exception("Email precisa estar corretamente formatado", 400);
+        }
+
+        $this->email = $email;
+    }
+
+    // Manage database Data
+    public function create(){
+        $userId = UserRepository::createUser([
+            "name" => $this->name,
+            "email" => $this->email,
+            "password" => $this->password,
+            "password_salt" => $this->password_salt,
+        ]);
+        
+        $this->id = $userId;
+    }
+
+    public function update(){
+        UserRepository::updateUserById($this->id, [
+            "name" => $this->name,
+            "email" => $this->email,
+            "password" => $this->password,
+            "password_salt" => $this->password_salt,
+        ]);
+    }
+
+    public function delete(){
+        UserRepository::deleteUserById($this->id);
+    }
+
+    // Static functions
     public static function tryLogin(string $email, string $password){
         if(!$email || !$password){
             throw new Exception("Email e senha necessários", 400);
@@ -92,7 +133,6 @@ class UserEntity{
         if($userData){
             throw new Exception("Email já cadastrado", 403);
         }
-
         $userEntity = new UserEntity([
             "name" => $name,
             "email" => $email,
@@ -126,29 +166,5 @@ class UserEntity{
 
             return $userInstance;
         }
-    }
-
-    public function create(){
-        $userId = UserRepository::createUser([
-            "name" => $this->name,
-            "email" => $this->email,
-            "password" => $this->password,
-            "password_salt" => $this->password_salt,
-        ]);
-
-        $this->id = $userId;
-    }
-
-    public function update(){
-        UserRepository::updateUserById($this->id, [
-            "name" => $this->name,
-            "email" => $this->email,
-            "password" => $this->password,
-            "password_salt" => $this->password_salt,
-        ]);
-    }
-
-    public function delete(){
-        UserRepository::deleteUserById($this->id);
     }
 }

@@ -4,19 +4,20 @@ namespace App\Utils;
 
 use \PDO;
 use \Exception;
+use PDOException;
+use PDOStatement;
 
 class SqlConnection {
     public static $conn;
     
     public static function init($host, $user, $pass, $dbName){
-        self::$conn = new PDO("mysql:host=$host;dbname=$dbName", $user, $pass, [
-            PDO::MYSQL_ATTR_FOUND_ROWS => true
-        ]);
+        self::$conn = new PDO("mysql:host=$host;dbname=$dbName", $user, $pass);
+        self::$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     }
 
     private static function setParams($statement, array $parameters = []){
         foreach ($parameters as $key => $value) {
-            $statement->bindParam($key, $value);
+            $statement->bindValue(":".$key, $value);
         }
 
         return $statement;
@@ -34,28 +35,37 @@ class SqlConnection {
         }
 	}
 
-    public static function select(string $rawQuery, array $params = []){
-        $statement = self::prepareQuery($rawQuery, $params);
-        $statement->execute();
+    public static function execute(string $rawQuery, array $params) :PDOStatement{
+        try {
+            $statement = self::prepareQuery($rawQuery, $params);
+            $statement->execute();
+            return $statement;
+        } catch (PDOException $pdoExeption){
+            var_dump('ERROR '.$pdoExeption->getMessage());
+        }
+    }
 
-        return $statement->fetchAll(PDO::FETCH_ASSOC);
+    public static function select(string $rawQuery, array $params = []){
+        try {
+            $statement = self::execute($rawQuery, $params);
+            return $statement->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $pdoExeption){
+            die('ERROR '.$pdoExeption->getMessage());
+        }
 	}
 
     public static function insert(string $rawQuery, array $params = []){
-        $statement = self::prepareQuery($rawQuery, $params);
-        $statement->execute();
+        self::execute($rawQuery, $params);
         return self::$conn->lastInsertId();
 	}
 
     public static function update(string $rawQuery, array $params = []){
-        $statement = self::prepareQuery($rawQuery, $params);
-        $statement->execute();
+        $statement = self::execute($rawQuery, $params);
         return $statement->rowCount();
 	}
 
     public static function delete(string $rawQuery, array $params = []){
-        $statement = self::prepareQuery($rawQuery, $params);
-        $statement->execute();
+        $statement = self::execute($rawQuery, $params);
         return $statement->rowCount();
 	}
 }

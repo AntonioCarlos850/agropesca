@@ -6,15 +6,10 @@ use App\Model\Repository\Repository;
 class UserRepository extends Repository {
     static function getUserById($id){
         return self::selectRow(
-            "SELECT blg_user.*,
-                blg_user_author.slug AS autor_slug,
-                blg_user_author.slug AS autor_name,
-                blg_user_author.slug AS autor_description,
-                blg_user_author.slug AS autor_creation_date,
-                blg_user_author.slug AS autor_update_date,
+            "SELECT 
+                blg_user.*,
                 blg_user_type.name AS type_name
-            FROM blg_user 
-                LEFT JOIN blg_user_author ON blg_user_author.user_id = blg_user.id
+            FROM blg_user
                 INNER JOIN blg_user_type ON blg_user_type.id = blg_user.type_id
             WHERE blg_user.id = :id", ["id" => $id]
         );
@@ -23,14 +18,8 @@ class UserRepository extends Repository {
     static function getUserByEmail(string $email){
         return self::selectRow(
             "SELECT blg_user.*,
-                blg_user_author.slug AS autor_slug,
-                blg_user_author.slug AS autor_name,
-                blg_user_author.slug AS autor_description,
-                blg_user_author.slug AS autor_creation_date,
-                blg_user_author.slug AS autor_update_date,
                 blg_user_type.name AS type_name
-            FROM blg_user 
-                LEFT JOIN blg_user_author ON blg_user_author.user_id = blg_user.id
+            FROM blg_user
                 INNER JOIN blg_user_type ON blg_user_type.id = blg_user.type_id
             WHERE blg_user.email = :email", ["email" => $email]
         );
@@ -40,13 +29,13 @@ class UserRepository extends Repository {
         $keys = array_keys($data);
 
         $querySets = array_map(function($key) {
-            return "$key = :$key";
+            return ":$key";
         }, $keys);
 
         $stringfiedQuerySets = join(", ", $querySets);
         $stringfiedFields = join(", ", $keys);
-
-        return self::update(
+        
+        return self::insert(
             "INSERT INTO blg_user 
                 ($stringfiedFields)
             VALUES
