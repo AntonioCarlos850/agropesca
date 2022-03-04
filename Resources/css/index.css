@@ -1,0 +1,87 @@
+body{
+    padding: 0 2rem;
+}
+
+a{
+    text-decoration: none;
+}
+
+h2{
+    font-family: 'Source Sans Pro', sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 1.8rem;
+    line-height: 34px;
+    display: flex;
+    width: 100%;
+}
+
+.post-div{
+    padding: 1rem;
+}
+
+.post{
+    margin-top: .8rem;
+}
+
+.post{
+    padding: 0 .55rem;
+}
+
+.post img, .category img{
+    width: 100%;
+    vertical-align:top;
+    padding: 0 0.4rem;
+    border-style: none;
+    object-fit: contain;
+}
+
+.post h3{
+    font-family: Source Sans Pro;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 0.75rem;
+    line-height: 20px;
+    display: flex;
+    align-items:flex-start;
+    text-align: left;
+    color: #000000;
+}
+
+.post p{
+    margin-top: 0.3rem;
+    color: var(--blue-gray);
+    font-size: 0.65rem;
+    line-height: 15px;
+    font-style: normal;
+    font-weight: normal;
+    text-align: justify;
+}
+
+.category h3{
+    font-family: Source Sans Pro;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 1.5rem;
+    line-height: 41px;
+    display: flex;
+    align-items:flex-start;
+    text-align: left;
+    color: #000000;
+}
+
+.border{
+    border-top: 1px solid #C9C9C9;
+    border-bottom: 1px solid #C9C9C9;
+}
+
+@media screen and (max-width: 768px){
+    h2{
+        font-size: 1.5rem;
+        justify-content: center;
+    }
+
+    .post h3{
+        font-size: 0.75rem;
+    }
+}

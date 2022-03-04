@@ -1,0 +1,65 @@
+.text{
+    text-indent: 0.8rem;
+    font-size: 1.2rem;
+    line-height: 1.4;
+    font-weight: 600;
+}
+
+.autor-name{
+    font-size: 1.6rem;
+    font-weight: 600;
+}
+
+.photo{
+    width: 50%;
+    border-style: none;
+    object-fit: contain;
+}
+
+.post{
+    margin-top: .8rem;
+}
+
+.post{
+    padding: 0 .55rem;
+}
+
+.post img{
+    width: 100%;
+    vertical-align:top;
+    padding: 0 0.4rem;
+    border-style: none;
+    object-fit: contain;
+}
+
+.post h3{
+    font-family: Source Sans Pro;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 0.75rem;
+    line-height: 20px;
+    display: flex;
+    align-items:flex-start;
+    text-align: left;
+    color: #000000;
+}
+
+.post p{
+    margin-top: 0.3rem;
+    color: #252525;
+    font-size: 0.65rem;
+    line-height: 15px;
+    font-style: normal;
+    font-weight: normal;
+    text-align: justify;
+}
+
+@media screen and (max-width: 768px){
+    .text{
+        font-size: 0.9rem;
+    }
+
+    .post h3{
+        font-size: 0.75rem;
+    }
+}
