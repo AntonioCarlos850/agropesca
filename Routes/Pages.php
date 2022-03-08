@@ -4,6 +4,9 @@ use \App\Http\Response;
 use \App\Controllers\Pages;
 
 $router->get("/", [
+    "middlewares" => [
+        "maintence"
+    ],
     function() {
         return new Response(Pages\Home::getHome());
     }
