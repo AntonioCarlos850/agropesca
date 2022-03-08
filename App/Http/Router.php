@@ -84,24 +84,36 @@ class Router
         $this->routes[$patternRoute][$method] = $params;
     }
 
-    public function get(string $route, array $params = []): void
+    public function get(string $route, Closure $controller, array $middlewares = []): void
     {
-        $this->addRoute('GET', $route, $params);
+        $this->addRoute('GET', $route, [
+            'middlewares' => $middlewares,
+            $controller
+        ]);
     }
 
-    public function post(string $route, array $params = []): void
+    public function post(string $route, Closure $controller, array $middlewares = []): void
     {
-        $this->addRoute('POST', $route, $params);
+        $this->addRoute('POST', $route, [
+            'middlewares' => $middlewares,
+            $controller
+        ]);
     }
 
-    public function put(string $route, array $params = []): void
+    public function put(string $route, Closure $controller, array $middlewares = []): void
     {
-        $this->addRoute('PUT', $route, $params);
+        $this->addRoute('PUT', $route, [
+            'middlewares' => $middlewares,
+            $controller
+        ]);
     }
 
-    public function delete(string $route, array $params = []): void
+    public function delete(string $route, Closure $controller, array $middlewares = []): void
     {
-        $this->addRoute('DELETE', $route, $params);
+        $this->addRoute('DELETE', $route, [
+            'middlewares' => $middlewares,
+            $controller
+        ]);
     }
 
     public function run(): Response
