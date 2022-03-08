@@ -1,0 +1,47 @@
+<div class="row w-100">
+    <section class="col-dt-7 col-mb-10 p-1">
+        <div class="box-shadow p-1">
+            <h1>{{title}}</h1>
+            <p class="autor">{{date}} às {{time}}</p>
+            <div class="row w-100">
+                <div class="col-10 center">
+                    <img src="{{image}}" alt="{{alt}}" loading="lazy">
+                </div>
+            </div>
+            <div class="row w-100 autor_small py-05">
+                <img class="mx-1" src="{{image}}" alt="{{alt}}" loading="lazy">
+                <p>Escrito por&nbsp;<span>{{autor}}</span></p>
+            </div>
+            <p class="text">
+                {{text}}
+            </p>
+        </div>
+    </section>
+
+    <section class="col-dt-3 col-mb-10 p-1">
+        <div class="box-shadow p-1 mb-2 autor_div">
+            <div class="row w-100">
+                <div class="col-10 center">
+                    <img src="{{autor_image}}" alt="{{autor_alt}}" loading="lazy">
+                </div>
+                <div class="col-10">
+                    <div class="line"></div>
+                </div>
+                <h2>SOBRE {{autor_name}}</h2>
+                <p class="description">
+                    {{autor_description}}
+                </p>
+                <div class="col-10 center">
+                    <a href="{{autor_url}}" target="_blank">
+                        <button>VER MAIS</button>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="box-shadow p-1">
+            <h2 class="center">Posts mais lidos</h2>
+            {{mostViewsPosts}}
+        </div>
+    </section>
+</div>

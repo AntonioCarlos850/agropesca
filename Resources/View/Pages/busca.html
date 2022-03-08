@@ -1,0 +1,43 @@
+<div class="row w-100">
+    <div class="p-1 w-100" id="principal">
+        <div id="compass">
+            <div id="circle"></div>
+            <div id="handle"></div>
+        </div>
+        <h1>Busca por: <span>{{search}}</span></h1>
+    </div>
+    <section class="col-dt-7 col-mb-10 px-1">
+        <div class="box-shadow p-1">
+            <div class="row w-100 space-between mb-1">
+                <p id="qntd_search" class="center">{{qtd}} notícias <span>encontradas</span></p>
+                <div id="order_div" class="center">
+                    <p>Ordenar por:</p>
+                    <form action="" method="post">
+                        <select name="order" id="order">
+                            <option value="relevancia">Relevância</option>
+                            <option value="recente">Mais Recentes</option>
+                            <option value="antigo">Menos Recentes</option>
+                            <option value="mais_views">Mais Vizualizações</option>
+                        </select>
+                    </form>
+                </div>
+            </div>
+
+            <div class="row w-100">
+                {{searchPosts}}
+            </div>
+        </div>
+    </section>
+    
+    <section class="col-dt-3 col-mb-10 post-div px-1">
+        <div class="box-shadow p-1">
+            <h2 class="center">Posts mais lidos</h2>
+            {{mostViewsPosts}}
+        </div>
+
+        <div class="box-shadow p-1 mt-1">
+            <h2 class="center">Posts da semana</h2>
+            {{weekPost}}
+        </div>
+    </section>
+</div>
