@@ -21,7 +21,8 @@ Utils\SqlConnection::init(
 );
 
 Queue::setMap([
-    "maintence" => \App\Http\Middleware\Maintence::class
+    "maintence" => \App\Http\Middleware\Maintence::class,
+    "requireLogin" => \App\Http\Middleware\RequireLogin::class
 ]);
 
 Queue::setDefault([

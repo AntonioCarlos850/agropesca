@@ -16,7 +16,7 @@ class Router
 
     public function __construct(string $url)
     {
-        $this->request = new Request();
+        $this->request = new Request($this);
         $this->url = $url;
         $this->prefix = $this->setPrefix();
     }
@@ -73,7 +73,7 @@ class Router
 
         $params['variables'] = [];
         $patternVariable = '/{(.*?)}/';
-        if(preg_match_all($patternVariable, $route, $matches)){
+        if (preg_match_all($patternVariable, $route, $matches)) {
             $route = preg_replace($patternVariable, '(.*?)', $route);
             $params['variables'] = $matches[1];
         }
@@ -116,7 +116,7 @@ class Router
             $args = [];
 
             $reflection = new ReflectionFunction($route['controller']);
-            foreach($reflection->getParameters() as $parameter){
+            foreach ($reflection->getParameters() as $parameter) {
                 $name = $parameter->getName();
                 $args[$name] = $route['variables'][$name] ?? '';
             }
@@ -125,5 +125,17 @@ class Router
         } catch (Exception $e) {
             return (new Response($e->getMessage(), $e->getCode()));
         }
+    }
+
+    public function getCurrentUrl(): string
+    {
+        return $this->url . $this->getUri();
+    }
+
+    public function redirect($route): void
+    {
+        $url = $this->url . $route;
+        header('location: ' . $url);
+        exit;
     }
 }

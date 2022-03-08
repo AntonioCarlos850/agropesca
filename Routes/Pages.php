@@ -5,7 +5,7 @@ use \App\Controllers\Pages;
 
 $router->get("/", [
     "middlewares" => [
-        "maintence"
+        "requireLogin"
     ],
     function() {
         return new Response(Pages\Home::getHome());

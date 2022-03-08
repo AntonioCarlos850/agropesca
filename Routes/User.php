@@ -15,6 +15,12 @@ $router->post("/login", [
     }
 ]);
 
+$router->get("/logout", [
+    function($request) {
+        return new Response(Pages\Login::setLogout($request));
+    }
+]);
+
 $router->get("/cadastro", [
     function() {
         return new Response(Pages\Cadastro::getCadastro());
