@@ -11,7 +11,7 @@ class Login {
         }
     }
 
-    public static function saveUserSession(UserEntity $objectUser): void{
+    public static function setUserSession(UserEntity $objectUser): void{
         self::init();
 
         $_SESSION["user"] = [
@@ -19,6 +19,11 @@ class Login {
             'name' => $objectUser->name,
             'email' => $objectUser->email
         ];
+    }
+
+    public static function getUserSession():array{
+        self::init();
+        return $_SESSION["user"];
     }
 
     public static function isLogged():bool{

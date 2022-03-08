@@ -5,11 +5,11 @@ use \App\Controllers\Pages;
 
 $router->get("/login", function() {
     return new Response(Pages\Login::getLogin());
-});
+}, ["requireLogout"]);
 
 $router->post("/login", function($request) {
     return new Response(Pages\Login::tryLogin($request));
-});
+}, ["requireLogout"]);
 
 $router->get("/logout", function($request) {
     return new Response(Pages\Login::setLogout($request));

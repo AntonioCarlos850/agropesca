@@ -31,7 +31,7 @@ class Login extends Page {
         $postVars = $request->getPostVars();
         try{
             $userEntity = UserEntity::tryLogin($postVars["email"], $postVars["password"]);
-            SessionLogin::saveUserSession($userEntity);
+            SessionLogin::setUserSession($userEntity);
             $request->getRouter()->redirect("/");
         } catch (Exception $exception) {
             return self::getLogin([
