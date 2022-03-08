@@ -1,0 +1,33 @@
+.autor_div img{
+    width: 35%;
+}
+
+.autor_div .line{
+    width: 100px;
+    height: 0px;
+    border: 2px solid #132A13;
+}
+
+.autor_div h2{
+    font-size: 1.6rem;
+}
+
+.autor_div .description{
+    font-size: 1.2rem;
+}
+
+.autor_div button{
+    background: var(--dark-green);
+    color: #fff;
+    font-size: 1.3rem;
+    width: 12rem;
+    height: 2rem;
+    border-radius: 6px;
+    margin-top: .6rem;
+    border: none;
+}
+
+.autor_div button:hover{
+    cursor: pointer;
+    box-shadow: 1px 1px 2px 2px rgba(0, 0, 0, 0.2);
+}

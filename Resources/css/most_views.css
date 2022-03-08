@@ -1,0 +1,23 @@
+.sec-post h3{
+    font-family: Source Sans Pro;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 1rem;
+    line-height: 20px;
+    display: flex;
+    align-items:flex-start;
+    text-align: left;
+    color: #000000;
+}
+
+.sec-post img{
+    width: 100%;
+    vertical-align:top;
+    padding: 0 0.4rem;
+    border-style: none;
+    object-fit: contain;
+}
+
+.sec-post{
+    margin-top: .8rem;
+}
