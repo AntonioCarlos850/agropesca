@@ -22,4 +22,17 @@ class Page {
             "endBodyScripts" => $params["endBodyScripts"] ?? '',
         ]);
     }
+
+    public static function renderCss(array $links){
+        $renderedCss = [];
+
+        foreach($links as $link){
+            $renderedCss = View::render('Components/Page/link', [
+                "rel" => "stylesheet",
+                "href" => $link
+            ]);
+        }
+
+        return join(" ", $renderedCss);
+    }
 }
