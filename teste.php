@@ -6,14 +6,8 @@ use \App\Utils\SqlConnection;
 use \App\Model\Entity\UserEntity;
 
 try {
-    $post = new PostEntity([
-        "title" => "Rafael Techio Teste de POST",
-        "body" => "teste@gmail.com",
-        "description" => "descricao",
-        "author_id" => 70
-    ]);
-    $post->setCategory(1);
-    $post->create();
+    $post = PostEntity::getPostById(11);
+    $post->createPostVisit(70);
 
     // $user->create();
 

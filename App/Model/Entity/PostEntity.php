@@ -112,10 +112,10 @@ class PostEntity{
 
     public static function createPost(array $data)
     {
-        $userEntity = new UserEntity($data);
-        $userEntity->create();
+        $postEntity = new PostEntity($data);
+        $postEntity->create();
 
-        return $userEntity;
+        return $postEntity;
     }
 
     public static function getPostById($id){
@@ -125,7 +125,7 @@ class PostEntity{
         if(!$postData){
             throw new Exception("Post não encontrado", 404);
         }else{
-            $postInstance = new UserEntity($postData);
+            $postInstance = new PostEntity($postData);
 
             return $postInstance;
         }
