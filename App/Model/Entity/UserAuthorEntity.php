@@ -40,7 +40,8 @@ class UserAuthorEntity extends UserEntity {
     }
 
     public static function getUserAuthorById($email){
-        $userData = UserAuthorRepository::getUserAuthorById($email);
+        $userAuthorRepository = new UserAuthorRepository();
+        $userData = $userAuthorRepository->getUserAuthorByEmail($email);
 
         if(!$userData){
             throw new Exception("Usuário não encontrado", 404);
@@ -49,5 +50,25 @@ class UserAuthorEntity extends UserEntity {
 
             return $userInstance;
         }
+    }
+
+    // Manage database Data
+    public function create(){
+        $userAuthorRepository = new UserAuthorRepository();
+        $userAuthorRepository->create([
+            "user_id" => $this->id,
+            "slug" => $this->slug,
+            "name" => $this->name,
+            "description" => $this->description
+        ]);
+    }
+
+    public function update(){
+        $userAuthorRepository = new UserAuthorRepository();
+        $userAuthorRepository->updateByColumnReference($this->id, [
+            "slug" => $this->slug,
+            "name" => $this->name,
+            "description" => $this->description
+        ]);
     }
 }

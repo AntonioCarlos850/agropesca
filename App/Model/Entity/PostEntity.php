@@ -5,7 +5,7 @@ use Exception;
 use App\Model\Repository\UserRepository;
 use App\Utils\Helpers;
 
-class UserEntity{
+class PostEntity{
     // Attributes
     public ?int $id;
     public string $name;

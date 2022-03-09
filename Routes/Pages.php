@@ -7,8 +7,7 @@ $router->get("/", function() {
     return new Response(Pages\Home::getHome());
 },["requireLogin"]);
 
-$router->get("/teste/{slug}/{id}/{categoria}",
-function($slug, $id, $categoria) {
+$router->get("/teste/{slug}/{id}/{categoria}", function($slug, $id, $categoria, $request) {
     return new Response("Slug: $slug, ID: $id, Categoria: $categoria");
 });
 

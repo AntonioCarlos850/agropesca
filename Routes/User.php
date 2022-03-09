@@ -2,16 +2,17 @@
 
 use \App\Http\Response;
 use \App\Controllers\Pages;
+use App\Http\Request;
 
-$router->get("/login", function() {
+$router->get("/login", function(Request $request) {
     return new Response(Pages\Login::getLogin());
 }, ["requireLogout"]);
 
-$router->post("/login", function($request) {
+$router->post("/login", function(Request $request) {
     return new Response(Pages\Login::tryLogin($request));
 }, ["requireLogout"]);
 
-$router->get("/logout", function($request) {
+$router->get("/logout", function(Request $request) {
     return new Response(Pages\Login::setLogout($request));
 }, ["requireLogin"]);
 
@@ -19,6 +20,6 @@ $router->get("/cadastro", function() {
     return new Response(Pages\Cadastro::getCadastro());
 });
 
-$router->post("/cadastro", function($request) {
+$router->post("/cadastro", function(Request $request) {
     return new Response(Pages\Cadastro::cadastrar($request));
 });
