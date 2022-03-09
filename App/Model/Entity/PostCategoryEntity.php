@@ -27,7 +27,7 @@ class PostCategoryEntity{
         $cateogoryData = $postCategoryRepository->getPostCategoryById($id);
 
         if(!$cateogoryData){
-            throw new Exception("Usuário não encontrado", 404);
+            throw new Exception("Categoria de Post não encontrada", 404);
         }else{
             $userInstance = new PostCategoryEntity($cateogoryData);
 

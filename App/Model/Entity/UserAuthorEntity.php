@@ -39,16 +39,16 @@ class UserAuthorEntity extends UserEntity {
         $this->description = $description ? str_replace(" ", "-", strtolower(Helpers::removeAccents($description))) : null;
     }
 
-    public static function getUserAuthorById($email){
+    public static function getUserAuthorById(int $id){
         $userAuthorRepository = new UserAuthorRepository();
-        $userData = $userAuthorRepository->getUserAuthorByEmail($email);
+        $userAuthorData = $userAuthorRepository->getUserAuthorById($id);
 
-        if(!$userData){
-            throw new Exception("Usuário não encontrado", 404);
+        if(!$userAuthorData){
+            throw new Exception("Autor não encontrado", 404);
         }else{
-            $userInstance = new UserAuthorEntity($userData);
+            $authorInstance = new UserAuthorEntity($userAuthorData);
 
-            return $userInstance;
+            return $authorInstance;
         }
     }
 

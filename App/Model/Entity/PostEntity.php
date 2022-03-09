@@ -8,8 +8,8 @@ use App\Utils\Helpers;
 class PostEntity{
     // Attributes
     public ?int $id;
-    public ?UserAuthorEntity $author;
-    public PostCategoryEntity $category;
+    public UserAuthorEntity $author;
+    public ?PostCategoryEntity $category;
     public string $slug;
     public string $title;
     public string $description;
@@ -29,8 +29,8 @@ class PostEntity{
         }
 
         $this->id = $postData["id"] ?? null;
-        $this->author = UserAuthorEntity::getUserById($postData["author_id"]);
-        $this->category = PostCategoryEntity::getPostCategoryById($postData["category_id"]);
+        $this->author = UserAuthorEntity::getUserAuthorById($postData["author_id"]);
+        $this->setCategory($postData["category_id"] ?? null);
         $this->title = $postData["title"];
 
         $this->setSlug($postData["slug"] ?? $postData["title"]);
@@ -67,12 +67,17 @@ class PostEntity{
         $this->body = $body;
     }
 
+    public function setCategory(?int $categoryId){
+        $this->category = $categoryId ? PostCategoryEntity::getPostCategoryById($categoryId) : null;
+    }
+
     // Manage database Data
     public function create(){
         $postRepository = new PostRepository();
         $id = $postRepository->create([
-            "category_id" => $this->category->id,
+            "category_id" => $this->category ? $this->category->id : null,
             "author_id" => $this->author->id,
+            "slug" => $this->slug,
             "active" => $this->active,
             "title" => $this->title,
             "description" => $this->description,
@@ -85,10 +90,13 @@ class PostEntity{
     public function update(){
         $postRepository = new PostRepository();
         $postRepository->updateByColumnReference($this->id, [
-            "name" => $this->name,
-            "email" => $this->email,
-            "password" => $this->password,
-            "password_salt" => $this->password_salt,
+            "category_id" => $this->category ? $this->category->id : null,
+            "author_id" => $this->author->id,
+            "slug" => $this->slug,
+            "active" => $this->active,
+            "title" => $this->title,
+            "description" => $this->description,
+            "body" => $this->body,
         ]);
     }
 
@@ -115,11 +123,11 @@ class PostEntity{
         $postData = $postRepository->getPostById($id);
 
         if(!$postData){
-            throw new Exception("Usuário não encontrado", 404);
+            throw new Exception("Post não encontrado", 404);
         }else{
-            $userInstance = new UserEntity($postData);
+            $postInstance = new UserEntity($postData);
 
-            return $userInstance;
+            return $postInstance;
         }
     }
 
