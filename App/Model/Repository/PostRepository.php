@@ -3,7 +3,7 @@ namespace App\Model\Repository;
 
 use App\Model\Repository\Repository;
 
-class UserAuthorRepository extends Repository {
+class PostRepository extends Repository {
     public function __construct()
     {
         parent::__construct('blg_post', 'id');
@@ -28,18 +28,26 @@ class UserAuthorRepository extends Repository {
             FROM blg_post 
                 INNER JOIN blg_post_category ON blg_post_category.id = {$this->tableName}.category_id
             WHERE {$this->tableName}.author_id = :authorId
-            ", ["authorId" => $authorId]
+            ".($order ? ("ORDER BY ".$order) : ""), ["authorId" => $authorId]
         );
     }
 
-    public function getPosts(int $authorId, string $order){
+    public function getPosts(string $order = ""){
         return self::select(
             "SELECT {$this->tableName}.*,
                 blg_post_category.name category_name
             FROM blg_post 
                 INNER JOIN blg_post_category ON blg_post_category.id = {$this->tableName}.category_id
-            WHERE {$this->tableName}.author_id = :authorId
-            ".($order ? ("ORDER BY ".$order) : ""), ["authorId" => $authorId]
+            ".($order ? ("ORDER BY ".$order) : "")
+        );
+    }
+
+    public function createVisit(?int $userId, int $postId){
+        return self::insert(
+            "INSERT INTO blg_post_visit
+                (user_id, post_id)
+            VALUES 
+                (:userId, :postId)", ["userId" => $userId, "postId" => $postId]
         );
     }
 }

@@ -1,97 +1,90 @@
 <?php
 namespace App\Model\Entity;
 
+use App\Model\Repository\PostRepository;
 use Exception;
-use App\Model\Repository\UserRepository;
 use App\Utils\Helpers;
 
 class PostEntity{
     // Attributes
     public ?int $id;
-    public string $name;
-    public string $email;
-    public string $password;
-    public string $password_salt;
+    public ?UserAuthorEntity $author;
+    public PostCategoryEntity $category;
+    public string $slug;
+    public string $title;
+    public string $description;
+    public string $body;
+    public bool $active;
     public ?string $creation_date;
     public ?string $update_date;
-    public ?UserTypeEntity $type;
 
-    public function __construct(array $userData){
-        $this->setAttributes($userData);
+    public function __construct(array $postData){
+        $this->setAttributes($postData);
     }
 
     // Setters
-    protected function setAttributes(array $userData){
-        if(!isset($userData["name"]) || !isset($userData["password"]) || !isset($userData["email"])){
-            throw new Exception("Nome, email e senha necessários", 400);
+    protected function setAttributes(array $postData){
+        if(!isset($postData["title"]) || !isset($postData["author_id"])){
+            throw new Exception("Título e id de autor necessários", 400);
         }
 
-        $this->id = $userData["id"] ?? null;
-        $this->setName($userData["name"]);
-        $this->setEmail($userData["email"]);
+        $this->id = $postData["id"] ?? null;
+        $this->author = UserAuthorEntity::getUserById($postData["author_id"]);
+        $this->category = PostCategoryEntity::getPostCategoryById($postData["category_id"]);
+        $this->title = $postData["title"];
 
-        if(!isset($userData["password_salt"])){
-            $this->setPassword($userData["password"]);
-        }else{
-            $this->password = $userData["password"];
-            $this->password_salt = $userData["password_salt"];
-        }
+        $this->setSlug($postData["slug"] ?? $postData["title"]);
+        $this->setActive($postData["active"] ?? false);
 
-        if(isset($userData["type_id"])){
-            $this->type = new UserTypeEntity([
-                "id" => $userData["type_id"],
-                "name" => $userData["type_name"],
-            ]);
-        }
+        $this->description = $postData["description"] ?? null;
+        $this->body = $postData["body"] ?? null;
         
-        $this->creation_date = $userData["creation_date"] ?? null;
-        $this->update_date = $userData["update_date"] ?? null;
+        $this->creation_date = $postData["creation_date"] ?? null;
+        $this->update_date = $postData["update_date"] ?? null;
     }
 
-    public function setPassword(string $password){
-        if(strlen($password) < 8){
-            throw new Exception("Senha necessita ter ao menos 8 caracteres", 400);
-        }
-        if(!preg_match('/\d+/', $password)){
-            throw new Exception("Senha necessita ter ao menos um número", 400);
+    public function setTitle(string $title){
+        if(strlen($title) < 15){
+            throw new Exception("Título precisa ter mais que 15 caracteres", 400);
         }
 
-        $this->password_salt = Helpers::randomString();
-        $this->password = sha1($password.$this->password_salt);
+        $this->title = $title;
     }
 
-    public function setName(string $name){
-        if(strlen($name) < 4 || !strpos($name, " ")){
-            throw new Exception("Nome necessita estar completo", 400);
-        }
-
-        $this->name = $name;
+    public function setActive(bool $active){
+        $this->active = $active;
     }
 
-    public function setEmail(string $email){
-        if(strlen($email) < 8 || !strpos($email, "@") || !strpos($email, ".") || strpos($email, " ")){
-            throw new Exception("Email precisa estar corretamente formatado", 400);
-        }
+    public function setSlug(string $slug){
+        $this->slug = str_replace(" ", "-", strtolower(Helpers::removeAccents($slug)));
+    }
 
-        $this->email = $email;
+    public function setDescription(string $description){
+        $this->description = $description;
+    }
+
+    public function setBody(string $body){
+        $this->body = $body;
     }
 
     // Manage database Data
     public function create(){
-        $userRepository = new UserRepository();
-        $userId = $userRepository->create([
-            "name" => $this->name,
-            "email" => $this->email,
-            "password" => $this->password,
-            "password_salt" => $this->password_salt,
+        $postRepository = new PostRepository();
+        $id = $postRepository->create([
+            "category_id" => $this->category->id,
+            "author_id" => $this->author->id,
+            "active" => $this->active,
+            "title" => $this->title,
+            "description" => $this->description,
+            "body" => $this->body,
         ]);
         
-        $this->id = $userId;
+        $this->id = $id;
     }
 
     public function update(){
-        $userRepository = new UserRepository();
-        $userRepository->updateByColumnReference($this->id, [
+        $postRepository = new PostRepository();
+        $postRepository->updateByColumnReference($this->id, [
             "name" => $this->name,
             "email" => $this->email,
             "password" => $this->password,
@@ -100,78 +93,58 @@ class PostEntity{
     }
 
     public function delete(){
-        $userRepository = new UserRepository();
-        $userRepository->deleteByColumnReference($this->id);
+        $postRepository = new PostRepository();
+        $postRepository->deleteByColumnReference($this->id);
     }
 
-    // Static functions
-    public static function tryLogin(string $email, string $password){
-        if(!$email || !$password){
-            throw new Exception("Email e senha necessários", 400);
-        }
-
-        $userRepository = new UserRepository();
-        $userData = $userRepository->getUserByEmail($email);
-
-        if(!$userData){
-            throw new Exception("Email não encontrado");
-        }
-
-        if(sha1($password.$userData["password_salt"]) == $userData["password"]){
-            $userEntity = new UserEntity($userData);
-
-            return $userEntity;
-        }else{
-            throw new Exception("Senha incorreta", 403);
-        }
+    public function createPostVisit(?int $userId){
+        $postRepository = new PostRepository();
+        $postRepository->createVisit($userId, $this->id);
     }
 
-    public static function createUser(string $email, string $name, string $password)
+    public static function createPost(array $data)
     {
-        if(!$email || !$name || !$password){
-            throw new Exception("Nome, email ou senha não fornecidos", 400);
-        }
-
-        $userRepository = new UserRepository();
-        $userData = $userRepository->getUserByEmail($email);
-
-        if($userData){
-            throw new Exception("Email já cadastrado", 403);
-        }
-        $userEntity = new UserEntity([
-            "name" => $name,
-            "email" => $email,
-            "password" => $password
-        ]);
-
+        $userEntity = new UserEntity($data);
         $userEntity->create();
 
         return $userEntity;
     }
 
-    public static function getUserById($id){
-        $userRepository = new UserRepository();
-        $userData = $userRepository->getUserById($id);
+    public static function getPostById($id){
+        $postRepository = new PostRepository();
+        $postData = $postRepository->getPostById($id);
 
-        if(!$userData){
+        if(!$postData){
             throw new Exception("Usuário não encontrado", 404);
         }else{
-            $userInstance = new UserEntity($userData);
+            $userInstance = new UserEntity($postData);
 
             return $userInstance;
         }
     }
 
-    public static function getUserByEmail($email){
-        $userRepository = new UserRepository();
-        $userData = $userRepository->getUserByEmail($email);
+    public static function getPostsByAuthor($authorId, string $order = "ID DESC"){
+        $order = "blg_post.author_id DESC";
+        $postRepository = new PostRepository();
+        $postsData = $postRepository->getPostsByAuthorId($authorId, $order);
 
-        if(!$userData){
-            throw new Exception("Usuário não encontrado", 404);
-        }else{
-            $userInstance = new UserEntity($userData);
+        $posts = array_map(function($postData){
+            return new PostEntity($postData);
+        }, $postsData);
 
-            return $userInstance;
-        }
+        return $posts;
     }
+
+    public static function getPosts(string $order = "ID DESC"){
+        $order = "blg_post.author_id DESC";
+        $postRepository = new PostRepository();
+        $postsData = $postRepository->getPosts($order);
+
+        $posts = array_map(function($postData){
+            return new PostEntity($postData);
+        }, $postsData);
+
+        return $posts;
+    }
+
 }
