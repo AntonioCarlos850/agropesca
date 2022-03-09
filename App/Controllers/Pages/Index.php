@@ -5,15 +5,17 @@ namespace App\Controllers\Pages;
 use App\Session\Login;
 use \App\Utils\View;
 
-class Home extends Page {
+class Index extends Page {
     /**
      * Método responsável por retornar o conteúdo (view) da nossa Home
      */
-    public static function getHome() :string {
+    public static function getIndex() :string {
         $userSession = Login::getUserSession();
+        $css = Page::renderCss(["/Resources/css/global.css","/Resources/css/index.css","/Resources/css/most_views.css"]);
 
         return Page::getPage([
-            "title" => "Home",
+            "title" => "Agroblog | Home",
+            'css' => $css,
             "content" => View::render("pages/home", [
                 "title" => "Olá, ".$userSession["name"]
             ])
