@@ -1,0 +1,112 @@
+body{
+    padding: 0 0.4rem;
+}
+
+#div-miniatura{
+    height: 230px;
+    flex-direction: column;
+}
+
+#exibir-miniatura{
+    max-height: 80px;
+}
+
+#div-miniatura img,
+#div-miniatura input,
+#div-miniatura button{
+    margin: 10px 0;
+}
+
+#miniatura{
+    display: none;
+}
+
+#label-miniatura{
+    padding: 6px;
+    border: 1px solid #222222;
+    border-radius: 8px;
+}
+
+#label-miniatura:hover{
+    cursor: pointer;
+    box-shadow: 1px 1px 2px 2px rgba(0, 0, 0, 0.2);
+}
+
+#label-miniatura i{
+    margin-right: 10px;
+}
+
+#div-miniatura button{
+    background: var(--dark-green);
+    color: #fff;
+    font-size: 1.3rem;
+    width: 8rem;
+    height: 2rem;
+    border-radius: 6px;
+    margin-top: .6rem;
+    border: none;
+}
+
+#div-miniatura button:hover{
+    cursor: pointer;
+    box-shadow: 1px 1px 2px 2px rgba(0, 0, 0, 0.2);
+}
+
+#div-text{
+    flex-direction: column;
+    padding: 1rem;
+}
+
+#div-text input{
+    margin-bottom: 1.5rem;
+}
+
+#div-text #send{
+    background: var(--dark-green);
+    color: #fff;
+    font-size: 1.3rem;
+    width: 8rem;
+    height: 2rem;
+    border-radius: 6px;
+    margin-top: .6rem;
+    border: none;
+    margin-left: 45%;
+}
+
+#div-text #send:hover{
+    cursor: pointer;
+    box-shadow: 1px 1px 2px 2px rgba(0, 0, 0, 0.2);
+}
+
+#div-text .input-text{
+    border-bottom: 1px solid #222222;
+    border-radius: 8px;
+    height: 30px;
+    transition: all 0.3s;
+}
+
+#div-text .input-text:focus{
+    border: none;
+    border-radius: 8px;
+    height: 40px;
+    background-color: #fff;
+    color: #000;
+}
+
+#div-text label,
+#div-text #select-text{
+    color: #232323;
+    font-size: 1.3rem;
+}
+
+#category{
+    border: 1px solid var(--blue-gray);
+    border-radius: 8px;
+    box-sizing: border-box;
+    padding: 0.6rem 0.5rem;
+    margin-bottom: 1.5rem;
+}
+
+#textarea{
+    height: 400px;
+}

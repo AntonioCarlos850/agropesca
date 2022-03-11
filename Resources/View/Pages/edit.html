@@ -1,0 +1,27 @@
+<div class="row w-100">
+    <h1 class="hidden-mobile hidden-desktop">Editar Post</h1>
+    <div class="col-dt-7 col-mb-10 p-1">
+        <form action="" method="post" id="div-text" class="row space-between bg_white box-shadow">
+            <label for="title">Título</label>
+            <input type="text" name="title" id="title" class="input-text" value="{{title}}">
+            <label for="description">Descrição</label>
+            <input type="text" name="description" id="description" class="input-text" value="{{description}}">
+            <span id="select-text">Categoria</span>
+            <select name="category" id="category">
+                {{categories}}
+            </select>
+            <input type="textarea" name="body" id="textarea" value="{{body}}">
+            <button type="submit" id="send">Enviar</button>
+        </form>
+    </div>
+    <div class="col-dt-3 col-mb-10 p-1">
+        <form action="/edit" method="post" class="row center bg_white box-shadow h-100" id="div-miniatura">
+            <img id="exibir-miniatura" src="{{miniature}}" alt="{{miniature_alt}}">
+            <label for="miniatura" id="label-miniatura">
+                <i class="fa-solid fa-cloud-arrow-up"></i>Fazer Upload
+            </label>
+            <input type="file" name="miniatura" id="miniatura">
+            <button type="submit">Enviar</button>
+        </form>
+    </div>
+</div>
