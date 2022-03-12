@@ -4,6 +4,7 @@ namespace App\Model\Entity;
 use Exception;
 use App\Model\Repository\UserRepository;
 use App\Utils\Helpers;
+use DateTime;
 
 class UserEntity{
     // Attributes
@@ -12,9 +13,9 @@ class UserEntity{
     public string $email;
     public string $password;
     public string $password_salt;
-    public ?string $creation_date;
-    public ?string $update_date;
     public ?UserTypeEntity $type;
+    public ?DateTime $creation_date;
+    public ?DateTime $update_date;
 
     public function __construct(array $userData){
         $this->setAttributes($userData);
@@ -26,29 +27,16 @@ class UserEntity{
             throw new Exception("Nome, email e senha necessários", 400);
         }
 
-        $this->id = $userData["id"] ?? null;
+        $this->setId($userData["id"] ?? null);
         $this->setName($userData["name"]);
         $this->setEmail($userData["email"]);
-
-        if(!isset($userData["password_salt"])){
-            $this->setPassword($userData["password"]);
-        }else{
-            $this->password = $userData["password"];
-            $this->password_salt = $userData["password_salt"];
-        }
-
-        if(isset($userData["type_id"])){
-            $this->type = new UserTypeEntity([
-                "id" => $userData["type_id"],
-                "name" => $userData["type_name"],
-            ]);
-        }
-        
-        $this->creation_date = $userData["creation_date"] ?? null;
-        $this->update_date = $userData["update_date"] ?? null;
+        $this->setPassword($userData["password"], $userData["password_salt"] ?? null);
+        $this->setType($userData);
+        $this->setCreationDate($userData["creation_date"]);
+        $this->setUpdateDate($userData["update_date"]);
     }
 
-    public function setPassword(string $password){
+    public function setPassword(string $password, ?string $passwordSalt){
         if(strlen($password) < 8){
             throw new Exception("Senha necessita ter ao menos 8 caracteres", 400);
         }
@@ -56,13 +44,13 @@ class UserEntity{
             throw new Exception("Senha necessita ter ao menos um número", 400);
         }
 
-        $this->password_salt = Helpers::randomString();
+        $this->password_salt = $passwordSalt ?: Helpers::randomString();
         $this->password = sha1($password.$this->password_salt);
     }
 
     public function setName(string $name){
-        if(strlen($name) < 4 || !strpos($name, " ")){
-            throw new Exception("Nome necessita estar completo", 400);
+        if(strlen($name) < 4){
+            throw new Exception("Nome muito curto", 400);
         }
 
         $this->name = $name;
@@ -74,6 +62,27 @@ class UserEntity{
         }
 
         $this->email = $email;
+    }
+
+    public function setId($id){
+        $this->id = $id ? intval($id) : null;
+    }
+
+    public function setCreationDate(?string $creationDate){
+        $this->creation_date = $creationDate ? new DateTime($creationDate) : null;
+    }
+
+    public function setUpdateDate(?string $updateDate){
+        $this->update_date = $updateDate ? new DateTime($updateDate) : null;
+    }
+
+    public function setType(array $typeData){
+        $this->type = new UserTypeEntity([
+            "id" => $typeData["type_id"],
+            "name" => $typeData["type_name"],
+            "creation_date" => $typeData["type_creation_date"],
+            "update_date" => $typeData["type_update_date"]
+        ]);
     }
 
     // Manage database Data

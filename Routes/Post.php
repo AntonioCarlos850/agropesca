@@ -3,8 +3,8 @@
 use \App\Http\Response;
 use \App\Controllers\Pages;
 
-$router->get("/busca", function() {});
+$router->get("/post/{slug}", function($slug, $request) {
+    return new Response(Pages\Post::getPost($slug, $request));
+});
 
-$router->get("/artigo/{slug}", function($slug) {});
-
-$router->get("/painel/artigo/{id}", function($id) {});
+$router->get("/painel/post/{id}", function($id) {});

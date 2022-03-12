@@ -17,9 +17,9 @@ $router->get("/logout", function(Request $request) {
 }, ["requireLogin"]);
 
 $router->get("/cadastro", function() {
-    return new Response(Pages\Cadastro::getCadastro());
+    return new Response(Pages\Cadastro::getCadastroOrEditarCadastro());
 });
 
 $router->post("/cadastro", function(Request $request) {
-    return new Response(Pages\Cadastro::cadastrar($request));
+    return new Response(Pages\Cadastro::cadastroPost($request));
 });

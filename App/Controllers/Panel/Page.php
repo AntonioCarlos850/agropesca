@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controllers\Pages;
+namespace App\Controllers\Panel;
 
 use \App\Utils\View;
 
@@ -15,7 +15,6 @@ class Page {
 
             "content" => $params["content"] ?? '',
             "header" => $params["header"] ?? '',
-            "footer" => $params["footer"] ?? '',
 
             "css" => $params["css"] ?? '',
             "headerScripts" => $params["headerScripts"] ?? '',
@@ -27,7 +26,20 @@ class Page {
         $renderedCss = [];
 
         foreach($links as $link){
-            $renderedCss[] = View::render('Components/Page/link', [
+            $renderedCss = View::render('Components/Page/link', [
+                "rel" => "stylesheet",
+                "href" => $link
+            ]);
+        }
+
+        return join(" ", $renderedCss);
+    }
+
+    public static function renderJs(array $links){
+        $renderedCss = [];
+
+        foreach($links as $link){
+            $renderedCss = View::render('Components/Page/link', [
                 "rel" => "stylesheet",
                 "href" => $link
             ]);

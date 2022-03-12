@@ -5,15 +5,15 @@
             <p class="autor">{{date}} às {{time}}</p>
             <div class="row w-100">
                 <div class="col-10 center">
-                    <img src="{{image}}" alt="{{alt}}" loading="lazy">
+                    <img src="{{imageSrc}}" alt="{{imageAlt}}" loading="lazy">
                 </div>
             </div>
             <div class="row w-100 autor_small py-05">
-                <img class="mx-1" src="{{image}}" alt="{{alt}}" loading="lazy">
-                <p>Escrito por&nbsp;<span>{{autor}}</span></p>
+                <img class="mx-1" src="{{authorImagemSrc}}" alt="{{authorImageAlt}}" loading="lazy">
+                <p>Escrito por&nbsp;<span>{{authorName}}</span></p>
             </div>
             <p class="text">
-                {{text}}
+                {{body}}
             </p>
         </div>
     </section>
@@ -22,17 +22,17 @@
         <div class="box-shadow p-1 mb-2 autor_div">
             <div class="row w-100">
                 <div class="col-10 center">
-                    <img src="{{autor_image}}" alt="{{autor_alt}}" loading="lazy">
+                    <img src="{{authorImagemSrc}}" alt="{{authorImageAlt}}" loading="lazy">
                 </div>
                 <div class="col-10">
                     <div class="line"></div>
                 </div>
-                <h2>SOBRE {{autor_name}}</h2>
+                <h2>SOBRE {{authorName}}</h2>
                 <p class="description">
-                    {{autor_description}}
+                    {{authorDescription}}
                 </p>
                 <div class="col-10 center">
-                    <a href="{{autor_url}}" target="_blank">
+                    <a href="{{authorPageSrc}}" target="_blank">
                         <button>VER MAIS</button>
                     </a>
                 </div>

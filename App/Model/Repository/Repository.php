@@ -34,7 +34,7 @@ class Repository {
         return self::update(
             "UPDATE {$this->tableName}
                 SET $stringfiedQuerySets
-            WHERE {$this->tableName}.{$this->columnReference} = :$id", $data
+            WHERE {$this->tableName}.{$this->columnReference} = :id", array_merge($data, ["id" => $id])
         );
     }
 

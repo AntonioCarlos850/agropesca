@@ -33,4 +33,17 @@ class Helpers {
             $string
         );
     }
+
+    static function verifyArrayFields(array $array, array $fieldNames) :bool{
+        $hasFields = true;
+
+        foreach($fieldNames as $fieldName){
+            if(!array_key_exists($fieldName, $array)){
+                $hasFields = false;
+                break;
+            }
+        }
+
+        return $hasFields;
+    }
 }

@@ -31,6 +31,22 @@ body {
     font-weight: bold;
 }
 
+.success-message{
+    width: 100%;
+    background-color: rgb(155, 194, 148);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.success-message span {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    color: white;
+    font-weight: bold;
+}
+
 .col-image{
     height: 100%;
     width: 30%;

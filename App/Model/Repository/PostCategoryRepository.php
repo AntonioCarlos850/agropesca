@@ -10,12 +10,27 @@ class PostCategoryRepository extends Repository {
         
     }
 
-    public function getPostCategoryById(int $id){
+    public function getCategory(array $queryConditions = [], array $data = []){
         return self::selectRow(
-            "SELECT blg_post_category.*
-            FROM blg_post_category
-            WHERE {$this->tableName}.{$this->columnReference} = :id
-            ", ["id" => $id]
+            "SELECT {$this->tableName}.*
+            FROM {$this->tableName}
+            WHERE ".join(" AND ", $queryConditions), $data
         );
+    }
+
+    public function getCategories(array $queryConditions = [], array $queryOrders = [], $limit, $offset, array $data = []){
+        return self::select(
+            "SELECT {$this->tableName}.*
+            FROM {$this->tableName}
+            ".(empty($queryConditions) ? "" : ("WHERE ".join(" AND ", $queryConditions)))."
+            ORDER BY ".(empty($queryOrders) ? "{$this->tableName}.{$this->columnReference} DESC" : join(", ", $queryOrders)."
+            ".($limit ? "LIMIT $limit" : "")."
+            ".($limit && $offset ? "OFFSET $offset" : "")."
+            "), $data
+        );
+    }
+
+    public function getCategoryById($id){
+        return self::getCategory(["{$this->tableName}.{$this->columnReference} = :id"], ["id" => $id]);
     }
 }
