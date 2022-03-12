@@ -20,6 +20,8 @@ class Cadastro extends Page
                 "rel" => "stylesheet",
                 "href" => "/Resources/css/cadastro.css"
             ]),
+            'headScripts' => Page::renderJs(['https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js', '/Resources/js/navbar.js']),
+            'header' => Page::renderNavbar(),
             'content' => View::render('Pages/cadastro', [
                 "emailInputValue" => $params["emailInputValue"] ?? null,
                 "nameInputValue" => $params["nameInputValue"] ?? null,
@@ -39,6 +41,8 @@ class Cadastro extends Page
                 "rel" => "stylesheet",
                 "href" => "/Resources/css/cadastro.css"
             ]),
+            'headScripts' => Page::renderJs(['https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js', '/Resources/js/navbar.js']),
+            'header' => Page::renderNavbar(),
             'content' => View::render('Pages/editarCadastro', [
                 "nameInputValue" => $params["nameInputValue"] ?? $userSessionData["name"],
                 "message" => $params["message"] ?? null,

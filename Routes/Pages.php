@@ -5,8 +5,12 @@ use \App\Controllers\Pages;
 
 $router->get("/", function() {
     return new Response(Pages\Home::getHome());
-},["requireLogin"]);
+});
 
 $router->get("/busca", function() {
     return new Response(Pages\Busca::getBusca());
-},["requireLogin"]);
+});
+
+$router->post("/busca", function() {
+    return new Response(Pages\Busca::getBusca());
+});

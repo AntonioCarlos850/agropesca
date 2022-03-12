@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Model\Entity;
 
 use App\Model\Repository\PostRepository;
@@ -6,7 +7,8 @@ use Exception;
 use App\Utils\Helpers;
 use DateTime;
 
-class PostEntity{
+class PostEntity
+{
     // Attributes
     public ?int $id;
     public AuthorEntity $author;
@@ -20,13 +22,15 @@ class PostEntity{
     public ?DateTime $creation_date;
     public ?DateTime $update_date;
 
-    public function __construct(array $postData){
+    public function __construct(array $postData)
+    {
         $this->setAttributes($postData);
     }
 
     // Setters
-    protected function setAttributes(array $postData){
-        if(!isset($postData["title"]) || !isset($postData["author_id"])){
+    protected function setAttributes(array $postData)
+    {
+        if (!isset($postData["title"]) || !isset($postData["author_id"])) {
             throw new Exception("Título e id de autor necessários", 400);
         }
 
@@ -48,76 +52,87 @@ class PostEntity{
         $this->setUpdateDate($postData["update_date"]);
     }
 
-    public function setTitle(string $title){
-        if(strlen($title) < 15){
+    public function setTitle(string $title)
+    {
+        if (strlen($title) < 15) {
             throw new Exception("Título precisa ter mais que 15 caracteres", 400);
         }
 
         $this->title = $title;
     }
 
-    public function setActive(bool $active){
+    public function setActive(bool $active)
+    {
         $this->active = $active;
     }
 
-    public function setId($id){
+    public function setId($id)
+    {
         $this->id = $id ? intval($id) : null;
     }
 
-    public function setSlug(?string $slug){
+    public function setSlug(?string $slug)
+    {
         $this->slug = str_replace(" ", "-", strtolower(Helpers::removeAccents($slug ?: $this->title)));
     }
 
-    public function setDescription(?string $description){
+    public function setDescription(?string $description)
+    {
         $this->description = $description;
 
-        if(!$description){
+        if (!$description) {
             $this->setActive(false);
         }
     }
 
-    public function setBody(?string $body){
+    public function setBody(?string $body)
+    {
         $this->body = $body;
 
-        if(!$body){
+        if (!$body) {
             $this->setActive(false);
         }
     }
 
-    public function setCreationDate(?string $creationDate){
+    public function setCreationDate(?string $creationDate)
+    {
         $this->creation_date = $creationDate ? new DateTime($creationDate) : null;
     }
 
-    public function setUpdateDate(?string $updateDate){
+    public function setUpdateDate(?string $updateDate)
+    {
         $this->update_date = $updateDate ? new DateTime($updateDate) : null;
     }
 
-    public function setCategory(array $categoryData){
+    public function setCategory(array $categoryData)
+    {
         try {
-            if(Helpers::verifyArrayFields($categoryData, [
+            if (Helpers::verifyArrayFields($categoryData, [
                 "category_id", "category_name", "category_creation_date", "category_update_date"
-            ])){
+            ])) {
                 $this->category = new PostCategoryEntity([
                     "id" => $categoryData["category_id"],
                     "name" => $categoryData["category_name"],
                     "creation_date" => $categoryData["category_creation_date"],
                     "update_date" => $categoryData["category_update_date"],
                 ]);
-            }else{
+            } else {
                 $this->category = PostCategoryEntity::getCategoryById($categoryData["category_id"]);
-            }            
-        } catch (Exception $error){
+            }
+        } catch (Exception $error) {
             $this->category = null;
             $this->setActive(false);
         }
     }
-    
-    public function setVisits(?int $visits){
+
+    public function setVisits(?int $visits)
+    {
         $this->visits = intval($visits);
     }
 
-    public function setAuthor(array $authorData){
-        if(!isset($authorData["author_id"])){
+    public function setAuthor(array $authorData)
+    {
+        if (!isset($authorData["author_id"])) {
             throw new Exception("Referência de Autor necessária", 400);
         }
 
@@ -143,7 +158,8 @@ class PostEntity{
     }
 
     // Manage database Data
-    public function create(){
+    public function create()
+    {
         $postRepository = new PostRepository();
         $id = $postRepository->create([
             "category_id" => $this->category ? $this->category->id : null,
@@ -154,11 +170,12 @@ class PostEntity{
             "description" => $this->description,
             "body" => $this->body,
         ]);
-        
+
         $this->id = $id;
     }
 
-    public function update(){
+    public function update()
+    {
         $postRepository = new PostRepository();
         $postRepository->updateByColumnReference($this->id, [
             "category_id" => $this->category ? $this->category->id : null,
@@ -171,18 +188,20 @@ class PostEntity{
         ]);
     }
 
-    public function delete(){
+    public function delete()
+    {
         $postRepository = new PostRepository();
         $postRepository->deleteByColumnReference($this->id);
     }
 
-    public function createPostVisit(?int $userId){
+    public function createPostVisit(?int $userId)
+    {
         $postRepository = new PostRepository();
         $postRepository->createVisit($this->id, $userId);
         $postRepository->sincronizeVisits($this->id);
     }
 
-    public static function createPost(array $data)
+    public static function createPost(array $data): PostEntity
     {
         $postEntity = new PostEntity($data);
         $postEntity->create();
@@ -190,52 +209,55 @@ class PostEntity{
         return $postEntity;
     }
 
-    public static function getPostById($id){
+    public static function getPostById(int $id): PostEntity
+    {
         $postRepository = new PostRepository();
         $postData = $postRepository->getPostById($id);
 
-        if(!$postData){
+        if (!$postData) {
             throw new Exception("Post não encontrado", 404);
-        }else{
+        } else {
             $postInstance = new PostEntity($postData);
 
             return $postInstance;
         }
     }
 
-    public static function getPostBySlug($postSlug){
+    public static function getPostBySlug($postSlug): PostEntity
+    {
         $postRepository = new PostRepository();
         $postData = $postRepository->getPostBySlug($postSlug);
 
-        if(!$postData){
+        if (!$postData) {
             throw new Exception("Post não encontrado", 404);
-        }else{
+        } else {
             $postInstance = new PostEntity($postData);
 
             return $postInstance;
         }
     }
 
-    public static function getPostsByAuthor($authorId, array $queryOrders = []){
+    public static function getPostsByAuthor(int $authorId, array $queryOrders = []): array
+    {
         $postRepository = new PostRepository();
         $postsData = $postRepository->getPostsByAuthorId($authorId, $queryOrders);
 
-        $postsEntities = array_map(function($postData){
+        $postsEntities = array_map(function ($postData) {
             return new PostEntity($postData);
         }, $postsData);
 
         return $postsEntities;
     }
 
-    public static function getActivePosts(array $queryOrders = [], ?int $limit = null, ?int $offset = null){
+    public static function getActivePosts(array $queryOrders = [], ?int $limit = null, ?int $offset = null): array
+    {
         $postRepository = new PostRepository();
         $postsData = $postRepository->getActivePosts($queryOrders, $limit, $offset);
 
-        $postsEntities = array_map(function($postData){
+        $postsEntities = array_map(function ($postData) {
             return new PostEntity($postData);
         }, $postsData);
 
         return $postsEntities;
     }
-
 }

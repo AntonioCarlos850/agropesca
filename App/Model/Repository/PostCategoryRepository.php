@@ -18,10 +18,11 @@ class PostCategoryRepository extends Repository {
         );
     }
 
-    public function getCategories(array $queryConditions = [], array $queryOrders = [], $limit, $offset, array $data = []){
+    public function getCategories(array $queryConditions = [], array $queryOrders = [], array $queryJoins = [], ?int $limit = null, ?int $offset = null, array $data = []){
         return self::select(
             "SELECT {$this->tableName}.*
             FROM {$this->tableName}
+            ".(join(" ", $queryJoins))."
             ".(empty($queryConditions) ? "" : ("WHERE ".join(" AND ", $queryConditions)))."
             ORDER BY ".(empty($queryOrders) ? "{$this->tableName}.{$this->columnReference} DESC" : join(", ", $queryOrders)."
             ".($limit ? "LIMIT $limit" : "")."
@@ -32,5 +33,16 @@ class PostCategoryRepository extends Repository {
 
     public function getCategoryById($id){
         return self::getCategory(["{$this->tableName}.{$this->columnReference} = :id"], ["id" => $id]);
+    }
+
+    public function getCategoriesByAuthorPosts(int $authorId){
+        return self::getCategories(
+            ["blg_post.author_id = :authorId"], 
+            [], 
+            ["INNER JOIN blg_post ON blg_post.category_id = blg_post_category.id"],
+            null,
+            null,
+            ["authorId" => $authorId]
+        );
     }
 }

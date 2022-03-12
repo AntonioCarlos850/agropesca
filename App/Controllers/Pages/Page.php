@@ -18,21 +18,29 @@ class Page {
             "footer" => $params["footer"] ?? '',
 
             "css" => $params["css"] ?? '',
-            "headerScripts" => $params["headerScripts"] ?? '',
+            "headScripts" => $params["headScripts"] ?? '',
             "endBodyScripts" => $params["endBodyScripts"] ?? '',
         ]);
     }
 
-    public static function renderCss(array $links){
-        $renderedCss = [];
+    public static function renderNavbar():string {
+        return View::render('Components/Page/navbar', []);
+    }
 
-        foreach($links as $link){
-            $renderedCss[] = View::render('Components/Page/link', [
+    public static function renderCss(array $links):array{
+        return array_map(function (string $link){
+            return View::render('Components/Page/link', [
                 "rel" => "stylesheet",
                 "href" => $link
             ]);
-        }
+        }, $links);
+    }
 
-        return join(" ", $renderedCss);
+    public static function renderJs(array $links):array{
+        return array_map(function (string $link){
+            return View::render('Components/Page/script', [
+                "src" => $link
+            ]);
+        }, $links);
     }
 }

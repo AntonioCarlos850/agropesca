@@ -31,7 +31,7 @@ class PostCategoryEntity{
         $this->update_date = $updateDate ? new DateTime($updateDate) : null;
     }
 
-    public static function getCategoryById($id){
+    public static function getCategoryById(int $id):PostCategoryEntity{
         $postCategoryRepository = new PostCategoryRepository();
         $cateogoryData = $postCategoryRepository->getCategoryById($id);
 
@@ -42,5 +42,23 @@ class PostCategoryEntity{
 
             return $userInstance;
         }
+    }
+
+    public static function getCategories():array{
+        $postCategoryRepository = new PostCategoryRepository();
+        $categoriesData = $postCategoryRepository->getCategories();
+
+        return array_map(function ($categoryData){
+            return new PostCategoryEntity($categoryData);
+        }, $categoriesData);
+    }
+
+    public static function getCategoriesByAuthorPosts(int $authorId):array{
+        $postCategoryRepository = new PostCategoryRepository();
+        $categoriesData = $postCategoryRepository->getCategoriesByAuthorPosts($authorId);
+
+        return array_map(function ($categoryData){
+            return new PostCategoryEntity($categoryData);
+        }, $categoriesData);
     }
 }

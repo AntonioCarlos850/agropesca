@@ -17,7 +17,7 @@ class Page {
             "header" => $params["header"] ?? '',
 
             "css" => $params["css"] ?? '',
-            "headerScripts" => $params["headerScripts"] ?? '',
+            "headScripts" => $params["headScripts"] ?? '',
             "endBodyScripts" => $params["endBodyScripts"] ?? '',
         ]);
     }
