@@ -16,8 +16,12 @@ class Request{
         $this->postVars = $_POST ?? [];
         $this->headers = getallheaders();
         $this->httpMethod = $_SERVER["REQUEST_METHOD"] ?? '';
-        $this->uri = $_SERVER["REQUEST_URI"] ?? '';
+        $this->setUri();
         $this->router = $router;
+    }
+
+    private function setUri(){
+        $this->uri = $_SERVER["REQUEST_URI"] ? explode("?",$_SERVER["REQUEST_URI"])[0] : '';
     }
 
     public function getHttpMethod():string{
