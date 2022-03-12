@@ -43,7 +43,7 @@ class PostEntity{
 
         $this->setAuthor($postData);
         $this->setCategory($postData);
-        
+
         $this->setCreationDate($postData["creation_date"]);
         $this->setUpdateDate($postData["update_date"]);
     }

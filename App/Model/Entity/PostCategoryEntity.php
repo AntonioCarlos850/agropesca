@@ -19,8 +19,8 @@ class PostCategoryEntity{
     protected function setAttributes(array $categoryData){
         $this->id = intval($categoryData["id"]);
         $this->name = $categoryData["name"];
-        $this->creation_date = $categoryData["creation_date"] ?? null;
-        $this->update_date = $categoryData["update_date"] ?? null;
+        $this->setCreationDate($categoryData["creation_date"]);
+        $this->setUpdateDate($categoryData["update_date"]);
     }
 
     public function setCreationDate(?string $creationDate){

@@ -15,14 +15,15 @@ class Post extends Page {
     public static function getPost($postSlug, Request $request) :string {
         try {
             $postEntity = PostEntity::getPostBySlug($postSlug);
+            $authorMostViewedPostsEntities = PostEntity::getPostsByAuthor($postEntity->author->id, ["blg_post.visits DESC", "blg_post.id != ".$postEntity->id]);
 
             return Page::getPage([
                 "title" => $postEntity->title,
                 "content" => View::render("pages/post", [
                     "title" => $postEntity->title,
                     "body" => $postEntity->body,
-                    "date" => $postEntity->creation_date,
-                    "time" => $postEntity->creation_date,
+                    "date" => $postEntity->creation_date->format("d/m/Y"),
+                    "time" => $postEntity->creation_date->format("H:i"),
                     "imageSrc" => null,
                     "imageAlt" => null,
                     "authorImageSrc" => null,
@@ -30,7 +31,7 @@ class Post extends Page {
                     "authorDescription" => $postEntity->author->description,
                     "authorPageSrc" => $postEntity->author->slug,
                     "authorName" => $postEntity->author->name,
-                    "mostViewsPosts" => null,
+                    "mostViewedPosts" => self::renderAuthorPosts($authorMostViewedPostsEntities),
                 ])
             ]);
 
@@ -40,8 +41,18 @@ class Post extends Page {
         
     }
 
-    private static function renderArticles(array $postEntityes)
+    private static function renderAuthorPosts(array $postEntities)
     {
-        
+        return array_map(function(PostEntity $postEntity){
+            return View::render("Components/Page/post", [
+                "link" => "/post/".$postEntity->slug,
+                "title" => $postEntity->title,
+                "description" => $postEntity->description,
+                "imageSrc" => "https://www.tenhomaisdiscosqueamigos.com/wp-content/uploads/2019/09/tyler-the-creator-1.jpg",
+                "imageAlt" => "",
+                "authorName" => $postEntity->author->name,
+                "date" => $postEntity->creation_date->format("d/m/Y")
+            ]);
+        }, $postEntities);
     }
 }

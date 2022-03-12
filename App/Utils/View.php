@@ -31,6 +31,15 @@ class View
             return '{{'.$item.'}}';
         }, array_keys($params));
 
-        return str_replace($keys, array_values($params), $contentView);
+        $strinfiedValues = [];
+        foreach($params as $param){
+            if(gettype($param) == 'array'){
+                $strinfiedValues[] = join($param);
+            }else{
+                $strinfiedValues[] = $param;
+            }
+        }
+
+        return str_replace($keys, array_values($strinfiedValues), $contentView);
     }
 }
