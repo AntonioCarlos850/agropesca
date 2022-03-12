@@ -22,6 +22,14 @@ header nav img{
     padding: 5px 0;
 }
 
+header{
+    width: 100vw;
+}
+
+body{
+    padding: 0px !important;
+    margin: 0px !important;
+}
 footer{
     background-color: var(--dark-green);
     position: absolute;
