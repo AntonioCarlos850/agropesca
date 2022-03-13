@@ -4,7 +4,6 @@ namespace App\Controllers\Pages;
 
 use App\Model\Entity\PostCategoryEntity;
 use App\Model\Entity\PostEntity;
-use App\Session\LoginSession;
 use \App\Utils\View;
 use Exception;
 
@@ -23,9 +22,8 @@ class Home extends Page {
 
         return Page::getPage([
             'title' => 'Agroblog | Home',
-            'css' => Page::renderCss(['/Resources/css/global.css','/Resources/css/home.css','/Resources/css/most_views.css']),
-            'headScripts' => Page::renderJs(['https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js', '/Resources/js/navbar.js']),
-            'header' => Page::renderNavbar(),
+            'css' => ['/Resources/css/home.css','/Resources/css/most_views.css'],
+            'navbar' => true,
             'content' => View::render('pages/home', [
                 'mostViewsPosts' => self::renderMostViewPosts($postEntities),
                 'postSuggestions' => self::renderPosts($postEntities),

@@ -9,7 +9,7 @@ $router->get("/painel/", function(Request $request) {
 }, ["requireLogin"]);
 
 $router->get("/painel/myPosts", function(Request $request) {
-    return new Response(Panel\Page::getPage($request));
+    return new Response(Panel\MyPosts::getMyPosts($request));
 }, ["requireLogin"]);
 
 $router->get("/painel/post/{id}", function(Request $request, $id) {
