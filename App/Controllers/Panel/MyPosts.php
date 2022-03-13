@@ -18,6 +18,7 @@ class MyPosts {
             $postEntities = PostEntity::getPostsByAuthor($userSessionData['id']);
 
             return Page::getPage($request, [
+                'css'=> ['/Resources/css/posts.css'],
                 'content' => View::render("/Panel/myPosts", [
                     'posts' => self::renderPosts($postEntities),
                 ])
