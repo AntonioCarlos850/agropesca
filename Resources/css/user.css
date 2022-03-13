@@ -14,9 +14,10 @@ body{
 
 #external-div-form{
     position: relative;
-    left: 25%;
-    top: 30vh;
-    width: 45%;
+    left: 20%;
+    top: 20vh;
+    width: 60%;
+    min-height: 50vh;
 }
 
 #exibir-miniatura{
@@ -89,20 +90,21 @@ body{
     box-shadow: 1px 1px 2px 2px rgba(0, 0, 0, 0.2);
 }
 
-#form-input .input-text{
+.input-text{
+    font-size: 1.2rem;
     border-bottom: 1px solid #222222;
     padding-left: .5rem;
     border-radius: 8px;
-    height: 20px;
-    width: 60%;
+    height: 40px;
+    width: 90%;
     transition: all 0.3s;
-    margin-bottom: 0.4rem;
+    margin: 0.4rem 0 1rem 0;
 }
 
-#form-input .input-text:focus{
+.input-text:focus{
     border: none;
     border-radius: 8px;
-    height: 35px;
+    height: 50px;
     background-color: #fff;
     color: #000;
 }
@@ -110,7 +112,8 @@ body{
 #form-input label,
 #form-input #select-text{
     color: #232323;
-    font-size: 1.3rem;
+    font-size: 1.6rem;
+    font-weight: bolder;
 }
 
 #type{
@@ -121,20 +124,47 @@ body{
     margin-bottom: .4rem;
 }
 
-@media screen and (max-width: 768px){
+@media screen and (max-width: 1000px){
     #external-div-form{
         position: relative;
         left: 5%;
-        top: 30vh;
+        top: 10vh;
         width: 90%;
+        min-height: 30vh;
     }
 
-    #form-input .input-text{
+    #label-miniatura{
+        font-size: 1.8rem;
+    }
+
+    #div-miniatura button{
+        font-size: 1.8rem;
+        width: 8rem;
+        height: 2.5rem;
+    }
+
+    #exibir-miniatura{
+        max-height: 160px;
+    }
+
+    .input-text{
+        font-size: 1.8rem;
         width: 100%;
+        height: 50px;
     }
 
-    
-    #form-input #send{
+    .input-text:focus{
+        height: 60px;
+    }
+
+    #form-input label,
+    #select-text{
+        color: #232323;
+        font-size: 2rem;
+        font-weight: bolder;
+    }
+
+    #send{
         width: 6rem;
         height: 1.4rem;
         font-size: 1rem;

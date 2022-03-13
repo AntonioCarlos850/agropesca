@@ -465,7 +465,7 @@ body{
     text-align: center;
 }
 
-@media screen and (max-width: 768px){
+@media screen and (max-width: 1000px){
 
     #q{
         height: 65%;
@@ -541,7 +541,7 @@ body{
     }
 }
 
-@media screen and (min-width: 769px){
+@media screen and (min-width: 1000px){
     .box-shadow-dt{
         background-color: var(--white);
         box-shadow: 0px 0px 10px 5px rgba(0, 0, 0, 0.2);
