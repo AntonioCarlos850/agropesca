@@ -13,7 +13,8 @@ class UserEntity{
     public string $email;
     public string $password;
     public string $password_salt;
-    public ?UserTypeEntity $type;
+    public ?ImageEntity $image;
+    public UserTypeEntity $type;
     public ?DateTime $creation_date;
     public ?DateTime $update_date;
 
@@ -32,6 +33,7 @@ class UserEntity{
         $this->setEmail($userData["email"]);
         $this->setPassword($userData["password"], $userData["password_salt"] ?? null);
         $this->setType($userData);
+        $this->setImage($userData);
         $this->setCreationDate($userData["creation_date"] ?? null);
         $this->setUpdateDate($userData["update_date"] ?? null);
     }
@@ -87,6 +89,27 @@ class UserEntity{
             $this->update_date = $updateDate;
         }else{
             $this->update_date = null;
+        }
+    }
+
+    public function setImage(array $imageData)
+    {
+        if (Helpers::verifyArrayFields($imageData, [
+            "image_id", "image_path", "image_filename", "image_alt", "image_creation_date"
+        ])) {
+            $this->image = new ImageEntity([
+                "id" => $imageData["image_id"], 
+                "path" => $imageData["image_path"], 
+                "filename" => $imageData["image_filename"], 
+                "alt" => $imageData["image_alt"], 
+                "creation_date" => $imageData["image_creation_date"]
+            ]);
+        } else {
+            if(isset($imageData["image_id"])){
+                $this->image = ImageEntity::getImageById($imageData["image_id"]);
+            }else{
+                $this->image = null;
+            }
         }
     }
 

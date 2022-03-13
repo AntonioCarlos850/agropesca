@@ -24,6 +24,10 @@ $router->get("/painel/myPosts", function(Request $request) {
     return new Response(Panel\MyPosts::getMyPosts($request));
 }, ["requireLogin"]);
 
+$router->post("/painel/post/{id}/image", function(Request $request, $id) {
+    return new Response(Panel\Post::editImage($request, $id));
+}, ["requireLogin"]);
+
 $router->get("/painel/post/{id}/delete", function(Request $request, $id) {
     return new Response(Panel\Post::deletePost($request, $id));
 }, ["requireLogin"]);

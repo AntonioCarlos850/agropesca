@@ -11,8 +11,9 @@ class PostEntity
 {
     // Attributes
     public ?int $id;
+    public ?ImageEntity $image;
     public AuthorEntity $author;
-    public ?PostCategoryEntity $category;
+    public PostCategoryEntity $category;
     public string $slug;
     public string $title;
     public string $description;
@@ -47,6 +48,7 @@ class PostEntity
 
         $this->setAuthor($postData);
         $this->setCategory($postData);
+        $this->setImage($postData);
 
         $this->setCreationDate($postData["creation_date"] ?? null);
         $this->setUpdateDate($postData["update_date"] ?? null);
@@ -102,6 +104,35 @@ class PostEntity
     public function setUpdateDate(?string $updateDate)
     {
         $this->update_date = $updateDate ? new DateTime($updateDate) : null;
+    }
+
+    public function setImage($imageData)
+    {
+        $type = gettype($imageData);
+        if($type == 'array'){
+            if (Helpers::verifyArrayFields($imageData, [
+                "image_id", "image_path", "image_filename", "image_alt", "image_creation_date"
+            ])) {
+                $this->image = new ImageEntity([
+                    "id" => $imageData["image_id"], 
+                    "path" => $imageData["image_path"], 
+                    "filename" => $imageData["image_filename"], 
+                    "alt" => $imageData["image_alt"], 
+                    "creation_date" => $imageData["image_creation_date"]
+                ]);
+            } else {
+                if(isset($imageData["image_id"])){
+                    $this->image = ImageEntity::getImageById($imageData["image_id"]);
+                }else{
+                    $this->image = null;
+                }
+            }
+        }else if($type == 'object' && $imageData instanceof ImageEntity){
+            $this->image = $imageData;
+        }else{
+            $this->image = null;
+        }
+        
     }
 
     public function setCategory(array $categoryData)
@@ -168,6 +199,7 @@ class PostEntity
         $id = $postRepository->create([
             "category_id" => $this->category ? $this->category->id : null,
             "author_id" => $this->author->id,
+            "image_id" => $this->image->id ?? null,
             "slug" => $this->slug,
             "active" => $this->active,
             "title" => $this->title,
@@ -184,6 +216,7 @@ class PostEntity
         $postRepository->updateByColumnReference($this->id, [
             "category_id" => $this->category ? $this->category->id : null,
             "author_id" => $this->author->id,
+            "image_id" => $this->image->id ?? null,
             "slug" => $this->slug,
             "active" => $this->active,
             "title" => $this->title,

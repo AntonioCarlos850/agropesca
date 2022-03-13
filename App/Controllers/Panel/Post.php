@@ -3,9 +3,11 @@
 namespace App\Controllers\Panel;
 
 use App\Http\Request;
+use App\Model\Entity\ImageEntity;
 use App\Model\Entity\PostCategoryEntity;
 use App\Model\Entity\PostEntity;
 use App\Session\LoginSession;
+use App\Utils\UploadImageUtils;
 use \App\Utils\View;
 use Exception;
 
@@ -19,9 +21,12 @@ class Post {
 
             return self::renderPostPage($request, [
                 'title' => $postEntity->title,
+                'id' => $postEntity->id,
                 'description' => $postEntity->description,
                 'body' => $postEntity->body,
                 'categoryId' => $postEntity->category->id,
+                'imageSrc' => $postEntity->image->getUri(),
+                'imageAlt' => $postEntity->image->alt,
                 'actionPost' => 'Editar',
             ]);   
         } catch (Exception $exception){
@@ -52,7 +57,10 @@ class Post {
             return self::renderPostPage($request, [
                 'actionPost' => 'Editar',
                 'title' => $postEntity->title,
+                'id' => $postEntity->id,
                 'description' => $postEntity->description,
+                'imageSrc' => $postEntity->image->getUri(),
+                'imageAlt' => $postEntity->image->alt,
                 'body' => $postEntity->body,
                 'title' => $postEntity->title,
                 'categoryId' => $postEntity->category->id,
@@ -127,11 +135,14 @@ class Post {
                 ]
             ],
             'content' => View::render('/Panel/post', [
+                'id' => $params['id'] ?? null,
                 'actionPost' => $params['actionPost'] ?? null,
                 'title' => $params['title'] ?? null,
                 'description' => $params['description'] ?? null,
                 'body' => $params['body'] ?? null,
                 'message' => $params['message'] ?? null,
+                'imageSrc' => $params["imageSrc"] ?? null,
+                'imageAlt' => $params["imageAlt"] ?? null,
                 'categories' => array_map(function(PostCategoryEntity $postCategoryEntity){
                     return View::render("/Components/UI/option", [
                         'value' => $postCategoryEntity->id,
@@ -141,6 +152,31 @@ class Post {
                 }, $postCategoryEntities),
             ]),
         ]);
+    }
+
+    public static function editImage(Request $request, $id)
+    {
+        try {
+            $uploadedImage = UploadImageUtils::getImageByField('image');
+
+            if($uploadedImage){
+                $postEntity = PostEntity::getPostById($id);
+
+                $imageEntity = ImageEntity::createImage([
+                    'path' => $uploadedImage->dir,
+                    'filename' => $uploadedImage->filename
+                ]);
+
+                $postEntity->setImage($imageEntity);
+
+                $postEntity->update();
+
+                return self::getPost($request, $id);
+            }
+        } catch (Exception $exception) {
+            var_dump($exception->getMessage());
+            exit;
+        }
     }
 
     public static function deletePost(Request $request, $id)
