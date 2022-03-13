@@ -17,7 +17,8 @@ class LoginSession {
         $_SESSION["user"] = [
             'id' => $objectUser->id,
             'name' => $objectUser->name,
-            'email' => $objectUser->email
+            'email' => $objectUser->email,
+            'type_id' => $objectUser->type->id
         ];
     }
 

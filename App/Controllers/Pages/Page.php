@@ -2,6 +2,7 @@
 
 namespace App\Controllers\Pages;
 
+use App\Session\LoginSession;
 use \App\Utils\View;
 
 class Page {
@@ -33,7 +34,46 @@ class Page {
     }
 
     public static function renderNavbar():string {
-        return View::render('Components/Page/navbar', []);
+        $navbarItemLinks = [];
+        if(LoginSession::isLogged()){
+            $userSessionData = LoginSession::getUserSession();
+
+            array_push($navbarItemLinks, [
+                'link' => '/cadastro',
+                'icon' => 'fa-solid fa-user',
+                'text' => 'Conta',
+            ]);
+            if($userSessionData['type_id'] > 1){
+                array_push($navbarItemLinks, [
+                    'link' => '/painel/',
+                    'icon' => 'fa-solid fa-pen',
+                    'text' => 'Painel de Autor',
+                ]);
+            }else{
+                array_push($navbarItemLinks, [
+                    'link' => '/painel/',
+                    'icon' => 'fa-solid fa-pen',
+                    'text' => 'Tornar-se um Autor',
+                ]);
+            }
+            array_push($navbarItemLinks, [
+                'link' => '/logout',
+                'icon' => 'fa-solid fa-right-from-bracket',
+                'text' => 'Sair',
+            ]);
+        }else{
+            array_push($navbarItemLinks, [
+                'link' => '/login',
+                'icon' => 'fa-solid fa-user',
+                'text' => 'Entrar',
+            ]);
+        }
+        
+        return View::render('Components/Page/navbar', [
+            'itemLinks' => array_map(function($itemLink){
+                return View::render('Components/Page/navbarItemLink', $itemLink);
+            },$navbarItemLinks)
+        ]);
     }
 
     public static function renderCss(array $links):?array{
