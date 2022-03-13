@@ -14,10 +14,7 @@
                     <p>Ordenar por:</p>
                     <form action="" method="post">
                         <select name="order" id="order">
-                            <option value="relevancia">Relevância</option>
-                            <option value="recente">Mais Recentes</option>
-                            <option value="antigo">Menos Recentes</option>
-                            <option value="mais_views">Mais Vizualizações</option>
+                            {{dropdownOptions}}
                         </select>
                     </form>
                 </div>
@@ -25,6 +22,9 @@
 
             <div class="row w-100">
                 {{searchPosts}}
+            </div>
+            <div class="row w-100">
+                {{pagination}}
             </div>
         </div>
     </section>
