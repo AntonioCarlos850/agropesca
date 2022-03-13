@@ -191,8 +191,9 @@ footer p{
     top: 100%;
     right: 25%;
     display: flex;
-    width: 123px;
+    width: 200px;
     height: 0px;
+    z-index: 100;
     overflow: hidden;
     background-color:#fff;
     border-radius: 10px;
