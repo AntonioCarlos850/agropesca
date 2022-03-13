@@ -14,7 +14,7 @@ class Post extends Page {
     public static function getPost($postSlug, Request $request) :string {
         try {
             $postEntity = PostEntity::getPostBySlug($postSlug);
-            $mostViewedPostsEntities = PostEntity::getActivePosts(["blg_post.visits DESC", "blg_post.id != ".$postEntity->id],4);
+            $mostViewedPostsEntities = PostEntity::getActivePosts(["blg_post.visits DESC", "blg_post.id != ".$postEntity->id],[],4);
 
             return Page::getPage([
                 "title" => $postEntity->title,
