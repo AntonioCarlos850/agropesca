@@ -1,5 +1,10 @@
 body{
     min-height: 100vh;
+    background-color: none;
+    background-image: url(./../img/fundo.webp);
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
 }
 
 .form-input{
