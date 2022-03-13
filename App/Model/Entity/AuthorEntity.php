@@ -20,18 +20,31 @@ class AuthorEntity extends UserEntity {
             throw new Exception("Descrição de autor necessária", 400);
         }
 
-        parent::setAttributes($authorData);
-
-        $this->setSlug($authorData["slug"] ?? null);
+        $this->setId($authorData["id"] ?? null);
+        $this->setName($authorData["name"]);
+        $this->setEmail($authorData["email"]);
+        $this->setPassword($authorData["password"], $authorData["password_salt"] ?? null);
+        $this->setType($authorData);
+        $this->setCreationDate($authorData["creation_date"] ?? null);
+        $this->setUpdateDate($authorData["update_date"] ?? null);
         $this->setDescription($authorData["description"]);
     }
 
     public function setSlug(?string $slug){
-        $this->slug = str_replace(" ", "-", strtolower(Helpers::removeAccents($slug ?: $this->name)));
+        $this->slug = str_replace(" ", "-", strtolower(Helpers::removeAccents($slug ?: ("{$this->name} {$this->id}"))));
     }
 
     public function setDescription(?string $description){
-        $this->description = $description ? str_replace(" ", "-", strtolower(Helpers::removeAccents($description))) : null;
+        $this->description = $description;
+    }
+
+    public function setName(string $name){
+        if(strlen($name) < 4){
+            throw new Exception("Nome muito curto", 400);
+        }
+
+        $this->name = $name;
+        $this->setSlug("{$this->name} {$this->id}");
     }
 
     public static function getAuthorById(int $id){
@@ -53,16 +66,16 @@ class AuthorEntity extends UserEntity {
         $authorRepository->create([
             "user_id" => $this->id,
             "slug" => $this->slug,
-            "name" => $this->name,
             "description" => $this->description
         ]);
     }
 
     public function update(){
         $authorRepository = new AuthorRepository();
+
+        parent::update();
         $authorRepository->updateByColumnReference($this->id, [
             "slug" => $this->slug,
-            "name" => $this->name,
             "description" => $this->description
         ]);
     }

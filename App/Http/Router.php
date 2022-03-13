@@ -56,7 +56,11 @@ class Router
             }
         }
 
-        throw new Exception("URL não encontrada", 404);
+        if(strpos($uri, 'painel')){
+            $this->redirect("/painel/");
+        }else{
+            $this->redirect("/");
+        }
     }
 
     public function addRoute(string $method, string $route, array $params = []): void

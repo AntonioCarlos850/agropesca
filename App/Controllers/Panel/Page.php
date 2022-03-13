@@ -3,6 +3,7 @@
 namespace App\Controllers\Panel;
 
 use App\Http\Request;
+use App\Session\LoginSession;
 use \App\Utils\View;
 
 class Page {
@@ -23,14 +24,17 @@ class Page {
     }
     
     public static function renderSideBar(Request $request, array $aditionalLinks = []) {
+        $userLoginSession = LoginSession::getUserSession();
         return View::render('Components/Panel/sidebar', [
             'content' => array_map(function(array $param) use ($request) {
                 return View::render('Components/Panel/sidebarItemLink', array_merge($param, [
                     'class' => $request->getUri() == $param['link'] ? 'active' : ''
                 ]));
-            }, array_merge([
+            }, array_merge($userLoginSession['type_id'] > 1 ? [
                 ['icon'=>'fa-solid fa-plus','link' => '/painel/post','content' => 'Novo Post',],
                 ['icon'=>'fa-solid fa-pen','link' => '/painel/myPosts','content' => 'Meus Posts',],
+            ] : [],
+            [
                 ['icon'=>'fa-solid fa-user','link' => '/painel/myProfile','content' => 'Meu Perfil',],
                 ['icon'=>'fas fa-arrow-alt-circle-left','link' => '/','content' => 'Voltar ao site',]
             ], $aditionalLinks))

@@ -8,6 +8,18 @@ $router->get("/painel/", function(Request $request) {
     $request->getRouter()->redirect("/painel/myPosts");
 }, ["requireLogin"]);
 
+$router->get("/painel/myProfile", function(Request $request) {
+    return new Response(Panel\MyProfile::getMyProfile($request));
+}, ["requireLogin"]);
+
+$router->post("/painel/myProfile", function(Request $request) {
+    return new Response(Panel\MyProfile::postMyProfile($request));
+}, ["requireLogin"]);
+
+$router->post("/painel/myPosts", function(Request $request) {
+    return new Response(Panel\MyPosts::getMyPosts($request));
+}, ["requireLogin"]);
+
 $router->get("/painel/myPosts", function(Request $request) {
     return new Response(Panel\MyPosts::getMyPosts($request));
 }, ["requireLogin"]);

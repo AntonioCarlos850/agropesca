@@ -68,12 +68,26 @@ class UserEntity{
         $this->id = $id ? intval($id) : null;
     }
 
-    public function setCreationDate(?string $creationDate){
-        $this->creation_date = $creationDate ? new DateTime($creationDate) : null;
+    public function setCreationDate($creationDate){
+        $type = gettype($creationDate);
+        if($type == 'string'){
+            $this->creation_date = new DateTime($creationDate);
+        }else if($type == 'object' && $creationDate instanceof DateTime){
+            $this->creation_date = $creationDate;
+        }else{
+            $this->creation_date = null;
+        }
     }
 
-    public function setUpdateDate(?string $updateDate){
-        $this->update_date = $updateDate ? new DateTime($updateDate) : null;
+    public function setUpdateDate($updateDate){
+        $type = gettype($updateDate);
+        if($type == 'string'){
+            $this->update_date = new DateTime($updateDate);
+        }else if($type == 'object' && $updateDate instanceof DateTime){
+            $this->update_date = $updateDate;
+        }else{
+            $this->update_date = null;
+        }
     }
 
     public function setType(array $typeData){
@@ -96,6 +110,33 @@ class UserEntity{
         }
     }
 
+    public function createAuthor(string $name, string $description)
+    {
+        $this->setName($name);
+
+        if($this->type->id < 2){
+            $this->setType(["type_id" => 2]);
+        }
+
+        $this->update();
+
+        $authorEntity = new AuthorEntity([
+            'id' => $this->id,
+            'email' => $this->email,
+            'name' => $this->name,
+            'type_id' => $this->type->id,
+            'password' => $this->password,
+            'password_salt' => $this->password_salt,
+            'creation_date' => $this->creation_date,
+            'update_date' => $this->update_date,
+            'description' => $description,
+        ]);
+
+        $authorEntity->create();
+
+        return $authorEntity;
+    }
+
     // Manage database Data
     public function create(){
         $userRepository = new UserRepository();
@@ -116,6 +157,7 @@ class UserEntity{
             "email" => $this->email,
             "password" => $this->password,
             "password_salt" => $this->password_salt,
+            "type_id" => $this->type->id,
         ]);
     }
 
