@@ -3,6 +3,7 @@
 namespace App\Session;
 
 use App\Model\Entity\UserEntity;
+use App\Utils\Helpers;
 
 class LoginSession {
     private static function init():void{
@@ -22,8 +23,21 @@ class LoginSession {
         ];
     }
 
+    private static function refreshUserData() :void{
+        self::init();
+
+        if(self::isLogged()){
+            if(!Helpers::verifyArrayFields($_SESSION['user'], [
+                "id", "name", "email", "type_id"
+            ])){
+                self::setUserSession(UserEntity::getUserById($_SESSION['user']['id']));
+            }
+        }
+    } 
+
     public static function getUserSession():array{
         self::init();
+        self::refreshUserData();
         return $_SESSION["user"];
     }
 
