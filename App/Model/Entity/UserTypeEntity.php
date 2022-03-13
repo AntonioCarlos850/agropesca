@@ -1,7 +1,9 @@
 <?php
 namespace App\Model\Entity;
 
+use App\Model\Repository\UserTypeRepository;
 use DateTime;
+use Exception;
 
 class UserTypeEntity{
     public int $id;
@@ -17,8 +19,8 @@ class UserTypeEntity{
     protected function setAttributes(array $typeData){
         $this->setId($typeData["id"]);
         $this->setName($typeData["name"]);
-        $this->setCreationDate($typeData["creation_date"]);
-        $this->setUpdateDate($typeData["update_date"]);
+        $this->setCreationDate($typeData["creation_date"] ?? null);
+        $this->setUpdateDate($typeData["update_date"] ?? null);
     }
 
     public function setId($id){
@@ -35,5 +37,18 @@ class UserTypeEntity{
 
     public function setUpdateDate(?string $updateDate){
         $this->update_date = $updateDate ? new DateTime($updateDate) : null;
+    }
+
+    public static function getUserTypeById(int $id){
+        $userTypeRepository = new UserTypeRepository();
+        $userTypeData = $userTypeRepository->getUserTypeById($id);
+
+        if(!$userTypeData){
+            throw new Exception("Usuário não encontrado", 404);
+        }else{
+            $userTypeInstance = new UserTypeEntity($userTypeData);
+
+            return $userTypeInstance;
+        }
     }
 }

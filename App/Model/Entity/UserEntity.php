@@ -32,8 +32,8 @@ class UserEntity{
         $this->setEmail($userData["email"]);
         $this->setPassword($userData["password"], $userData["password_salt"] ?? null);
         $this->setType($userData);
-        $this->setCreationDate($userData["creation_date"]);
-        $this->setUpdateDate($userData["update_date"]);
+        $this->setCreationDate($userData["creation_date"] ?? null);
+        $this->setUpdateDate($userData["update_date"] ?? null);
     }
 
     public function setPassword(string $password, ?string $passwordSalt){
@@ -77,12 +77,23 @@ class UserEntity{
     }
 
     public function setType(array $typeData){
-        $this->type = new UserTypeEntity([
-            "id" => $typeData["type_id"],
-            "name" => $typeData["type_name"],
-            "creation_date" => $typeData["type_creation_date"],
-            "update_date" => $typeData["type_update_date"]
-        ]);
+        if (!isset($typeData["type_id"])) {
+            throw new Exception("Referência de tipo de usuário necessário", 400);
+        }
+
+        if(Helpers::verifyArrayFields($typeData, [
+            "type_id", "type_name", "type_creation_date", "type_update_date" 
+        ])){
+            $this->type = new UserTypeEntity([
+                "id" => $typeData["type_id"],
+                "name" => $typeData["type_name"],
+                "creation_date" => $typeData["type_creation_date"],
+                "update_date" => $typeData["type_update_date"]
+            ]);
+        }else{
+            $this->type = UserTypeEntity::getUserTypeById($typeData["type_id"]);
+
+        }
     }
 
     // Manage database Data
@@ -147,10 +158,12 @@ class UserEntity{
         if($userData){
             throw new Exception("Email já cadastrado", 403);
         }
+
         $userEntity = new UserEntity([
             "name" => $name,
             "email" => $email,
-            "password" => $password
+            "password" => $password,
+            "type_id" => 1
         ]);
 
         $userEntity->create();

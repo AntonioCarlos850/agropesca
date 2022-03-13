@@ -125,8 +125,8 @@ class Cadastro extends Page
         } else {
             try {
                 $userEntity = UserEntity::createUser($postVars["email"], $postVars["name"], $postVars["password"]);
-                $cadastroParams["emailInputValue"] = $userEntity->email;
-                $cadastroParams["nameInputValue"] = $userEntity->name;
+                LoginSession::setUserSession($userEntity);
+                $request->getRouter()->redirect("/");
             } catch (Exception $exception) {
                 $cadastroParams["message"] = View::render('Components/Page/divMessage', [
                     "message" => $exception->getMessage(),
