@@ -106,6 +106,7 @@ class Post {
         }
 
         return Page::getPage($request, [
+            'css' => ['/Resources/css/edit.css'],
             'headScripts' => [
                 [
                     'src' => 'https://cdn.tiny.cloud/1/1652xpwe98k7npczrjkxeixgklizyog95zbe3svy7zdtua1f/tinymce/5/tinymce.min.js', 

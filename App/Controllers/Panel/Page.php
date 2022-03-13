@@ -16,7 +16,7 @@ class Page {
 
             "content" => $params["content"] ?? '',
             "header" => self::renderSideBar($request, $params["aditionalSidebarLinks"] ?? []),
-            "css" => self::renderCss($params["css"] ?? []),
+            "css" => self::renderCss(array_merge(['/Resources/css/global.css'], $params["css"] ?? [])),
             "headScripts" => self::renderJs($params["headScripts"] ?? []),
             "endBodyScripts" => self::renderJs($params["endBodyScripts"] ?? []),
         ]);
@@ -37,9 +37,9 @@ class Page {
         ]);
     }
 
-    public static function renderCss(array $links){
-        return array_map(function(string $link){
-            View::render('Components/Page/link', [
+    public static function renderCss(array $links):?array{
+        return array_map(function (string $link){
+            return View::render('Components/Page/link', [
                 "rel" => "stylesheet",
                 "href" => $link
             ]);
