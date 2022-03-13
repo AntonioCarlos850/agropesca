@@ -2,6 +2,12 @@ body{
     padding: 0 0.4rem;
 }
 
+h1{
+    display: block;
+    width: 100%;
+    padding-left: 1rem;
+}
+
 #div-miniatura{
     height: 230px;
     flex-direction: column;

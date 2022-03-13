@@ -26,10 +26,12 @@ body{
 }
 
 #panelBody{
-    overflow: hidden;
+    padding: 0 !important;
+    overflow-y: hidden;
 }
 
 #panelContent{
+    max-height: 100vh;
     overflow-y: auto;
 }
 
