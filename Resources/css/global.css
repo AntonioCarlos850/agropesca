@@ -207,6 +207,7 @@ footer p{
 }
 
 #dropdown ul a{
+    color: var(--black);
     padding: 0;
     margin: 0;
     text-decoration: none;
