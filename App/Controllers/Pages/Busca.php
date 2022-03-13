@@ -44,6 +44,7 @@ class Busca extends Page {
         return Page::getPage([
             "title" => "Agroblog | Busca",
             'navbar' => true,
+            'css' => ['/Resources/css/most_views.css'],
             "content" => View::render("pages/busca", [
                 "qtd" => $postsQuantity,
                 "search" => $queryParams['search'] ?? null,
