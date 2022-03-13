@@ -5,7 +5,7 @@ namespace App\Controllers\Pages;
 use \App\Http\Request;
 use \App\Utils\View;
 use \App\Model\Entity\UserEntity;
-use \App\Session\Login as SessionLogin;
+use App\Session\LoginSession;
 use Exception;
 
 class Login extends Page {
@@ -33,7 +33,7 @@ class Login extends Page {
         $postVars = $request->getPostVars();
         try{
             $userEntity = UserEntity::tryLogin($postVars["email"], $postVars["password"]);
-            SessionLogin::setUserSession($userEntity);
+            LoginSession::setUserSession($userEntity);
             $request->getRouter()->redirect("/");
         } catch (Exception $exception) {
             return self::getLogin([
@@ -44,7 +44,7 @@ class Login extends Page {
     }
 
     public static function setLogout(Request $request){
-        SessionLogin::logout();
+        LoginSession::logout();
         $request->getRouter()->redirect('/login');
     }
 }

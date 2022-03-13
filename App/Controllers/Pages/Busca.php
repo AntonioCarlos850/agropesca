@@ -2,7 +2,7 @@
 
 namespace App\Controllers\Pages;
 
-use App\Session\Login;
+use App\Session\LoginSession;
 use \App\Utils\View;
 
 class Busca extends Page {

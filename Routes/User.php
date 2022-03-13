@@ -5,15 +5,15 @@ use \App\Controllers\Pages;
 use App\Http\Request;
 
 $router->get("/login", function(Request $request) {
-    return new Response(Pages\Login::getLogin());
+    return new Response(Pages\LoginSession::getLogin());
 }, ["requireLogout"]);
 
 $router->post("/login", function(Request $request) {
-    return new Response(Pages\Login::tryLogin($request));
+    return new Response(Pages\LoginSession::tryLogin($request));
 }, ["requireLogout"]);
 
 $router->get("/logout", function(Request $request) {
-    return new Response(Pages\Login::setLogout($request));
+    return new Response(Pages\LoginSession::setLogout($request));
 }, ["requireLogin"]);
 
 $router->get("/cadastro", function() {
