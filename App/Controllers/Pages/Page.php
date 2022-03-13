@@ -9,9 +9,6 @@ class Page {
      * Método responsável por retornar o conteúdo (view) da nossa página genérica
      */
     public static function getPage(array $params = []) :string {
-        var_dump(
-            array_merge(['/Resources/css/global.css'], $params["css"] ?? [])
-        );
         return View::render("pages/page", [
             "title" => $params["title"] ?? 'Blog Agropesca',
             "metaDescription" => $params["metaDescription"] ?? "O maior Blog de Agropesca do Oeste Paranaense",
