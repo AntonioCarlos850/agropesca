@@ -24,7 +24,48 @@ body{
     margin: 0px !important;
 }
 
-header{
+#panelBody{
+    overflow: hidden;
+}
+
+#panelContent{
+    overflow-y: auto;
+}
+
+#sidebar{
+    background-color: var(--dark-green);
+    height: 100vh;
+}
+
+#sidebar ul{
+    padding: 0;
+}
+
+.sidebar-item{
+    display: flex;
+    justify-content: left;
+}
+
+.sidebar-item::marker{
+    display: none;
+}
+
+.sidebar-item i{
+    padding-right: .9rem;
+}
+
+.sidebar-item a{
+    width: 100%;
+    padding: 1rem;
+    font-size: 1.2rem;
+    color: var(--white);
+}
+
+.sidebar-item a:hover{
+    background-color: #0d1c0d;
+}
+
+#navbar{
     width: 100vw;
 }
 
@@ -44,7 +85,7 @@ header{
     background-color: var(--dark-gray);
 }
 
-header nav img{
+#navbar nav img{
     width: 50px;
     border-radius: 100%;
     padding: 5px 0;
@@ -206,7 +247,7 @@ body{
     max-width: 100vw;
 }
 
-header > nav > ul {
+#navbar > nav > ul {
     display: flex;
     flex-direction: row;
 

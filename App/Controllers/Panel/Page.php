@@ -29,9 +29,9 @@ class Page {
                     'class' => $request->getUri() == $param['link'] ? 'active' : ''
                 ]));
             }, array_merge([
-                ['link' => '/painel/myPosts','content' => 'Meus Posts',],
-                ['link' => '/painel/myProfile','content' => 'Meu Perfil',],
-                ['link' => '/','content' => 'Voltar ao site',]
+                ['icon'=>'fa-solid fa-pen','link' => '/painel/myPosts','content' => 'Meus Posts',],
+                ['icon'=>'fa-solid fa-user','link' => '/painel/myProfile','content' => 'Meu Perfil',],
+                ['icon'=>'fas fa-arrow-alt-circle-left','link' => '/','content' => 'Voltar ao site',]
             ], $aditionalLinks))
         ]);
     }
