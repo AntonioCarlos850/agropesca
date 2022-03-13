@@ -39,8 +39,8 @@ class Home extends Page {
             return View::render('Components/Page/mostViewPost', [
                 'link' => "/post/{$postEntity->slug}",
                 'title' => $postEntity->title,
-                'imageSrc' => 'https://www.tenhomaisdiscosqueamigos.com/wp-content/uploads/2019/09/tyler-the-creator-1.jpg',
-                'imageAlt' => ''
+                'imageSrc' => $postEntity->image ? $postEntity->image->getUri() : null,
+                'imageAlt' => $postEntity->image ? $postEntity->image->alt : null,
             ]);
         }, $postEntities);
     }
@@ -52,8 +52,8 @@ class Home extends Page {
                 'link' => '/post/'.$postEntity->slug,
                 'title' => $postEntity->title,
                 'description' => $postEntity->description,
-                'imageSrc' => 'https://www.tenhomaisdiscosqueamigos.com/wp-content/uploads/2019/09/tyler-the-creator-1.jpg',
-                'imageAlt' => '',
+                'imageSrc' => $postEntity->image ? $postEntity->image->getUri() : null,
+                'imageAlt' => $postEntity->image ? $postEntity->image->alt : null,
                 'authorName' => $postEntity->author->name,
                 'date' => $postEntity->creation_date->format('d/m/Y')
             ]);

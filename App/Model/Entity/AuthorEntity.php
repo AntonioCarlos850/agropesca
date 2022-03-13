@@ -25,6 +25,7 @@ class AuthorEntity extends UserEntity {
         $this->setEmail($authorData["email"]);
         $this->setPassword($authorData["password"], $authorData["password_salt"] ?? null);
         $this->setType($authorData);
+        $this->setImage($authorData);
         $this->setCreationDate($authorData["creation_date"] ?? null);
         $this->setUpdateDate($authorData["update_date"] ?? null);
         $this->setDescription($authorData["description"]);

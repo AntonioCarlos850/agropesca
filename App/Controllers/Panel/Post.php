@@ -25,8 +25,8 @@ class Post {
                 'description' => $postEntity->description,
                 'body' => $postEntity->body,
                 'categoryId' => $postEntity->category->id,
-                'imageSrc' => $postEntity->image->getUri(),
-                'imageAlt' => $postEntity->image->alt,
+                'imageSrc' => $postEntity->image ? $postEntity->image->getUri() : null,
+                'imageAlt' => $postEntity->image ? $postEntity->image->alt : null,
                 'actionPost' => 'Editar',
             ]);   
         } catch (Exception $exception){
@@ -59,8 +59,8 @@ class Post {
                 'title' => $postEntity->title,
                 'id' => $postEntity->id,
                 'description' => $postEntity->description,
-                'imageSrc' => $postEntity->image->getUri(),
-                'imageAlt' => $postEntity->image->alt,
+                'imageSrc' => $postEntity->image ? $postEntity->image->getUri() : null,
+                'imageAlt' => $postEntity->image ? $postEntity->image->alt : null,
                 'body' => $postEntity->body,
                 'title' => $postEntity->title,
                 'categoryId' => $postEntity->category->id,
