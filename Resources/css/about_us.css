@@ -4,8 +4,22 @@
     margin: 1rem 0 1.5rem 0;
 }
 
-#photos img{
+.photo-div{
     width: 20%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.photo-div img{
+    width: 100%;
+}
+
+.photo-div span{
+    font-size: 1.8rem;
+    font-weight: 600;
+    margin-top: .9rem;
 }
 
 #text{
@@ -14,6 +28,7 @@
 
 #text p{
     text-indent: 25px;
+    font-size: 1.1rem;
 }
 
 #text p::first-letter{
