@@ -37,7 +37,7 @@ class Cadastro extends Page
             'css' => ["/Resources/css/cadastro.css"],
             'navbar' => true,
             'content' => View::render('Pages/editarCadastro', [
-                "nameInputValue" => $params["nameInputValue"] ?? $userSessionData["name"],
+                "name" => $params["name"] ?? $userSessionData["name"],
                 "message" => $params["message"] ?? null,
                 "firstName" => $params["firstName"] ?? explode(" ", $userSessionData["name"])[0]
             ])
