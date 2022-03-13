@@ -23,9 +23,7 @@ class MyPosts {
                 ])
             ]);
         } catch (Exception $exception){
-            var_dump($exception->getMessage());
-            exit;
-            // $request->getRouter()->redirect("/painel/myPosts");
+            $request->getRouter()->redirect("/painel/myPosts");
         }
     }
 

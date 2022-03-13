@@ -48,8 +48,8 @@ class PostEntity
         $this->setAuthor($postData);
         $this->setCategory($postData);
 
-        $this->setCreationDate($postData["creation_date"]);
-        $this->setUpdateDate($postData["update_date"]);
+        $this->setCreationDate($postData["creation_date"] ?? null);
+        $this->setUpdateDate($postData["update_date"] ?? null);
     }
 
     public function setTitle(string $title)
@@ -136,7 +136,11 @@ class PostEntity
             throw new Exception("Referência de Autor necessária", 400);
         }
 
-        try {
+        if(Helpers::verifyArrayFields($authorData, [
+            "author_id","author_name","author_email","author_password","author_password_salt","author_type_id",
+            "author_type_name","author_type_creation_date","author_type_update_date","author_slug","author_description",
+            "author_creation_date","author_update_date",
+        ])){
             $this->author = new AuthorEntity([
                 "id" => $authorData["author_id"],
                 "name" => $authorData["author_name"],
@@ -152,7 +156,7 @@ class PostEntity
                 "creation_date" => $authorData["author_creation_date"],
                 "update_date" => $authorData["author_update_date"],
             ]);
-        } catch (Exception $exception) {
+        }else{
             $this->author = AuthorEntity::getAuthorById($authorData["author_id"]);
         }
     }

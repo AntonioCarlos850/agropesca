@@ -29,6 +29,7 @@ class Page {
                     'class' => $request->getUri() == $param['link'] ? 'active' : ''
                 ]));
             }, array_merge([
+                ['icon'=>'fa-solid fa-plus','link' => '/painel/post','content' => 'Novo Post',],
                 ['icon'=>'fa-solid fa-pen','link' => '/painel/myPosts','content' => 'Meus Posts',],
                 ['icon'=>'fa-solid fa-user','link' => '/painel/myProfile','content' => 'Meu Perfil',],
                 ['icon'=>'fas fa-arrow-alt-circle-left','link' => '/','content' => 'Voltar ao site',]
