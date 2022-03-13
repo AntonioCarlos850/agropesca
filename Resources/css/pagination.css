@@ -1,0 +1,30 @@
+#pagination{
+    height: auto;
+    width: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.pagination-link{
+    background-color: var(--white);
+    border-radius: 8px;
+    border: .2px solid var(--soft-gray);
+    color: var(--black);
+    padding: .3rem .6rem;
+    font-size: 1.2rem;
+    height: 100%;
+}
+
+.pagination-link:hover{
+    box-shadow: 0px 0px 3px 2px rgba(0, 0, 0, 0.2);
+}
+
+.pagination-link:hover{
+    background-color: #e9ecef;
+}
+
+.pagination-link.active{
+    background-color: var(--dark-green);
+    color: var(--white);
+}
