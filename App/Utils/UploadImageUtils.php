@@ -3,22 +3,38 @@
 namespace App\Utils;
 
 class UploadImageUtils {
-    public $ext;
+    public $extension;
     public $name;
     public $temp_name;
     public $filename;
-    public $dir;
+    public $dir = '/uploads/';
     public $field;
 
     public function __construct(array $data)
     {
-        $this->name = $data['name'];
+        $this->setName($data['name']);
         $this->temp_name = $data['tmp_name'];
+        $this->setFilename();
 
-        $this->ext = strtolower(substr($this->name,-4));
-        $this->filename = date("Y.m.d-H.i.s")."_".Helpers::randomString(4).$this->ext;
-        $this->dir = __DIR__. '/../../uploads/';
-        move_uploaded_file($this->temp_name, ($this->dir.$this->filename));
+        move_uploaded_file($this->temp_name, ($this->getAbsoluteDir().$this->filename));
+    }
+
+    public function getAbsoluteDir(){
+        return __DIR__ . '/../..' . $this->dir;
+    }
+
+    public function setName($name) {
+        $this->name = $name;
+        $this->setExtension();
+    }
+
+    public function setFilename(){
+        $this->filename = date("Y.m.d-H.i.s")."_".Helpers::randomString(4).".".$this->extension;
+    }
+
+    public function setExtension(){
+        $splitedName = explode(".", $this->name);
+        $this->extension = end($splitedName);
     }
 
     public static function getImageByField($field) :?UploadImageUtils{
