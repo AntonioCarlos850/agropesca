@@ -253,15 +253,21 @@ class PostEntity
         return $postsEntities;
     }
 
-    public static function getActivePosts(array $queryOrders = [], ?int $limit = null, ?int $offset = null): array
+    public static function getActivePosts(array $queryOrders = [], array $queryAditionalConditions = [], ?int $limit = null, ?int $offset = null, array $parameters = []): array
     {
         $postRepository = new PostRepository();
-        $postsData = $postRepository->getActivePosts($queryOrders, $limit, $offset);
+        $postsData = $postRepository->getActivePosts($queryOrders, $limit, $offset, $queryAditionalConditions, $parameters);
 
         $postsEntities = array_map(function ($postData) {
             return new PostEntity($postData);
         }, $postsData);
 
         return $postsEntities;
+    }
+
+    public static function getActivePostCount(array $queryOrders = [], array $queryAditionalConditions = [], array $parameters = []): int
+    {
+        $postRepository = new PostRepository();
+        return $postRepository->getActivePostCount($queryOrders, $queryAditionalConditions, $parameters);
     }
 }

@@ -5,13 +5,7 @@ namespace App\Session;
 use App\Model\Entity\UserEntity;
 use App\Utils\Helpers;
 
-class LoginSession {
-    private static function init():void{
-        if(session_status() != PHP_SESSION_ACTIVE){
-            session_start();
-        }
-    }
-
+class LoginSession extends Session{
     public static function setUserSession(UserEntity $objectUser): void{
         self::init();
 

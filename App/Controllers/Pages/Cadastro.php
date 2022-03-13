@@ -34,7 +34,7 @@ class Cadastro extends Page
 
         return Page::getPage([
             'title' => 'Editar Informações de Cadastro',
-            'css' => ["/Resources/css/cadastro.css"],
+            'css' => ["/Resources/css/user.css"],
             'navbar' => true,
             'content' => View::render('Pages/editarCadastro', [
                 "name" => $params["name"] ?? $userSessionData["name"],

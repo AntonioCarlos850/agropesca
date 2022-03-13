@@ -46,4 +46,17 @@ class Helpers {
 
         return $hasFields;
     }
+
+    static function contructQueryParams(array $queryParams):string {
+        if(count($queryParams)){
+            $string = "?";
+            foreach($queryParams as $key => $value){
+                $string .= "&$key=$value";
+            }
+
+            return $string;
+        }
+
+        return '';
+    }
 }

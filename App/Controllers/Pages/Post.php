@@ -14,11 +14,12 @@ class Post extends Page {
     public static function getPost($postSlug, Request $request) :string {
         try {
             $postEntity = PostEntity::getPostBySlug($postSlug);
-            $authorMostViewedPostsEntities = PostEntity::getPostsByAuthor($postEntity->author->id, ["blg_post.visits DESC", "blg_post.id != ".$postEntity->id]);
+            $mostViewedPostsEntities = PostEntity::getActivePosts(["blg_post.visits DESC", "blg_post.id != ".$postEntity->id],4);
 
             return Page::getPage([
                 "title" => $postEntity->title,
                 'navbar' => true,
+                'css' => ['/Resources/css/post.css','/Resources/css/most_views.css','/Resources/css/autor_div.css'],
                 "content" => View::render("pages/post", [
                     "title" => $postEntity->title,
                     "body" => $postEntity->body,
@@ -31,7 +32,7 @@ class Post extends Page {
                     "authorDescription" => $postEntity->author->description,
                     "authorPageSrc" => $postEntity->author->slug,
                     "authorName" => $postEntity->author->name,
-                    "mostViewedPosts" => self::renderAuthorPosts($authorMostViewedPostsEntities),
+                    "mostViewedPosts" => self::renderAuthorPosts($mostViewedPostsEntities),
                 ])
             ]);
 
@@ -44,7 +45,7 @@ class Post extends Page {
     private static function renderAuthorPosts(array $postEntities) : array
     {
         return array_map(function(PostEntity $postEntity){
-            return View::render("Components/Page/post", [
+            return View::render("Components/Page/mostViewPost", [
                 "link" => "/post/".$postEntity->slug,
                 "title" => $postEntity->title,
                 "description" => $postEntity->description,
