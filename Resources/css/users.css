@@ -1,0 +1,40 @@
+h1{
+    margin: 1rem 1.5rem 0 1.5rem;
+}
+
+h2{
+    margin: 0.4rem 0;
+}
+
+.flex-card, .data-post{
+    display: flex;
+    flex-direction: column;
+}
+
+.image-div img{
+    width: 50%;
+    object-fit: contain;
+}
+
+.div-buttons{
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.trash{
+    background-color: #8f0000;
+}
+
+.edit{
+    background-color: #008f00;
+}
+
+.edit,.trash{
+    padding: .5rem;
+    color: var(--white);
+    border-radius: 4px;
+}
+
+.edit:hover,.trash:hover{
+    box-shadow: 0px 0px 2px 1px rgba(0, 0, 0, 0.2);
+}
