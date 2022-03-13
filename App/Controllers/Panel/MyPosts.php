@@ -32,7 +32,7 @@ class MyPosts {
             return View::render('Components/Panel/post', [
                 "title" => $postEntity->title,
                 "editLink" => "/painel/post/{$postEntity->id}",
-                "deleteLink" => null,
+                "deleteLink" => "/painel/post/{$postEntity->id}/delete",
                 "imageSrc" => null,
                 "imageAlt" => null,
             ]);

@@ -37,7 +37,7 @@ class Post {
         }
     }
 
-    public static function editPost($id, Request $request){
+    public static function editPost(Request $request, $id){
         $postVars = $request->getPostVars();
 
         try {
@@ -140,5 +140,16 @@ class Post {
                 }, $postCategoryEntities),
             ]),
         ]);
+    }
+
+    public static function deletePost(Request $request, $id)
+    {
+        try {
+            $postEntity = PostEntity::getPostById($id);
+            $postEntity->delete();
+            $request->getRouter()->redirect("/painel/myPosts");
+        } catch (Exception $exception){
+            $request->getRouter()->redirect("/painel/myPosts");
+        }
     }
 }
