@@ -39,7 +39,8 @@ class Cadastro extends Page
             'content' => View::render('Pages/editarCadastro', [
                 "name" => $params["name"] ?? $userSessionData["name"],
                 "message" => $params["message"] ?? null,
-                "firstName" => $params["firstName"] ?? explode(" ", $userSessionData["name"])[0]
+                'imageSrc' => 'https://www.tenhomaisdiscosqueamigos.com/wp-content/uploads/2019/09/tyler-the-creator-1.jpg',
+                'imageAlt' => ''
             ])
         ]);
     }
