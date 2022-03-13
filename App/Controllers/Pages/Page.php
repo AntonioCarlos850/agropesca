@@ -88,7 +88,9 @@ class Page {
     public static function renderJs(array $links):?array{
         return array_map(function (string $link){
             return View::render('Components/Page/script', [
-                "src" => $link
+                "src" => 'src="'.$link.'"',
+                "referrerpolicy" => null,
+                "content" => $link['content'] ?? null,
             ]);
         }, $links);
     }

@@ -31,6 +31,25 @@ class Post {
                 // }
             }else{
                 return Page::getPage($request, [
+                    'headScripts' => [
+                        [
+                            'src' => 'https://cdn.tiny.cloud/1/1652xpwe98k7npczrjkxeixgklizyog95zbe3svy7zdtua1f/tinymce/5/tinymce.min.js', 
+                            'referrerpolicy' => 'origin'
+                        ], 
+                    ],
+                    'endBodyScripts' => [
+                        [
+                            'content' => "tinymce.init({
+                                selector: 'textarea',
+                                plugins: 'a11ychecker advcode casechange export formatpainter linkchecker autolink lists checklist media mediaembed pageembed permanentpen powerpaste table advtable tinycomments tinymcespellchecker',
+                                toolbar: 'a11ycheck addcomment showcomments casechange checklist code export formatpainter pageembed permanentpen table',
+                                toolbar_mode: 'floating',
+                                tinycomments_mode: 'embedded',
+                                tinycomments_author: 'Author name',
+                            });
+                            "
+                        ]
+                    ],
                     'content' => View::render('/Panel/post', [
                         'title' => $postEntity->title,
                         'description' => $postEntity->description,

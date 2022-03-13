@@ -17,8 +17,8 @@ class Page {
             "content" => $params["content"] ?? '',
             "header" => self::renderSideBar($request, $params["aditionalSidebarLinks"] ?? []),
             "css" => self::renderCss($params["css"] ?? []),
-            "headScripts" => $params["headScripts"] ?? '',
-            "endBodyScripts" => $params["endBodyScripts"] ?? '',
+            "headScripts" => self::renderJs($params["headScripts"] ?? []),
+            "endBodyScripts" => self::renderJs($params["endBodyScripts"] ?? []),
         ]);
     }
     
@@ -46,11 +46,20 @@ class Page {
     }
 
     public static function renderJs(array $links){
-        return array_map(function (string $link){
-            return View::render('Components/Page/link', [
-                "rel" => "stylesheet",
-                "href" => $link
-            ]);
+        return array_map(function ($link){
+            if(gettype($link) == 'array'){
+                return View::render('Components/Page/script', [
+                    "src" => isset($link['src']) ? ('src="'.$link['src'].'"') : '',
+                    "referrerpolicy" => isset($link['referrerpolicy']) ? ('referrerpolicy="'.$link['referrerpolicy'].'"') : null,
+                    "content" => $link['content'] ?? null,
+                ]);
+            }else if(gettype($link) == 'string'){
+                return View::render('Components/Page/script', [
+                    "href" => 'src="'.$link.'"',
+                    "referrerpolicy" => null,
+                    "content" => null,
+                ]);
+            }
         }, $links);
     }
 }
