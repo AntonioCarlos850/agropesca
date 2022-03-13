@@ -12,6 +12,7 @@ class AuthorRepository extends Repository {
     public function getAuthor(array $queryConditions = [], array $data = []){
         return self::selectRow(
             "SELECT {$this->tableName}.*,
+                blg_user.name,
                 blg_user.email,
                 blg_user.password,
                 blg_user.password_salt,
@@ -28,6 +29,7 @@ class AuthorRepository extends Repository {
     public function getAuthors(array $queryConditions = [], array $queryOrders = [], $limit, $offset, array $data = []){
         return self::select(
             "SELECT {$this->tableName}.*,
+                blg_user.name,
                 blg_user.email,
                 blg_user.password,
                 blg_user.password_salt,

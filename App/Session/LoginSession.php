@@ -4,7 +4,7 @@ namespace App\Session;
 
 use App\Model\Entity\UserEntity;
 
-class Login {
+class LoginSession {
     private static function init():void{
         if(session_status() != PHP_SESSION_ACTIVE){
             session_start();

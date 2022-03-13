@@ -2,9 +2,10 @@
 
 namespace App\Controllers\Pages;
 
+use App\Http\Request;
 use \App\Utils\View;
 use \App\Model\Entity\UserEntity;
-use App\Session\Login;
+use App\Session\LoginSession;
 use Exception;
 
 class Cadastro extends Page
@@ -33,7 +34,7 @@ class Cadastro extends Page
 
     public static function getEditarCadastro(array $params = []): string
     {
-        $userSessionData = Login::getUserSession();
+        $userSessionData = LoginSession::getUserSession();
 
         return Page::getPage([
             'title' => 'Editar Informações de Cadastro',
@@ -51,28 +52,28 @@ class Cadastro extends Page
         ]);
     }
 
-    public static function getCadastroOrEditarCadastro(): string
+    public static function getCadastroOrEditarCadastro(Request $request): string
     {
-        if (Login::isLogged()) {
+        if (LoginSession::isLogged()) {
             return self::getEditarCadastro();
         } else {
             return self::getCadastro();
         }
     }
 
-    public static function cadastroPost($request): string
+    public static function cadastroPost(Request $request): string
     {
-        if (Login::isLogged()) {
+        if (LoginSession::isLogged()) {
             return self::editarCadastro($request);
         } else {
             return self::cadastrar($request);
         }
     }
 
-    public static function editarCadastro($request): string
+    public static function editarCadastro(Request $request): string
     {
         $postVars = $request->getPostVars();
-        $userSessionData = Login::getUserSession();
+        $userSessionData = LoginSession::getUserSession();
         $cadastroParams = [];
 
         try {
@@ -82,7 +83,7 @@ class Cadastro extends Page
             $userEntity->update();
 
 
-            Login::setUserSession($userEntity);
+            LoginSession::setUserSession($userEntity);
 
             $cadastroParams = [
                 "nameInputValue" => $userSessionData["name"],
@@ -106,7 +107,7 @@ class Cadastro extends Page
         return self::getEditarCadastro($cadastroParams);
     }
 
-    public static function cadastrar($request): string
+    public static function cadastrar(Request $request): string
     {
         $postVars = $request->getPostVars();
 

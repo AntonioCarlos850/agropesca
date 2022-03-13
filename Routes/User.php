@@ -16,8 +16,8 @@ $router->get("/logout", function(Request $request) {
     return new Response(Pages\Login::setLogout($request));
 }, ["requireLogin"]);
 
-$router->get("/cadastro", function() {
-    return new Response(Pages\Cadastro::getCadastroOrEditarCadastro());
+$router->get("/cadastro", function(Request $request) {
+    return new Response(Pages\Cadastro::getCadastroOrEditarCadastro($request));
 });
 
 $router->post("/cadastro", function(Request $request) {

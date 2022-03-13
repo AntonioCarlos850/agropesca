@@ -4,7 +4,7 @@ namespace App\Controllers\Pages;
 
 use App\Model\Entity\PostCategoryEntity;
 use App\Model\Entity\PostEntity;
-use App\Session\Login;
+use App\Session\LoginSession;
 use \App\Utils\View;
 use Exception;
 

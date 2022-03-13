@@ -16,7 +16,7 @@ class PostRepository extends Repository {
                 blg_post_category.name category_name,
                 blg_post_category.creation_date AS category_creation_date,
                 blg_post_category.update_date AS category_update_date,
-                blg_user_author.name AS author_name,
+                blg_user.name AS author_name,
                 blg_user_author.slug AS author_slug,
                 blg_user_author.description AS author_description,
                 blg_user.email AS author_email,
@@ -43,7 +43,7 @@ class PostRepository extends Repository {
                 blg_post_category.name category_name,
                 blg_post_category.creation_date AS category_creation_date,
                 blg_post_category.update_date AS category_update_date,
-                blg_user_author.name AS author_name,
+                blg_user.name AS author_name,
                 blg_user_author.slug AS author_slug,
                 blg_user_author.description AS author_description,
                 blg_user.email AS author_email,
@@ -61,10 +61,10 @@ class PostRepository extends Repository {
                 INNER JOIN blg_user_author ON blg_user_author.user_id = blg_user.id 
                 INNER JOIN blg_user_type ON blg_user_type.id = blg_user.type_id
             ".(empty($queryConditions) ? "" : ("WHERE ".join(" AND ", $queryConditions)))."
-            ORDER BY ".(empty($queryOrders) ? "{$this->tableName}.{$this->columnReference} DESC" : join(", ", $queryOrders)."
+            ORDER BY ".(empty($queryOrders) ? "{$this->tableName}.{$this->columnReference} DESC" : join(", ", $queryOrders))."
             ".($limit ? "LIMIT $limit" : "")."
             ".($limit && $offset ? "OFFSET $offset" : "")."
-            "), $data
+            ", $data
         );
     }
 
