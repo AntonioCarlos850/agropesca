@@ -12,11 +12,18 @@ body{
     flex-direction: column;
 }
 
+#description{
+    width: 100%;
+    resize: none;
+    border: 1px solid var(--black);
+}
+
 #external-div-form{
     position: relative;
-    left: 25%;
-    top: 30vh;
-    width: 45%;
+    left: 10%;
+    top: 25vh;
+    width: 80%;
+    min-height: 50vh;
 }
 
 #exibir-miniatura{
@@ -94,7 +101,7 @@ body{
     padding-left: .5rem;
     border-radius: 8px;
     height: 20px;
-    width: 60%;
+    width: 100%;
     transition: all 0.3s;
     margin-bottom: 0.4rem;
 }

@@ -125,6 +125,7 @@ class MyProfile {
     private static function renderMyProfile(Request $request, array $params = []) : string
     {
         return Page::getPage($request, [
+            'css' => ['/Resources/css/myProfile.css'],
             'content' => View::render("/Panel/myProfile", [
                 'name' => $params['name'] ?? null,
                 'description' => $params['description'] ?? null,
