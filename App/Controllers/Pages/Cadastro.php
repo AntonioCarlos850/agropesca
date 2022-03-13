@@ -17,12 +17,8 @@ class Cadastro extends Page
     {
         return Page::getPage([
             'title' => 'Cadastro',
-            'css' => View::render('Components/Page/link', [
-                "rel" => "stylesheet",
-                "href" => "/Resources/css/cadastro.css"
-            ]),
-            'headScripts' => Page::renderJs(['https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js', '/Resources/js/navbar.js']),
-            'header' => Page::renderNavbar(),
+            'css' => ["/Resources/css/cadastro.css"],
+            'navbar' => true,
             'content' => View::render('Pages/cadastro', [
                 "emailInputValue" => $params["emailInputValue"] ?? null,
                 "nameInputValue" => $params["nameInputValue"] ?? null,
@@ -38,12 +34,8 @@ class Cadastro extends Page
 
         return Page::getPage([
             'title' => 'Editar Informações de Cadastro',
-            'css' => View::render('Components/Page/link', [
-                "rel" => "stylesheet",
-                "href" => "/Resources/css/cadastro.css"
-            ]),
-            'headScripts' => Page::renderJs(['https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js', '/Resources/js/navbar.js']),
-            'header' => Page::renderNavbar(),
+            'css' => ["/Resources/css/cadastro.css"],
+            'navbar' => true,
             'content' => View::render('Pages/editarCadastro', [
                 "nameInputValue" => $params["nameInputValue"] ?? $userSessionData["name"],
                 "message" => $params["message"] ?? null,

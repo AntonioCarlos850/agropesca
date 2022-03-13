@@ -20,15 +20,15 @@ class Post {
             $postCategoryEntities = PostCategoryEntity::getCategories();
 
             if($postEntity->author->id != $userSessionInfo['id']){
-                if($userSessionInfo['type_id'] == 3){
-                    // $request->getRouter()->redirect("/painel/myPosts");
-                    var_dump("a");
-                    exit;
-                } else {
-                    var_dump("b");
-                    exit;
-                    // $request->getRouter()->redirect("/painel/myPosts");
-                }
+                $request->getRouter()->redirect("/painel/myPosts");
+                // if($userSessionInfo['type_id'] == 3){
+                //     // $request->getRouter()->redirect("/painel/myPosts");
+                //     var_dump("a");
+                //     exit;
+                // } else {
+                //     var_dump("b");
+                //     exit;
+                // }
             }else{
                 return Page::getPage($request, [
                     'content' => View::render('/Panel/post', [
@@ -51,37 +51,5 @@ class Post {
             exit;
             // $request->getRouter()->redirect("/painel/myPosts");
         }
-    }
-    
-    public static function renderSideBar(Request $request, array $aditionalLinks = []) {
-        return View::render('Components/Panel/sidebar', [
-            'content' => array_map(function(array $param) use ($request) {
-                return View::render('Components/Panel/sidebarItemLink', array_merge($param, [
-                    'class' => $request->getUri() == $param['link'] ? 'active' : ''
-                ]));
-            }, array_merge([
-                ['link' => '/painel/myPosts','content' => 'Meus Posts',],
-                ['link' => '/painel/myProfile','content' => 'Meu Perfil',],
-                ['link' => '/','content' => 'Voltar ao site',]
-            ], $aditionalLinks))
-        ]);
-    }
-
-    public static function renderCss(array $links){
-        return array_map(function(string $link){
-            View::render('Components/Post/link', [
-                "rel" => "stylesheet",
-                "href" => $link
-            ]);
-        }, $links);
-    }
-
-    public static function renderJs(array $links){
-        return array_map(function (string $link){
-            return View::render('Components/Post/link', [
-                "rel" => "stylesheet",
-                "href" => $link
-            ]);
-        }, $links);
     }
 }

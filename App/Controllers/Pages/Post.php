@@ -18,8 +18,7 @@ class Post extends Page {
 
             return Page::getPage([
                 "title" => $postEntity->title,
-                'headScripts' => Page::renderJs(['https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js', '/Resources/js/navbar.js']),
-                'header' => Page::renderNavbar(),
+                'navbar' => true,
                 "content" => View::render("pages/post", [
                     "title" => $postEntity->title,
                     "body" => $postEntity->body,

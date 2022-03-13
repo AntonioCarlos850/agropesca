@@ -15,12 +15,8 @@ class Login extends Page {
     public static function getLogin(array $params = []) :string {
         return Page::getPage([
             'title' => 'Home',
-            'css' => View::render('Components/Page/link', [
-                "rel" => "stylesheet",
-                "href" => "/Resources/css/login.css"
-            ]),
-            'headScripts' => Page::renderJs(['https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js', '/Resources/js/navbar.js']),
-            'header' => Page::renderNavbar(),
+            'css' => ['/Resources/css/login.css'],
+            'navbar' => true,
             'content' => View::render('Pages/login', [
                 "emailInputValue" => $params["emailInputValue"] ?? null,
                 "emailInputMessage" => $params["emailInputMessage"] ?? null,

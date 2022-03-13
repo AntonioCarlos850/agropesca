@@ -16,7 +16,7 @@ class Page {
 
             "content" => $params["content"] ?? '',
             "header" => self::renderSideBar($request, $params["aditionalSidebarLinks"] ?? []),
-            "css" => $params["css"] ?? '',
+            "css" => self::renderCss($params["css"] ?? []),
             "headScripts" => $params["headScripts"] ?? '',
             "endBodyScripts" => $params["endBodyScripts"] ?? '',
         ]);
