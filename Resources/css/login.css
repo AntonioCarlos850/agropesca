@@ -1,5 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,300;0,400;0,600;0,700;0,800;0,900;1,400&display=swap');
 
+body{
+    max-height: 100vh;
+    overflow: hidden;
+}
+
 .content {
     display: flex;
     flex-direction: row;
@@ -18,8 +23,8 @@
 .col-image{
     height: 100%;
     width: 30%;
-
-    background-image: url("https://media.discordapp.net/attachments/904002157995515937/935777005188837417/Design_sem_nome.png");
+    background-image: url(./../img/fundo.webp);
+    background-position: right center;
     background-size: cover;
     background-repeat: no-repeat;
 }
