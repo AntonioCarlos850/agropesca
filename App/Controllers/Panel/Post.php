@@ -158,10 +158,13 @@ class Post {
     {
         try {
             $uploadedImage = UploadImageUtils::getImageByField('image');
+            $postEntity = PostEntity::getPostById($id);
             $postVars = $request->getPostVars();
 
             if($uploadedImage){
-                $postEntity = PostEntity::getPostById($id);
+                if($postEntity->image){
+                    $postEntity->image->delete();
+                }
 
                 $imageEntity = ImageEntity::createImage([
                     'path' => $uploadedImage->dir,
@@ -172,12 +175,16 @@ class Post {
                 $postEntity->setImage($imageEntity);
 
                 $postEntity->update();
-
-                return self::getPost($request, $id);
             }
+
+            if(isset($postVars['alt']) && $postEntity->image){
+                $postEntity->image->setAlt($postVars['alt']);
+                $postEntity->image->update();
+            }
+
+            return self::getPost($request, $id);
         } catch (Exception $exception) {
-            var_dump($exception->getMessage());
-            exit;
+            return self::getPost($request, $id);
         }
     }
 

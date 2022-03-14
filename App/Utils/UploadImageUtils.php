@@ -38,7 +38,7 @@ class UploadImageUtils {
     }
 
     public static function getImageByField($field) :?UploadImageUtils{
-        if(isset($_FILES[$field])){
+        if(isset($_FILES[$field]) && $_FILES[$field]['size']){
             $uploadImageUtils = new UploadImageUtils($_FILES[$field]);
 
             return $uploadImageUtils;

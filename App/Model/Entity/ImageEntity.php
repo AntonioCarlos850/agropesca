@@ -63,6 +63,10 @@ class ImageEntity
         return $this->path.$this->filename;
     }
 
+    public function getAbsoluteFilename(){
+        return __DIR__ . '/../../..'.$this->getUri();
+    }
+
     // Manage database Data
     public function create()
     {
@@ -88,8 +92,15 @@ class ImageEntity
 
     public function delete()
     {
+        $absoluteFilename = $this->getAbsoluteFilename();
+
+        if(is_file($absoluteFilename)){
+            unlink($absoluteFilename);
+        }
+
         $imageRepository = new ImageRepository();
         $imageRepository->deleteByColumnReference($this->id);
+
     }
 
     public static function createImage(array $data): imageEntity
