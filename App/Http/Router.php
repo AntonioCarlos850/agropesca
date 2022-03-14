@@ -63,6 +63,19 @@ class Router
         }
     }
 
+    public function getUriParams():array
+    {
+        $variables = [];
+        foreach($this->getRoute()['variables'] as $key => $value){
+            if($key != 'request'){
+                $variables[$key] = $value; 
+            }
+        }
+
+        return $variables;
+        
+    }
+
     public function addRoute(string $method, string $route, array $params = []): void
     {
         foreach ($params as $key => $value) {

@@ -38,7 +38,7 @@ $router->get("/painel/post/{id}/delete", function (Request $request, $id) {
 
 $router->get("/painel/post/{id}", function (Request $request, $id) {
     return new Response(Panel\Post::getPost($request, intval($id)));
-}, ["requireLogin", "requireAuthorType"]);
+}, ["requireLogin", "requireAuthorType", "PostAuthorOrAdm"]);
 
 $router->post("/painel/post/{id}", function (Request $request, $id) {
     return new Response(Panel\Post::editPost($request, $id));

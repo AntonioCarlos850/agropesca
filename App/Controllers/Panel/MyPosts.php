@@ -15,7 +15,12 @@ class MyPosts {
     public static function getMyPosts(Request $request) :string {
         try {
             $userSessionData = LoginSession::getUserSession();
-            $postEntities = PostEntity::getPostsByAuthor($userSessionData['id']);
+            
+            if($userSessionData['type_id'] <= 2){
+                $postEntities = PostEntity::getPostsByAuthor($userSessionData['id']);
+            }else{
+                $postEntities = PostEntity::getPosts();
+            }
 
             return Page::getPage($request, [
                 'css'=> ['/Resources/css/posts.css'],

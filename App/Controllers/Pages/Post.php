@@ -4,6 +4,7 @@ namespace App\Controllers\Pages;
 
 use App\Http\Request;
 use App\Model\Entity\PostEntity;
+use App\Session\LoginSession;
 use \App\Utils\View;
 use Exception;
 
@@ -15,6 +16,17 @@ class Post extends Page {
         try {
             $postEntity = PostEntity::getPostBySlug($postSlug);
             $mostViewedPostsEntities = PostEntity::getActivePosts(['blg_post.visits DESC', 'blg_post.id != '.$postEntity->id],[],4);
+
+            if(LoginSession::isLogged()){
+                $userSessionData = LoginSession::getUserSession();
+                if($userSessionData['type_id'] != 3 && $userSessionData['id'] != $postEntity->author->id){
+                    $postEntity->createPostVisit($userSessionData['id']);
+                }
+            }else{
+                $postEntity->createPostVisit();
+            }
+
+            
 
             return Page::getPage([
                 'title' => $postEntity->title,

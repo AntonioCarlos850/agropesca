@@ -256,7 +256,7 @@ class PostEntity
         $postRepository->deleteByColumnReference($this->id);
     }
 
-    public function createPostVisit(?int $userId)
+    public function createPostVisit(?int $userId = null)
     {
         $postRepository = new PostRepository();
         $postRepository->createVisit($this->id, $userId);
@@ -303,6 +303,18 @@ class PostEntity
     {
         $postRepository = new PostRepository();
         $postsData = $postRepository->getPostsByAuthorId($authorId, $queryOrders);
+
+        $postsEntities = array_map(function ($postData) {
+            return new PostEntity($postData);
+        }, $postsData);
+
+        return $postsEntities;
+    }
+
+    public static function getPosts(array $queryOrders = []): array
+    {
+        $postRepository = new PostRepository();
+        $postsData = $postRepository->getPosts([], $queryOrders);
 
         $postsEntities = array_map(function ($postData) {
             return new PostEntity($postData);

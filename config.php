@@ -25,6 +25,7 @@ Queue::setMap([
     "requireLogin" => \App\Http\Middleware\RequireLogin::class,
     "requireLogout" => \App\Http\Middleware\RequireLogout::class,
     "requireAuthorType" => \App\Http\Middleware\RequireAuthorType::class,
+    "PostAuthorOrAdm" => \App\Http\Middleware\PostAuthorOrAdm::class
 ]);
 
 Queue::setDefault([

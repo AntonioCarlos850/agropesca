@@ -53,7 +53,7 @@ class PostRepository extends Repository
         );
     }
 
-    public function getPosts(array $queryConditions = [], array $queryOrders = [], $limit, $offset, array $data = [])
+    public function getPosts(array $queryConditions = [], array $queryOrders = [], ?int $limit = null, ?int $offset = null, array $data = [])
     {
         return self::select(
             "SELECT {$this->tableName}.*,
@@ -174,8 +174,9 @@ class PostRepository extends Repository
                 SET blg_post.visits = (
                     SELECT COUNT(blg_post_visit.user_id) 
                     FROM blg_post_visit
-                    WHERE blg_post_visit.post_id = :postId
+                    WHERE blg_post_visit.post_id = blg_post.id
                 )
+            WHERE blg_post.id = :postId
         ",
             ["postId" => $postId]
         );
