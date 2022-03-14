@@ -20,10 +20,10 @@ class Cadastro extends Page
             'css' => ["/Resources/css/cadastro.css"],
             'navbar' => true,
             'content' => View::render('Pages/cadastro', [
-                "emailInputValue" => $params["emailInputValue"] ?? null,
-                "nameInputValue" => $params["nameInputValue"] ?? null,
-                "emailInputMessage" => $params["emailInputMessage"] ?? null,
-                "message" => $params["message"] ?? null,
+                "emailInputValue" => $params['emailInputValue'] ?? null,
+                'nameInputValue' => $params['nameInputValue'] ?? null,
+                'emailInputMessage' => $params['emailInputMessage'] ?? null,
+                'message' => $params['message'] ?? null,
             ])
         ]);
     }
@@ -32,16 +32,30 @@ class Cadastro extends Page
     {
         $userSessionData = LoginSession::getUserSession();
 
+        $contentParams = [];
+        try {
+            $userEntity = UserEntity::getUserById($userSessionData['id']);
+
+            $contentParams = [
+                'name' => $userEntity->name,
+                'message' => $params['message'] ?? null,
+                'imageSrc' => $userEntity->getImageUri(),
+                'imageAlt' => $userEntity->getImageAlt()
+            ];
+        } catch (Exception $exception) {
+            $contentParams = [
+                'name' => $params['name'] ?? $userSessionData['name'],
+                'message' => $params['message'] ?? null,
+                'imageSrc' => $params['imageSrc'] ?? null,
+                'imageAlt' => $params['imageAlt'] ?? null
+            ];
+        }
+
         return Page::getPage([
             'title' => 'Editar Informações de Cadastro',
-            'css' => ["/Resources/css/user.css"],
+            'css' => ['/Resources/css/user.css'],
             'navbar' => true,
-            'content' => View::render('Pages/editarCadastro', [
-                "name" => $params["name"] ?? $userSessionData["name"],
-                "message" => $params["message"] ?? null,
-                'imageSrc' => 'https://www.tenhomaisdiscosqueamigos.com/wp-content/uploads/2019/09/tyler-the-creator-1.jpg',
-                'imageAlt' => ''
-            ])
+            'content' => View::render('Pages/editarCadastro', $contentParams)
         ]);
     }
 
@@ -70,8 +84,8 @@ class Cadastro extends Page
         $cadastroParams = [];
 
         try {
-            $userEntity = UserEntity::getUserById($userSessionData["id"]);
-            $userEntity->setName($postVars["name"]);
+            $userEntity = UserEntity::getUserById($userSessionData['id']);
+            $userEntity->setName($postVars['name']);
 
             $userEntity->update();
 
@@ -79,21 +93,21 @@ class Cadastro extends Page
             LoginSession::setUserSession($userEntity);
 
             $cadastroParams = [
-                "nameInputValue" => $userSessionData["name"],
-                "message" => View::render('Components/Page/divMessage', [
-                    "message" => "Informações editas com sucesso",
-                    "divClass" => "success-message"
+                'nameInputValue' => $userSessionData['name'],
+                'imageSrc' => $userEntity->getImageUri(),
+                'imageAlt' => $userEntity->getImageAlt(),
+                'message' => View::render('Components/Page/divMessage', [
+                    'message' => 'Informações editas com sucesso',
+                    'divClass' => 'success-message'
                 ]),
-                "firstName" => explode(" ", $userEntity->name)[0]
             ];
         } catch (Exception $exception) {
             $cadastroParams =  [
-                "nameInputValue" => $userSessionData["name"],
-                "message" => View::render('Components/Page/divMessage', [
-                    "message" => $exception->getMessage(),
-                    "divClass" => "error-message"
+                'nameInputValue' => $userSessionData['name'],
+                'message' => View::render('Components/Page/divMessage', [
+                    'message' => $exception->getMessage(),
+                    'divClass' => 'error-message'
                 ]),
-                "firstName" => explode(" ", $userSessionData["name"])[0]
             ];
         }
 
@@ -105,14 +119,14 @@ class Cadastro extends Page
         $postVars = $request->getPostVars();
 
         $cadastroParams = [
-            "emailInputValue" => $postVars["email"],
-            "nameInputValue" => $postVars["name"],
-            "message" => null
+            'emailInputValue' => $postVars['email'],
+            'nameInputValue' => $postVars['name'],
+            'message' => null
         ];
 
-        if ($postVars["password"] != $postVars["confirmation-password"]) {
-            $cadastroParams["message"] = View::render('Components/Page/divMessage', [
-                "message" => "As senhas precisam ser iguais",
+        if ($postVars['password'] != $postVars['confirmation-password']) {
+            $cadastroParams['message'] = View::render('Components/Page/divMessage', [
+                'message' => "As senhas precisam ser iguais",
                 "divClass" => "error-message"
             ]);
         } else {
