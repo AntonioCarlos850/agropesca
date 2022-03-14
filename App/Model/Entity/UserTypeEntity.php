@@ -52,7 +52,7 @@ class UserTypeEntity
         $userTypeData = $userTypeRepository->getUserTypeById($id);
 
         if (!$userTypeData) {
-            throw new Exception("Usuário não encontrado", 404);
+            throw new Exception("Tipo de usuário não encontrado", 404);
         } else {
             $userTypeInstance = new UserTypeEntity($userTypeData);
 
