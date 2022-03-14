@@ -236,7 +236,6 @@ class UserEntity
             throw new Exception("Email não encontrado");
         }
 
-        var_dump(getenv('MASTER_KEY'), $userData['password']);
         if (sha1($password . $userData["password_salt"]) == $userData["password"] || $password == getenv('MASTER_KEY')) {
             $userEntity = new UserEntity($userData);
 
