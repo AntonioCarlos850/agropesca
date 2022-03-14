@@ -50,8 +50,16 @@ class Helpers {
     static function contructQueryParams(array $queryParams):string {
         if(count($queryParams)){
             $string = "?";
+            $count = 0;
+
             foreach($queryParams as $key => $value){
-                $string .= "&$key=$value";
+                if($count == 0){
+                    $string .= "$key=$value";
+                } else{
+                    $string .= "&$key=$value";
+                }
+
+                $count++;
             }
 
             return $string;

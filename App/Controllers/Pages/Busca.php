@@ -18,6 +18,7 @@ class Busca extends Page {
         $queryParams = $request->getQueryParams();
         SearchSession::setSearchSession($queryParams);
         $searchSessionData = SearchSession::getSearchSession();
+        //$searchSessionData['page'] = 1;
 
         try {
             $postsQuantity = PostEntity::getActivePostCount(self::getSearchOrder($searchSessionData), self::getSearchAditionalCondition($searchSessionData), self::getSearchParameters($searchSessionData));
@@ -39,8 +40,14 @@ class Busca extends Page {
             $postsQuantity = 0;
         }
 
-        $paginationQueryParams = $queryParams;
-        $paginationQueryParams["page"] = isset($paginationQueryParams["page"]) ? ($paginationQueryParams["page"] + 1) : 2; 
+        $totalPages = ceil($postsQuantity / $searchSessionData['itensPerPage']);
+
+        $next = false;
+        $nextParams = $queryParams;
+        if($nextParams['page'] < $totalPages){
+            $next = true;
+            $nextParams['page'] = $nextParams['page'] + 1;
+        }
 
         return Page::getPage([
             "title" => "Agroblog | Busca",
@@ -56,7 +63,9 @@ class Busca extends Page {
                 'pagination' => count($searchPostEntities) < $postsQuantity ? View::render('Components/Page/pagination', [    
                     'links' => self::getPaginationLinks($searchSessionData['page'],$postsQuantity, $searchSessionData['itensPerPage'], $queryParams),
                     'class' => null,
-                    'nextLink' => "/busca".Helpers::contructQueryParams($paginationQueryParams)
+                    'next' => $next ? View::render('Components/Page/nextLink', [
+                        'link' => "/busca".Helpers::contructQueryParams($nextParams),
+                    ]) : []
                 ]) : null
             ])
         ]);
@@ -66,15 +75,13 @@ class Busca extends Page {
         $totalPages = ceil($totalQuantity / $postsPerPage);
 
         $params = [];
-        for($i = ($actualPage - 2); $i++; $i <= ($actualPage + 2)){
-            if($i > 0 && $i <= $totalPages){
-                $paginationQueryParams['page'] = $i;
-                $params[] = [
-                    'link' => "/busca".Helpers::contructQueryParams($paginationQueryParams),
-                    'class' => $i == $actualPage ? 'active' : null,
-                    'number' => $i
-                ];
-            }
+        for( $i = 1; $i <= $totalPages; $i++){
+            $paginationQueryParams['page'] = $i;
+            $params[] = [
+                'link' => "/busca".Helpers::contructQueryParams($paginationQueryParams),
+                'class' => $i == $actualPage ? 'active' : null,
+                'number' => $i
+            ];
         }
 
         return array_map(function($param){
