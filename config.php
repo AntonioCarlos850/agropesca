@@ -10,7 +10,7 @@ Environment::load(__DIR__);
 
 Utils\View::init([
     'URL' => getenv('URL'),
-    'nome' => 'Rafael' 
+    'nome' => 'Rafael'
 ]);
 
 Utils\SqlConnection::init(

@@ -174,8 +174,8 @@ class Busca extends Page {
         return array_map(function (PostEntity $postEntity){
             return View::render('/Components/Page/post', [
                 'link' => "/post/{$postEntity->slug}",
-                'imageSrc' => $postEntity->image ? $postEntity->image->getUri() : null,
-                'imageAlt' => $postEntity->image ? $postEntity->image->alt : null,
+                'imageSrc' => $postEntity->getImageUri(),
+                'imageAlt' => $postEntity->getImageAlt(),
                 'title' => $postEntity->title,
                 'description' => $postEntity->description,
                 'authorName' => $postEntity->author->id,
@@ -187,8 +187,8 @@ class Busca extends Page {
         return array_map(function (PostEntity $postEntity){
             return View::render('/Components/Page/mostViewPost', [
                 'link' => "/post/{$postEntity->slug}",
-                'imageSrc' => $postEntity->image ? $postEntity->image->getUri() : null,
-                'imageAlt' => $postEntity->image ? $postEntity->image->alt : null,
+                'imageSrc' => $postEntity->getImageUri(),
+                'imageAlt' => $postEntity->getImageAlt(),
                 'title' => $postEntity->title,
             ]);
         }, $postEntities);
@@ -197,8 +197,8 @@ class Busca extends Page {
         return array_map(function (PostEntity $postEntity){
             return View::render('/Components/Page/weekPost', [
                 'link' => "/post/{$postEntity->slug}",
-                'imageSrc' => $postEntity->image ? $postEntity->image->getUri() : null,
-                'imageAlt' => $postEntity->image ? $postEntity->image->alt : null,
+                'imageSrc' => $postEntity->getImageUri(),
+                'imageAlt' => $postEntity->getImageAlt(),
                 'title' => $postEntity->title,
                 'description' => $postEntity->description,
             ]);

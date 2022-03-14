@@ -109,30 +109,29 @@ class PostEntity
     public function setImage($imageData)
     {
         $type = gettype($imageData);
-        if($type == 'array'){
+        if ($type == 'array') {
             if (Helpers::verifyArrayFields($imageData, [
-                "image_id", "image_path", "image_filename", "image_alt", "image_creation_date"
-            ])) {
+                "image_id", "image_path", "image_filename"
+            ], false)) {
                 $this->image = new ImageEntity([
-                    "id" => $imageData["image_id"], 
-                    "path" => $imageData["image_path"], 
-                    "filename" => $imageData["image_filename"], 
-                    "alt" => $imageData["image_alt"], 
+                    "id" => $imageData["image_id"],
+                    "path" => $imageData["image_path"],
+                    "filename" => $imageData["image_filename"],
+                    "alt" => $imageData["image_alt"],
                     "creation_date" => $imageData["image_creation_date"]
                 ]);
             } else {
-                if(isset($imageData["image_id"])){
+                if (isset($imageData["image_id"])) {
                     $this->image = ImageEntity::getImageById($imageData["image_id"]);
-                }else{
+                } else {
                     $this->image = null;
                 }
             }
-        }else if($type == 'object' && $imageData instanceof ImageEntity){
+        } else if ($type == 'object' && $imageData instanceof ImageEntity) {
             $this->image = $imageData;
-        }else{
+        } else {
             $this->image = null;
         }
-        
     }
 
     public function setCategory(array $categoryData)
@@ -167,11 +166,11 @@ class PostEntity
             throw new Exception("Referência de Autor necessária", 400);
         }
 
-        if(Helpers::verifyArrayFields($authorData, [
-            "author_id","author_name","author_email","author_password","author_password_salt","author_type_id",
-            "author_type_name","author_type_creation_date","author_type_update_date","author_slug","author_description",
-            "author_creation_date","author_update_date",
-        ])){
+        if (Helpers::verifyArrayFields($authorData, [
+            "author_id", "author_name", "author_email", "author_password", "author_password_salt", "author_type_id",
+            "author_type_name", "author_type_creation_date", "author_type_update_date", "author_slug", "author_description",
+            "author_creation_date", "author_update_date",
+        ])) {
             $this->author = new AuthorEntity([
                 "id" => $authorData["author_id"],
                 "name" => $authorData["author_name"],
@@ -186,10 +185,35 @@ class PostEntity
                 "description" => $authorData["author_description"],
                 "creation_date" => $authorData["author_creation_date"],
                 "update_date" => $authorData["author_update_date"],
+                "image_id" => $authorData["author_image_id"],
+                "image_path" => $authorData["author_image_path"],
+                "image_filename" => $authorData["author_image_filename"],
+                "image_alt" => $authorData["author_image_alt"],
+                "image_creation_date" => $authorData["author_image_creation_date"]
             ]);
-        }else{
+        } else {
             $this->author = AuthorEntity::getAuthorById($authorData["author_id"]);
         }
+    }
+
+    public function getImageUri(): ?string
+    {
+        return $this->image ? $this->image->getUri() : null;
+    }
+
+    public function getImageAlt(): ?string
+    {
+        return $this->image ? $this->image->getUri() : null;
+    }
+
+    public function getAuthorImageUri(): ?string
+    {
+        return $this->author->image ? $this->author->image->getUri() : null;
+    }
+
+    public function getAuthorImageAlt(): ?string
+    {
+        return $this->author->image ? $this->author->image->alt : null;
     }
 
     // Manage database Data

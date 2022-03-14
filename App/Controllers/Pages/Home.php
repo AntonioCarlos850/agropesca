@@ -39,8 +39,8 @@ class Home extends Page {
             return View::render('Components/Page/mostViewPost', [
                 'link' => "/post/{$postEntity->slug}",
                 'title' => $postEntity->title,
-                'imageSrc' => $postEntity->image ? $postEntity->image->getUri() : null,
-                'imageAlt' => $postEntity->image ? $postEntity->image->alt : null,
+                'imageSrc' => $postEntity->getImageUri(),
+                'imageAlt' => $postEntity->getImageAlt(),
             ]);
         }, $postEntities);
     }
@@ -52,8 +52,8 @@ class Home extends Page {
                 'link' => '/post/'.$postEntity->slug,
                 'title' => $postEntity->title,
                 'description' => $postEntity->description,
-                'imageSrc' => $postEntity->image ? $postEntity->image->getUri() : null,
-                'imageAlt' => $postEntity->image ? $postEntity->image->alt : null,
+                'imageSrc' => $postEntity->getImageUri(),
+                'imageAlt' => $postEntity->getImageAlt(),
                 'authorName' => $postEntity->author->name,
                 'date' => $postEntity->creation_date->format('d/m/Y')
             ]);

@@ -11,11 +11,13 @@ use App\Utils\UploadImageUtils;
 use \App\Utils\View;
 use Exception;
 
-class Post {
+class Post
+{
     /**
      * Método responsável por retornar o conteúdo (view) da nossa página genérica
      */
-    public static function getPost(Request $request, $id) :string {
+    public static function getPost(Request $request, $id): string
+    {
         try {
             $postEntity = PostEntity::getPostById(intval($id));
 
@@ -25,24 +27,26 @@ class Post {
                 'description' => $postEntity->description,
                 'body' => $postEntity->body,
                 'categoryId' => $postEntity->category->id,
-                'imageSrc' => $postEntity->image ? $postEntity->image->getUri() : null,
-                'imageAlt' => $postEntity->image ? $postEntity->image->alt : null,
+                'imageSrc' => $postEntity->getImageUri(),
+                'imageAlt' => $postEntity->getImageAlt(),
                 'actionPost' => 'Editar',
-            ]);   
-        } catch (Exception $exception){
+            ]);
+        } catch (Exception $exception) {
             $request->getRouter()->redirect("/painel/myPosts");
         }
     }
 
-    public static function getNewPost(Request $request) :string {
+    public static function getNewPost(Request $request): string
+    {
         try {
             return self::renderPostPage($request);
-        } catch (Exception $exception){
+        } catch (Exception $exception) {
             $request->getRouter()->redirect("/painel/myPosts");
         }
     }
 
-    public static function editPost(Request $request, $id){
+    public static function editPost(Request $request, $id)
+    {
         $postVars = $request->getPostVars();
 
         try {
@@ -59,8 +63,8 @@ class Post {
                 'title' => $postEntity->title,
                 'id' => $postEntity->id,
                 'description' => $postEntity->description,
-                'imageSrc' => $postEntity->image ? $postEntity->image->getUri() : null,
-                'imageAlt' => $postEntity->image ? $postEntity->image->alt : null,
+                'imageSrc' => $postEntity->getImageUri(),
+                'imageAlt' => $postEntity->getImageAlt(),
                 'body' => $postEntity->body,
                 'title' => $postEntity->title,
                 'categoryId' => $postEntity->category->id,
@@ -68,7 +72,7 @@ class Post {
                     "message" => "Post editado com successo",
                     "divClass" => "success-message"
                 ])
-            ]);  
+            ]);
         } catch (Exception $exception) {
             return self::renderPostPage($request, [
                 'actionPost' => 'Editar',
@@ -76,11 +80,12 @@ class Post {
                     "message" => $exception->getMessage(),
                     "divClass" => "error-message"
                 ])
-            ]);  
+            ]);
         }
     }
 
-    public static function createPost(Request $request){
+    public static function createPost(Request $request)
+    {
         $postVars = $request->getPostVars();
         $loginSessionData = LoginSession::getUserSession();
 
@@ -101,7 +106,7 @@ class Post {
                     "message" => $exception->getMessage(),
                     "divClass" => "error-message"
                 ])
-            ]);  
+            ]);
         }
     }
 
@@ -109,7 +114,7 @@ class Post {
     {
         try {
             $postCategoryEntities = PostCategoryEntity::getCategories();
-        } catch (Exception $exception){
+        } catch (Exception $exception) {
             $postCategoryEntities = [];
         }
 
@@ -117,9 +122,9 @@ class Post {
             'css' => ['/Resources/css/edit.css'],
             'headScripts' => [
                 [
-                    'src' => 'https://cdn.tiny.cloud/1/1652xpwe98k7npczrjkxeixgklizyog95zbe3svy7zdtua1f/tinymce/5/tinymce.min.js', 
+                    'src' => 'https://cdn.tiny.cloud/1/1652xpwe98k7npczrjkxeixgklizyog95zbe3svy7zdtua1f/tinymce/5/tinymce.min.js',
                     'referrerpolicy' => 'origin'
-                ], 
+                ],
             ],
             'endBodyScripts' => [
                 [
@@ -143,7 +148,7 @@ class Post {
                 'message' => $params['message'] ?? null,
                 'imageSrc' => $params["imageSrc"] ?? null,
                 'imageAlt' => $params["imageAlt"] ?? null,
-                'categories' => array_map(function(PostCategoryEntity $postCategoryEntity){
+                'categories' => array_map(function (PostCategoryEntity $postCategoryEntity) {
                     return View::render("/Components/UI/option", [
                         'value' => $postCategoryEntity->id,
                         'content' => $postCategoryEntity->name,
@@ -161,8 +166,8 @@ class Post {
             $postEntity = PostEntity::getPostById($id);
             $postVars = $request->getPostVars();
 
-            if($uploadedImage){
-                if($postEntity->image){
+            if ($uploadedImage) {
+                if ($postEntity->image) {
                     $postEntity->image->delete();
                 }
 
@@ -177,7 +182,7 @@ class Post {
                 $postEntity->update();
             }
 
-            if(isset($postVars['alt']) && $postEntity->image){
+            if (isset($postVars['alt']) && $postEntity->image) {
                 $postEntity->image->setAlt($postVars['alt']);
                 $postEntity->image->update();
             }
@@ -194,7 +199,7 @@ class Post {
             $postEntity = PostEntity::getPostById($id);
             $postEntity->delete();
             $request->getRouter()->redirect("/painel/myPosts");
-        } catch (Exception $exception){
+        } catch (Exception $exception) {
             $request->getRouter()->redirect("/painel/myPosts");
         }
     }

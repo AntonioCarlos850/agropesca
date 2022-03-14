@@ -31,11 +31,11 @@ class MyPosts {
     public static function renderPosts(array $postEntities){
         return array_map(function(PostEntity $postEntity){
             return View::render('Components/Panel/post', [
-                "title" => $postEntity->title,
-                "editLink" => "/painel/post/{$postEntity->id}",
-                "deleteLink" => "/painel/post/{$postEntity->id}/delete",
-                "imageSrc" => null,
-                "imageAlt" => null,
+                'title' => $postEntity->title,
+                'editLink' => "/painel/post/{$postEntity->id}",
+                'deleteLink' => "/painel/post/{$postEntity->id}/delete",
+                'imageSrc' => $postEntity->getImageUri(),
+                'imageAlt' => $postEntity->getImageAlt(),
             ]);
         }, $postEntities);
     }

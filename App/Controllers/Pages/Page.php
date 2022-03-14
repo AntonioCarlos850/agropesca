@@ -5,11 +5,13 @@ namespace App\Controllers\Pages;
 use App\Session\LoginSession;
 use \App\Utils\View;
 
-class Page {
+class Page
+{
     /**
      * Método responsável por retornar o conteúdo (view) da nossa página genérica
      */
-    public static function getPage(array $params = []) :string {
+    public static function getPage(array $params = []): string
+    {
         return View::render("pages/page", [
             "title" => $params["title"] ?? 'Blog Agropesca',
             "metaDescription" => $params["metaDescription"] ?? "O maior Blog de Agropesca do Oeste Paranaense",
@@ -24,18 +26,20 @@ class Page {
         ]);
     }
 
-    private static function getHeader(array $params = []){
+    private static function getHeader(array $params = [])
+    {
         $header = $params['header'] ?? '';
-        if(!$header && (!!$params['navbar'] ?? false)){
+        if (!$header && (!!$params['navbar'] ?? false)) {
             $header = self::renderNavbar();
         }
 
         return $header;
     }
 
-    public static function renderNavbar():string {
+    public static function renderNavbar(): string
+    {
         $navbarItemLinks = [];
-        if(LoginSession::isLogged()){
+        if (LoginSession::isLogged()) {
             $userSessionData = LoginSession::getUserSession();
 
             array_push($navbarItemLinks, [
@@ -43,13 +47,13 @@ class Page {
                 'icon' => 'fa-solid fa-user',
                 'text' => 'Conta',
             ]);
-            if($userSessionData['type_id'] > 1){
+            if ($userSessionData['type_id'] > 1) {
                 array_push($navbarItemLinks, [
                     'link' => '/painel/',
                     'icon' => 'fa-solid fa-pen',
                     'text' => 'Painel de Autor',
                 ]);
-            }else{
+            } else {
                 array_push($navbarItemLinks, [
                     'link' => '/painel/',
                     'icon' => 'fa-solid fa-pen',
@@ -61,23 +65,24 @@ class Page {
                 'icon' => 'fa-solid fa-right-from-bracket',
                 'text' => 'Sair',
             ]);
-        }else{
+        } else {
             array_push($navbarItemLinks, [
                 'link' => '/login',
                 'icon' => 'fa-solid fa-user',
                 'text' => 'Entrar',
             ]);
         }
-        
+
         return View::render('Components/Page/navbar', [
-            'itemLinks' => array_map(function($itemLink){
+            'itemLinks' => array_map(function ($itemLink) {
                 return View::render('Components/Page/navbarItemLink', $itemLink);
-            },$navbarItemLinks)
+            }, $navbarItemLinks)
         ]);
     }
 
-    public static function renderCss(array $links):?array{
-        return array_map(function (string $link){
+    public static function renderCss(array $links): ?array
+    {
+        return array_map(function (string $link) {
             return View::render('Components/Page/link', [
                 "rel" => "stylesheet",
                 "href" => $link
@@ -85,10 +90,11 @@ class Page {
         }, $links);
     }
 
-    public static function renderJs(array $links):?array{
-        return array_map(function (string $link){
+    public static function renderJs(array $links): ?array
+    {
+        return array_map(function (string $link) {
             return View::render('Components/Page/script', [
-                "src" => 'src="'.$link.'"',
+                "src" => 'src="' . $link . '"',
                 "referrerpolicy" => null,
                 "content" => $link['content'] ?? null,
             ]);

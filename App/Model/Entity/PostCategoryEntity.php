@@ -1,11 +1,13 @@
 <?php
+
 namespace App\Model\Entity;
 
 use App\Model\Repository\PostCategoryRepository;
 use DateTime;
 use Exception;
 
-class PostCategoryEntity{
+class PostCategoryEntity
+{
     public int $id;
     public string $name;
     public ?DateTime $creation_date;
@@ -16,48 +18,54 @@ class PostCategoryEntity{
         $this->setAttributes($categoryData);
     }
 
-    protected function setAttributes(array $categoryData){
+    protected function setAttributes(array $categoryData)
+    {
         $this->id = intval($categoryData["id"]);
         $this->name = $categoryData["name"];
         $this->setCreationDate($categoryData["creation_date"]);
         $this->setUpdateDate($categoryData["update_date"]);
     }
 
-    public function setCreationDate(?string $creationDate){
+    public function setCreationDate(?string $creationDate)
+    {
         $this->creation_date = $creationDate ? new DateTime($creationDate) : null;
     }
 
-    public function setUpdateDate(?string $updateDate){
+    public function setUpdateDate(?string $updateDate)
+    {
         $this->update_date = $updateDate ? new DateTime($updateDate) : null;
     }
 
-    public static function getCategoryById(int $id):PostCategoryEntity{
+    public static function getCategoryById(int $id): PostCategoryEntity
+    {
         $postCategoryRepository = new PostCategoryRepository();
         $cateogoryData = $postCategoryRepository->getCategoryById($id);
 
-        if(!$cateogoryData){
+        if (!$cateogoryData) {
             throw new Exception("Categoria de Post não encontrada", 404);
-        }else{
+        } else {
             $userInstance = new PostCategoryEntity($cateogoryData);
 
             return $userInstance;
         }
     }
 
-    public static function getCategories():array{
+    public static function getCategories(): array
+    {
         $postCategoryRepository = new PostCategoryRepository();
         $categoriesData = $postCategoryRepository->getCategories();
 
-        return array_map(function ($categoryData){
+        return array_map(function ($categoryData) {
             return new PostCategoryEntity($categoryData);
         }, $categoriesData);
     }
 
-    public static function getCategoriesByAuthorPosts(int $authorId):array{
+    public static function getCategoriesByAuthorPosts(int $authorId): array
+    {
         $postCategoryRepository = new PostCategoryRepository();
         $categoriesData = $postCategoryRepository->getCategoriesByAuthorPosts($authorId);
 
-        return array_map(function ($categoryData){
+        return array_map(function ($categoryData) {
             return new PostCategoryEntity($categoryData);
         }, $categoriesData);
     }

@@ -8,11 +8,13 @@ use \App\Model\Entity\UserEntity;
 use App\Session\LoginSession;
 use Exception;
 
-class Login extends Page {
+class Login extends Page
+{
     /**
      * Método responsável por retornar o conteúdo (view) da nossa Home
      */
-    public static function getLogin(array $params = []) :string {
+    public static function getLogin(array $params = []): string
+    {
         return Page::getPage([
             'title' => 'Home',
             'css' => ['/Resources/css/login.css'],
@@ -25,9 +27,10 @@ class Login extends Page {
         ]);
     }
 
-    public static function tryLogin(Request $request) :string {
+    public static function tryLogin(Request $request): string
+    {
         $postVars = $request->getPostVars();
-        try{
+        try {
             $userEntity = UserEntity::tryLogin($postVars["email"], $postVars["password"]);
             LoginSession::setUserSession($userEntity);
             $request->getRouter()->redirect("/");
@@ -39,7 +42,8 @@ class Login extends Page {
         }
     }
 
-    public static function setLogout(Request $request){
+    public static function setLogout(Request $request)
+    {
         LoginSession::logout();
         $request->getRouter()->redirect('/login');
     }

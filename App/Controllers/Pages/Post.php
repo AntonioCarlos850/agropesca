@@ -25,9 +25,9 @@ class Post extends Page {
                     'body' => $postEntity->body,
                     'date' => $postEntity->creation_date->format('d/m/Y'),
                     'time' => $postEntity->creation_date->format('H:i'),
-                    'imageSrc' => $postEntity->image ? $postEntity->image->getUri() : null,
-                    'imageAlt' => $postEntity->image ? $postEntity->image->alt : null,
-                    'authorImageSrc' => $postEntity->author->image ? $postEntity->author->image->getUri() : null,
+                    'imageSrc' => $postEntity->getImageUri(),
+                    'imageAlt' => $postEntity->getImageAlt(),
+                    'authorImageSrc' => $postEntity->getAuthorImageUri(),
                     'authorImageAlt' => $postEntity->author->image ? $postEntity->author->image->alt : null,
                     'authorDescription' => $postEntity->author->description,
                     'authorPageSrc' => $postEntity->author->slug,
@@ -49,8 +49,8 @@ class Post extends Page {
                 'link' => '/post/'.$postEntity->slug,
                 'title' => $postEntity->title,
                 'description' => $postEntity->description,
-                'imageSrc' => $postEntity->image ? $postEntity->image->getUri() : null,
-                'imageAlt' => $postEntity->image ? $postEntity->image->alt : null,
+                'imageSrc' => $postEntity->getImageUri(),
+                'imageAlt' => $postEntity->getImageAlt(),
                 'authorName' => $postEntity->author->name,
                 'date' => $postEntity->creation_date->format('d/m/Y')
             ]);

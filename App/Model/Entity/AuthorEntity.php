@@ -1,11 +1,13 @@
 <?php
+
 namespace App\Model\Entity;
 
 use App\Model\Repository\AuthorRepository;
 use App\Utils\Helpers;
 use Exception;
 
-class AuthorEntity extends UserEntity {
+class AuthorEntity extends UserEntity
+{
     // atributtes
     public string $slug;
     public ?string $description;
@@ -15,8 +17,9 @@ class AuthorEntity extends UserEntity {
         $this->setAttributes($authorData);
     }
 
-    protected function setAttributes(array $authorData){
-        if(!isset($authorData["description"])){
+    protected function setAttributes(array $authorData)
+    {
+        if (!isset($authorData["description"])) {
             throw new Exception("Descrição de autor necessária", 400);
         }
 
@@ -31,16 +34,19 @@ class AuthorEntity extends UserEntity {
         $this->setDescription($authorData["description"]);
     }
 
-    public function setSlug(?string $slug){
+    public function setSlug(?string $slug)
+    {
         $this->slug = str_replace(" ", "-", strtolower(Helpers::removeAccents($slug ?: ("{$this->name} {$this->id}"))));
     }
 
-    public function setDescription(?string $description){
+    public function setDescription(?string $description)
+    {
         $this->description = $description;
     }
 
-    public function setName(string $name){
-        if(strlen($name) < 4){
+    public function setName(string $name)
+    {
+        if (strlen($name) < 4) {
             throw new Exception("Nome muito curto", 400);
         }
 
@@ -48,13 +54,14 @@ class AuthorEntity extends UserEntity {
         $this->setSlug("{$this->name} {$this->id}");
     }
 
-    public static function getAuthorById(int $id){
+    public static function getAuthorById(int $id)
+    {
         $authorRepository = new AuthorRepository();
         $authorData = $authorRepository->getAuthorById($id);
 
-        if(!$authorData){
+        if (!$authorData) {
             throw new Exception("Autor não encontrado", 404);
-        }else{
+        } else {
             $authorInstance = new AuthorEntity($authorData);
 
             return $authorInstance;
@@ -62,7 +69,8 @@ class AuthorEntity extends UserEntity {
     }
 
     // Manage database Data
-    public function create(){
+    public function create()
+    {
         $authorRepository = new AuthorRepository();
         $authorRepository->create([
             "user_id" => $this->id,
@@ -71,7 +79,8 @@ class AuthorEntity extends UserEntity {
         ]);
     }
 
-    public function update(){
+    public function update()
+    {
         $authorRepository = new AuthorRepository();
 
         parent::update();
