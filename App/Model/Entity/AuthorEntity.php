@@ -68,6 +68,20 @@ class AuthorEntity extends UserEntity
         }
     }
 
+    public static function getAuthorBySlug(string $slug)
+    {
+        $authorRepository = new AuthorRepository();
+        $authorData = $authorRepository->getAuthorBySlug($slug);
+
+        if (!$authorData) {
+            throw new Exception("Autor não encontrado", 404);
+        } else {
+            $authorInstance = new AuthorEntity($authorData);
+
+            return $authorInstance;
+        }
+    }
+
     // Manage database Data
     public function create()
     {

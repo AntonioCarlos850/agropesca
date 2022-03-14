@@ -10,6 +10,10 @@ $router->get("/", function () {
     return new Response(Pages\Home::getHome());
 });
 
+$router->get("/autor/{slug}", function (Request $request, $slug) {
+    return new Response(Pages\Author::getAuthor($request, $slug));
+});
+
 $router->get("/busca", function (Request $request) {
     return new Response(Pages\Busca::getBusca($request));
 });

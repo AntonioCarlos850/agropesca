@@ -74,7 +74,12 @@ class AuthorRepository extends Repository
         return self::getAuthor(["{$this->tableName}.{$this->columnReference} = :id"], ["id" => $id]);
     }
 
-    public function getUserByEmail(string $email)
+    public function getAuthorBySlug($slug)
+    {
+        return self::getAuthor(["{$this->tableName}.slug = :slug"], ["slug" => $slug]);
+    }
+
+    public function getAuthorByEmail(string $email)
     {
         return self::getAuthor(["{$this->tableName}.email = :email"], ["email" => $email]);
     }
