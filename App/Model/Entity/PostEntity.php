@@ -203,7 +203,7 @@ class PostEntity
 
     public function getImageAlt(): ?string
     {
-        return $this->image ? $this->image->getUri() : null;
+        return $this->image ? $this->image->alt : null;
     }
 
     public function getAuthorImageUri(): ?string
