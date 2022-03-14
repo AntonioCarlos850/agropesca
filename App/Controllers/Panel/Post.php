@@ -158,13 +158,15 @@ class Post {
     {
         try {
             $uploadedImage = UploadImageUtils::getImageByField('image');
+            $postVars = $request->getPostVars();
 
             if($uploadedImage){
                 $postEntity = PostEntity::getPostById($id);
 
                 $imageEntity = ImageEntity::createImage([
                     'path' => $uploadedImage->dir,
-                    'filename' => $uploadedImage->filename
+                    'filename' => $uploadedImage->filename,
+                    'alt' => $postVars['alt'] ?? ''
                 ]);
 
                 $postEntity->setImage($imageEntity);
