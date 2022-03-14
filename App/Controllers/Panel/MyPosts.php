@@ -25,7 +25,10 @@ class MyPosts {
             return Page::getPage($request, [
                 'css'=> ['/Resources/css/posts.css'],
                 'content' => View::render("/Panel/myPosts", [
-                    'posts' => self::renderPosts($postEntities),
+                    'posts' => count($postEntities) ? self::renderPosts($postEntities) : View::render('Components/Panel/messageRow', [
+                        'title' => 'Bem Vindo(a)!',
+                        'text' => 'Parece que você ainda não escreveu nenhum post... Clique em "+ Novo Post" no menu no lado esquerdo!'
+                    ]),
                 ])
             ]);
         } catch (Exception $exception){
@@ -37,6 +40,7 @@ class MyPosts {
         return array_map(function(PostEntity $postEntity){
             return View::render('Components/Panel/post', [
                 'title' => $postEntity->title,
+                'active' => $postEntity->active ? 'checked' : '',
                 'editLink' => "/painel/post/{$postEntity->id}",
                 'deleteLink' => "/painel/post/{$postEntity->id}/delete",
                 'imageSrc' => $postEntity->getImageUri(),

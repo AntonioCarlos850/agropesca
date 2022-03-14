@@ -37,7 +37,7 @@ class PostEntity
 
         $this->setId($postData["id"] ?? null);
 
-        $this->setActive($postData["active"] ?? false);
+        $this->setActive($postData["active"] ?? true);
 
         $this->setTitle($postData["title"]);
         $this->setSlug($postData["slug"] ?? null);
@@ -81,19 +81,11 @@ class PostEntity
     public function setDescription(?string $description)
     {
         $this->description = $description;
-
-        if (!$description) {
-            $this->setActive(false);
-        }
     }
 
     public function setBody(?string $body)
     {
         $this->body = $body;
-
-        if (!$body) {
-            $this->setActive(false);
-        }
     }
 
     public function setCreationDate(?string $creationDate)
@@ -152,7 +144,6 @@ class PostEntity
             }
         } catch (Exception $error) {
             $this->category = null;
-            $this->setActive(false);
         }
     }
 

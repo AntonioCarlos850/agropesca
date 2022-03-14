@@ -39,3 +39,32 @@ h2{
 .edit:hover,.trash:hover{
     box-shadow: 0px 0px 2px 1px rgba(0, 0, 0, 0.2);
 }
+
+.messageRow {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+    width: 100%;
+
+    border-radius: 20px;
+}
+
+.messageRow > h1{
+    padding-bottom: 2rem;
+}
+
+.messageRow > p{
+    font-size: 1.3rem;
+    font-weight: bold;
+}
+
+.success {
+    background-color: #709c34;
+}
+
+.warning {
+    background-color: #709c34;
+}

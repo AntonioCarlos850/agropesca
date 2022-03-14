@@ -10,9 +10,9 @@ class SearchSession extends Session{
         self::init();
         $_SESSION["search"] = [
             'conditions' => [
-                'search' => $param['search'] ?? ($_SESSION['search']['conditions']['search'] ?? null),
-                'author' => $param['author'] ?? ($_SESSION['search']['conditions']['author'] ?? null),
-                'category' => $param['category'] ?? ($_SESSION['search']['conditions']['category'] ?? null),
+                'search' => $param['search'] ?? null,
+                'author' => $param['author'] ?? null,
+                'category' => $param['category'] ?? null,
             ],
             'orders' => $param['orders'] ?? ($_SESSION['search']['orders'] ?: [
                 'relevancia'
