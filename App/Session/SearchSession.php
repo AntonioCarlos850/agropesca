@@ -10,7 +10,7 @@ class SearchSession extends Session{
         self::init();
         $_SESSION["search"] = [
             'search' => $param['search'] ?? ($_SESSION['search']['search'] ?? null),
-            'order' => $param['order'] ?? ($_SESSION['search']['order'] ?? null),
+            'order' => $param['order'] ?? 'relevancia',
             'page' => $param['page'] ?? ($_SESSION['search']['page'] ?? 1),
             'itensPerPage' => 3
         ];

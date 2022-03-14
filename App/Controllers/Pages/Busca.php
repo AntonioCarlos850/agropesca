@@ -18,7 +18,6 @@ class Busca extends Page {
         $queryParams = $request->getQueryParams();
         SearchSession::setSearchSession($queryParams);
         $searchSessionData = SearchSession::getSearchSession();
-        //$searchSessionData['page'] = 1;
 
         try {
             $postsQuantity = PostEntity::getActivePostCount(self::getSearchOrder($searchSessionData), self::getSearchAditionalCondition($searchSessionData), self::getSearchParameters($searchSessionData));
@@ -44,6 +43,11 @@ class Busca extends Page {
 
         $next = false;
         $nextParams = $queryParams;
+
+        if(!isset($nextParams['page'])){
+            $nextParams['page'] = 1;
+        }
+
         if($nextParams['page'] < $totalPages){
             $next = true;
             $nextParams['page'] = $nextParams['page'] + 1;
