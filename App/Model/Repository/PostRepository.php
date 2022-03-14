@@ -232,7 +232,7 @@ class PostRepository extends Repository
         return self::update(
             "UPDATE blg_post
                 SET blg_post.visits = (
-                    SELECT COUNT(blg_post_visit.user_id) 
+                    SELECT COUNT(blg_post_visit.post_id) 
                     FROM blg_post_visit
                     WHERE blg_post_visit.post_id = blg_post.id
                 )
