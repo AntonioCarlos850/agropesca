@@ -41,6 +41,10 @@ class Busca extends Page {
 
         $totalPages = ceil($postsQuantity / $searchSessionData['itensPerPage']);
 
+        if( !isset($queryParams['search']) && isset($searchSessionData['search']) && $searchSessionData['search']){
+            $queryParams['search'] = $searchSessionData['search'];
+        }
+
         $next = false;
         $nextParams = $queryParams;
 
