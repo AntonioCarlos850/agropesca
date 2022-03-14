@@ -16,18 +16,18 @@ class Busca extends Page {
      */
     public static function getBusca(Request $request) :string {
         $queryParams = $request->getQueryParams();
-        SearchSession::setSearchSession($queryParams);
+        self::setSearchSessionByQueryParams($queryParams);
+
         $searchSessionData = SearchSession::getSearchSession();
 
         try {
-            $postsQuantity = PostEntity::getActivePostCount(self::getSearchOrder($searchSessionData), self::getSearchAditionalCondition($searchSessionData), self::getSearchParameters($searchSessionData));
+            $postsQuantity = PostEntity::getPostsCountBySearch($searchSessionData['conditions']);
 
-            $searchPostEntities = PostEntity::getActivePosts(
-                self::getSearchOrder($searchSessionData),
-                self::getSearchAditionalCondition($searchSessionData), 
-                $searchSessionData['itensPerPage'],
-                self::getSearchPageOffset($searchSessionData),
-                self::getSearchParameters($searchSessionData)
+            $searchPostEntities = PostEntity::getPostsBySearch(
+                $searchSessionData['conditions'], 
+                $searchSessionData['orders'], 
+                $searchSessionData['itensPerPage'], 
+                self::getSearchPageOffset($searchSessionData)
             );
 
             $mostViewdPostEntities = PostEntity::getActivePosts(["blg_post.visits DESC"],[],3);
@@ -38,6 +38,7 @@ class Busca extends Page {
             $weekPostEntities = [];
             $postsQuantity = 0;
         }
+
 
         $totalPages = ceil($postsQuantity / $searchSessionData['itensPerPage']);
 
@@ -79,6 +80,16 @@ class Busca extends Page {
         ]);
     }
 
+    public static function setSearchSessionByQueryParams(array $queryParams = []){
+        SearchSession::setSearchSession([
+            'orders' => isset($queryParams['order']) ? [$queryParams['order']] : null,
+            'search' => $queryParams['search'] ?? null,
+            'author' => $queryParams['author'] ?? null,
+            'category' => $queryParams['category'] ?? null,
+            'page' => $queryParams['page'] ?? 1
+        ]);
+    }
+
     public static function getPaginationLinks($actualPage, $totalQuantity, $postsPerPage, $paginationQueryParams){
         $totalPages = ceil($totalQuantity / $postsPerPage);
 
@@ -97,46 +108,6 @@ class Busca extends Page {
         }, $params);
     }
 
-    public static function getSearchAditionalCondition(array $searchSessionData)
-    {
-        if(isset($searchSessionData['search'])){
-            return ["blg_post.title LIKE CONCAT('%', :search ,'%')"];
-        }else{
-            return [];
-        }
-    }
-
-    public static function getSearchParameters(array $searchSessionData)
-    {
-        $parameters = [];
-        if(isset($searchSessionData['search'])){
-            $parameters['search'] = $searchSessionData['search'];
-        }
-
-        return $parameters;
-    }
-
-    public static function getSearchOrder(array $searchSessionData)
-    {
-        if(isset($searchSessionData['order'])){
-            switch ($searchSessionData['order']){
-                case 'relevancia':
-                    return ['blg_post.visits DESC'];
-                    break;
-                case 'recente':
-                    return ['blg_post.creation_date DESC'];
-                    break;
-                case 'antigo':
-                    return ['blg_post.creation_date ASC'];
-                    break;
-                default:
-                    return [];
-            }
-        }else{
-            return [];
-        }
-    }
-
     public static function getSearchPageOffset(array $searchSessionData)
     {
         if(isset($searchSessionData['page'])){
@@ -152,7 +123,7 @@ class Busca extends Page {
             return View::render('Components/UI/option', [
                 'content' => $item['text'],
                 'value' => $item['value'],
-                'selected' => $item['value'] == $searchSessionData['order'] ? 'selected' : null,
+                'selected' => $item['value'] == $searchSessionData['orders'][0] ? 'selected' : null,
             ]);
         }, [
             [

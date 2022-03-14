@@ -335,6 +335,24 @@ class PostEntity
         return $postsEntities;
     }
 
+    public static function getPostsBySearch(array $conditions = [], array $orders = [], ?int $limit = null, ?int $offset = null): array
+    {
+        $postRepository = new PostRepository();
+        $postsData = $postRepository->getPostsBySearch($conditions, $orders, $limit, $offset);
+
+        $postsEntities = array_map(function ($postData) {
+            return new PostEntity($postData);
+        }, $postsData);
+
+        return $postsEntities;
+    }
+
+    public static function getPostsCountBySearch(array $conditions = []): int
+    {
+        $postRepository = new PostRepository();
+        return intval($postRepository->getPostsCountBySearch($conditions));
+    }
+
     public static function getActivePostCount(array $queryOrders = [], array $queryAditionalConditions = [], array $parameters = []): int
     {
         $postRepository = new PostRepository();

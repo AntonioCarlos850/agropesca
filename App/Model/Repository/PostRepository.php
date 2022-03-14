@@ -99,7 +99,7 @@ class PostRepository extends Repository
         );
     }
 
-    public function getPostCount(array $queryConditions = [], array $queryOrders = [], array $data = [])
+    public function getPostCount(array $queryConditions = [], array $data = [])
     {
         return self::selectValue(
             "SELECT COUNT(DISTINCT blg_post.id)
@@ -109,10 +109,71 @@ class PostRepository extends Repository
                 INNER JOIN blg_user_author ON blg_user_author.user_id = blg_user.id 
                 INNER JOIN blg_user_type ON blg_user_type.id = blg_user.type_id
             " . (empty($queryConditions) ? "" : ("WHERE " . join(" AND ", $queryConditions))) . "
-            ORDER BY " . (empty($queryOrders) ? "{$this->tableName}.{$this->columnReference} DESC" : join(", ", $queryOrders)) . "
             ",
             $data
         );
+    }
+
+    private function generateSearchQueryConditions(array $params = []):array{
+        $queryConditions = [
+            "{$this->tableName}.active = 1",
+            "{$this->tableName}.image_id IS NOT NULL",
+            "{$this->tableName}.author_id IS NOT NULL",
+            "{$this->tableName}.category_id IS NOT NULL",
+            "blg_user.image_id IS NOT NULL",
+        ];
+        $queryParams = [];
+
+        if(isset($params['search'])){
+            $queryConditions[] = "{$this->tableName}.title LIKE CONCAT('%', :search, '%')";
+            $queryParams['search'] = $params['search'];
+        }
+        if(isset($params['category'])){
+            $queryConditions[] = "{$this->tableName}.category_id = :category";
+            $queryParams['category'] = $params['category'];
+        }
+        if(isset($params['author'])){
+            $queryConditions[] = "{$this->tableName}.author_id = :author";
+            $queryParams['author'] = $params['author'];
+        }
+
+        return [
+            "queryConditions" => $queryConditions,
+            "queryParams" => $queryParams
+        ];
+    }
+
+    private function generateSearchOrders(array $orders = []){
+        $queryOrders = [];
+
+        foreach($orders as $order){
+            switch ($order){
+                case 'relevancia':
+                    $queryOrders[] = "{$this->tableName}.visits DESC";
+                    break;
+                case 'recente':
+                    $queryOrders[] = "{$this->tableName}.id DESC";
+                    break;
+                case 'antigo':
+                    $queryOrders[] = "{$this->tableName}.id ASC";
+                    break;
+            }
+        }
+
+        return $queryOrders;
+    }
+
+    public function getPostsBySearch(array $params = [], array $orders = [], ?int $limit = null, int $offset = null){
+        $queryConditionsAndParams = $this->generateSearchQueryConditions($params);
+        $queryParams = $this->generateSearchOrders($orders);
+
+        return self::getPosts($queryConditionsAndParams['queryConditions'], $queryParams, $limit, $offset, $queryConditionsAndParams['queryParams']);
+    }
+
+    public function getPostsCountBySearch(array $params = []){
+        $queryConditionsAndParams = $this->generateSearchQueryConditions($params);
+
+        return self::getPostCount($queryConditionsAndParams['queryConditions'], $queryConditionsAndParams['queryParams']);
     }
 
     public function getPostById(int $id)
@@ -147,11 +208,10 @@ class PostRepository extends Repository
         );
     }
 
-    public function getActivePostCount(array $queryOrders = [], array $aditionalQueryConditions = [], array $aditionalParameters = [])
+    public function getActivePostCount(array $aditionalQueryConditions = [], array $aditionalParameters = [])
     {
         return self::getPostCount(
             array_merge(["{$this->tableName}.active = 1"], $aditionalQueryConditions),
-            $queryOrders,
             $aditionalParameters
         );
     }
