@@ -118,6 +118,7 @@ class MyProfile
         try {
             $uploadedImage = UploadImageUtils::getImageByField('image');
             $userEntity = UserEntity::getUserById($loginSessionData['id']);
+            LoginSession::setUserSession($userEntity);
 
             if ($uploadedImage) {
                 if ($userEntity->image) {
@@ -148,7 +149,7 @@ class MyProfile
             $userEntity = UserEntity::getUserById($loginSessionData['id']);
             $authorEntity = $userEntity->createAuthor($postVars['name'], $postVars['description']);
             LoginSession::setUserSession($userEntity);
-
+            
             return self::renderMyProfile($request, [
                 'name' => $authorEntity->name,
                 'description' => $authorEntity->description,

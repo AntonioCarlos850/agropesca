@@ -175,6 +175,7 @@ class UserEntity
             'email' => $this->email,
             'name' => $this->name,
             'type_id' => $this->type->id,
+            'image_id' => $this->image ? $this->image->id : null,
             'password' => $this->password,
             'password_salt' => $this->password_salt,
             'creation_date' => $this->creation_date,
