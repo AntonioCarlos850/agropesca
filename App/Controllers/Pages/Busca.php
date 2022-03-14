@@ -18,6 +18,7 @@ class Busca extends Page {
         $queryParams = $request->getQueryParams();
         SearchSession::setSearchSession($queryParams);
         $searchSessionData = SearchSession::getSearchSession();
+
         try {
             $postsQuantity = PostEntity::getActivePostCount(self::getSearchOrder($searchSessionData), self::getSearchAditionalCondition($searchSessionData), self::getSearchParameters($searchSessionData));
 
@@ -44,7 +45,7 @@ class Busca extends Page {
         return Page::getPage([
             "title" => "Agroblog | Busca",
             'navbar' => true,
-            'css' => ['/Resources/css/most_views.css'],
+            'css' => ['/Resources/css/busca.css','/Resources/css/most_views.css','/Resources/css/pagination.css'],
             "content" => View::render("pages/busca", [
                 "qtd" => $postsQuantity,
                 "search" => $queryParams['search'] ?? null,
@@ -179,7 +180,7 @@ class Busca extends Page {
     }
     public static function renderWeekPosts(array $postEntities = []) {
         return array_map(function (PostEntity $postEntity){
-            return View::render('/Components/Page/post', [
+            return View::render('/Components/Page/weekPost', [
                 'link' => "/post/{$postEntity->slug}",
                 'imageSrc' => $postEntity->image ? $postEntity->image->getUri() : null,
                 'imageAlt' => $postEntity->image ? $postEntity->image->alt : null,
