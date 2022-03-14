@@ -23,3 +23,7 @@ $router->get("/cadastro", function (Request $request) {
 $router->post("/cadastro", function (Request $request) {
     return new Response(Pages\Cadastro::cadastroPost($request));
 });
+
+$router->post("/cadastro/image", function (Request $request) {
+    return new Response(Pages\Cadastro::editImage($request));
+});

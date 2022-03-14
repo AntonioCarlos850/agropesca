@@ -16,6 +16,7 @@ class PostRepository extends Repository
         return self::selectRow(
             "SELECT {$this->tableName}.*,
                 blg_post_category.name category_name,
+                blg_post_category.image_uri category_image_uri,
                 blg_post_category.creation_date AS category_creation_date,
                 blg_post_category.update_date AS category_update_date,
                 blg_user.name AS author_name,
@@ -57,6 +58,7 @@ class PostRepository extends Repository
         return self::select(
             "SELECT {$this->tableName}.*,
                 blg_post_category.name category_name,
+                blg_post_category.image_uri category_image_uri,
                 blg_post_category.creation_date AS category_creation_date,
                 blg_post_category.update_date AS category_update_date,
                 blg_user.name AS author_name,

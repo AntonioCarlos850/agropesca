@@ -6,7 +6,7 @@ use App\Http\Request;
 
 $router->get("/painel/", function (Request $request) {
     $request->getRouter()->redirect("/painel/myPosts");
-}, ["requireLogin"]);
+}, ["requireLogin", "requireAuthorType"]);
 
 $router->post("/painel/myProfile/image", function (Request $request, $id) {
     return new Response(Panel\MyProfile::editImage($request));
@@ -22,33 +22,33 @@ $router->post("/painel/myProfile", function (Request $request) {
 
 $router->post("/painel/myPosts", function (Request $request) {
     return new Response(Panel\MyPosts::getMyPosts($request));
-}, ["requireLogin"]);
+}, ["requireLogin", "requireAuthorType"]);
 
 $router->get("/painel/myPosts", function (Request $request) {
     return new Response(Panel\MyPosts::getMyPosts($request));
-}, ["requireLogin"]);
+}, ["requireLogin", "requireAuthorType"]);
 
 $router->post("/painel/post/{id}/image", function (Request $request, $id) {
     return new Response(Panel\Post::editImage($request, $id));
-}, ["requireLogin"]);
+}, ["requireLogin", "requireAuthorType"]);
 
 $router->get("/painel/post/{id}/delete", function (Request $request, $id) {
     return new Response(Panel\Post::deletePost($request, $id));
-}, ["requireLogin"]);
+}, ["requireLogin", "requireAuthorType"]);
 
 $router->get("/painel/post/{id}", function (Request $request, $id) {
     return new Response(Panel\Post::getPost($request, intval($id)));
-}, ["requireLogin"]);
+}, ["requireLogin", "requireAuthorType"]);
 
 $router->post("/painel/post/{id}", function (Request $request, $id) {
     return new Response(Panel\Post::editPost($request, $id));
-}, ["requireLogin"]);
+}, ["requireLogin", "requireAuthorType"]);
 
 
 $router->get("/painel/post", function (Request $request) {
     return new Response(Panel\Post::getNewPost($request));
-}, ["requireLogin"]);
+}, ["requireLogin", "requireAuthorType"]);
 
 $router->post("/painel/post", function (Request $request) {
     return new Response(Panel\Post::createPost($request));
-}, ["requireLogin"]);
+}, ["requireLogin", "requireAuthorType"]);

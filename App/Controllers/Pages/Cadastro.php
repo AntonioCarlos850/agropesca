@@ -3,9 +3,11 @@
 namespace App\Controllers\Pages;
 
 use App\Http\Request;
+use App\Model\Entity\ImageEntity;
 use \App\Utils\View;
 use \App\Model\Entity\UserEntity;
 use App\Session\LoginSession;
+use App\Utils\UploadImageUtils;
 use Exception;
 
 class Cadastro extends Page
@@ -143,5 +145,32 @@ class Cadastro extends Page
         }
 
         return self::getCadastro($cadastroParams);
+    }
+
+    public static function editImage(Request $request)
+    {
+        $loginSessionData = LoginSession::getUserSession();
+        try {
+            $uploadedImage = UploadImageUtils::getImageByField('image');
+            $userEntity = UserEntity::getUserById($loginSessionData['id']);
+
+            if ($uploadedImage) {
+                if ($userEntity->image) {
+                    $userEntity->image->delete();
+                }
+
+                $imageEntity = ImageEntity::createImage([
+                    'path' => $uploadedImage->dir,
+                    'filename' => $uploadedImage->filename,
+                ]);
+
+                $userEntity->setImage($imageEntity);
+
+                $userEntity->update();
+            }
+        } catch (Exception $exception) {
+        }
+
+        $request->getRouter()->redirect("/cadastro");
     }
 }

@@ -138,11 +138,12 @@ class PostEntity
     {
         try {
             if (Helpers::verifyArrayFields($categoryData, [
-                "category_id", "category_name", "category_creation_date", "category_update_date"
+                "category_id", "category_image_uri", "category_name", "category_creation_date", "category_update_date"
             ])) {
                 $this->category = new PostCategoryEntity([
                     "id" => $categoryData["category_id"],
                     "name" => $categoryData["category_name"],
+                    "image_uri" => $categoryData["category_image_uri"],
                     "creation_date" => $categoryData["category_creation_date"],
                     "update_date" => $categoryData["category_update_date"],
                 ]);

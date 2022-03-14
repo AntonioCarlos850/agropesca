@@ -9,11 +9,12 @@ class LoginSession extends Session{
     public static function setUserSession(UserEntity $objectUser): void{
         self::init();
 
-        $_SESSION["user"] = [
+        $_SESSION['user'] = [
             'id' => $objectUser->id,
             'name' => $objectUser->name,
             'email' => $objectUser->email,
-            'type_id' => $objectUser->type->id
+            'type_id' => $objectUser->type->id,
+            'image_uri' => $objectUser->getImageUri(),
         ];
     }
 
@@ -22,7 +23,7 @@ class LoginSession extends Session{
 
         if(self::isLogged()){
             if(!Helpers::verifyArrayFields($_SESSION['user'], [
-                "id", "name", "email", "type_id"
+                'id', 'name', 'email', 'type_id', 'image_uri'
             ])){
                 self::setUserSession(UserEntity::getUserById($_SESSION['user']['id']));
             }
@@ -32,17 +33,17 @@ class LoginSession extends Session{
     public static function getUserSession():array{
         self::init();
         self::refreshUserData();
-        return $_SESSION["user"];
+        return $_SESSION['user'];
     }
 
     public static function isLogged():bool{
         self::init();
-        return isset($_SESSION["user"]["id"]);
+        return isset($_SESSION['user']['id']);
     }
 
     public static function logout():bool{
         if(self::isLogged()){
-            unset($_SESSION["user"]);
+            unset($_SESSION['user']);
             return true;
         }
 

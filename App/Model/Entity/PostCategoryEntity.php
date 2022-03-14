@@ -10,6 +10,7 @@ class PostCategoryEntity
 {
     public int $id;
     public string $name;
+    public ?string $image_uri;
     public ?DateTime $creation_date;
     public ?DateTime $update_date;
 
@@ -22,6 +23,7 @@ class PostCategoryEntity
     {
         $this->id = intval($categoryData["id"]);
         $this->name = $categoryData["name"];
+        $this->image_uri = $categoryData["image_uri"];
         $this->setCreationDate($categoryData["creation_date"]);
         $this->setUpdateDate($categoryData["update_date"]);
     }
@@ -34,6 +36,11 @@ class PostCategoryEntity
     public function setUpdateDate(?string $updateDate)
     {
         $this->update_date = $updateDate ? new DateTime($updateDate) : null;
+    }
+
+    public function getImageUri()
+    {
+        return $this->image_uri;
     }
 
     public static function getCategoryById(int $id): PostCategoryEntity

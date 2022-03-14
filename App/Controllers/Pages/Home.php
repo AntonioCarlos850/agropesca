@@ -64,10 +64,9 @@ class Home extends Page {
     {
         return array_map(function(PostCategoryEntity $categoryEntity){
             return View::render('Components/Page/category', [
-                'link' => '',
-                'link' => '',
-                'imageSrc' => 'https://www.tenhomaisdiscosqueamigos.com/wp-content/uploads/2019/09/tyler-the-creator-1.jpg',
-                'imageAlt' => '',
+                'link' => "/busca?category={$categoryEntity->id}",
+                'imageSrc' => $categoryEntity->getImageUri(),
+                'imageAlt' => $categoryEntity->name,
                 'name' => $categoryEntity->name
             ]);
         }, $categoryEntities);

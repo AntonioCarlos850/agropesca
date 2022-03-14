@@ -24,6 +24,7 @@ Queue::setMap([
     "maintence" => \App\Http\Middleware\Maintence::class,
     "requireLogin" => \App\Http\Middleware\RequireLogin::class,
     "requireLogout" => \App\Http\Middleware\RequireLogout::class,
+    "requireAuthorType" => \App\Http\Middleware\RequireAuthorType::class,
 ]);
 
 Queue::setDefault([
