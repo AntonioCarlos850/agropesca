@@ -8,6 +8,12 @@ h1{
     padding-left: 1rem;
 }
 
+h2{
+    display: block;
+    width: 100%;
+    padding-left: 1rem;
+}
+
 #div-miniatura{
     height: 230px;
     flex-direction: column;
@@ -23,7 +29,7 @@ h1{
     margin: 10px 0;
 }
 
-#miniatura{
+#image{
     display: none;
 }
 

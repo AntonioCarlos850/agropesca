@@ -1,6 +1,6 @@
 <div class="row w-100">
     <h1>{{actionPost}} Post</h1>
-    {{message}}
+    <h2>{{message}}</h2>
     <div class="col-dt-7 col-mb-10 p-1">
         <form action="" method="post" id="div-text" class="row space-between bg-white box-shadow">
             <label for="title">Título</label>
@@ -20,7 +20,7 @@
     <div class="col-dt-3 col-mb-10 p-1">
         <form action="/painel/post/{{id}}/image" method="post" enctype="multipart/form-data" class="row center bg-white box-shadow h-100" id="div-miniatura">
             <img id="exibir-miniatura" src="{{imageSrc}}" alt="{{imageAlt}}">
-            <label for="miniatura" id="label-miniatura">
+            <label for="image" id="label-miniatura">
                 <i class="fa-solid fa-cloud-arrow-up"></i>Fazer Upload
             </label>
             <input type="file" name="image" id="image" accept="image/*">
