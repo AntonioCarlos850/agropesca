@@ -69,6 +69,8 @@ class Busca extends Page {
                 "mostViewsPosts" => self::renderMostViwedPosts($mostViewdPostEntities),
                 "weekPost" => self::renderWeekPosts($weekPostEntities),
                 "dropdownOptions" => self::renderOrderDropdownOptions($searchSessionData),
+                "searchAuthor" => null,
+                "searchCategory" => null,
                 'pagination' => count($searchPostEntities) < $postsQuantity ? View::render('Components/Page/pagination', [    
                     'links' => self::getPaginationLinks($searchSessionData['page'],$postsQuantity, $searchSessionData['itensPerPage'], $queryParams),
                     'class' => null,
