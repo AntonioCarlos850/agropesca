@@ -32,3 +32,6 @@ Queue::setDefault([
 ]);
 
 Repository::$connection = new Utils\SqlConnection();
+
+error_reporting(0);
+ini_set('display_errors', 0);
