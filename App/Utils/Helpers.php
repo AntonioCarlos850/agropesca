@@ -38,6 +38,22 @@ class Helpers
         );
     }
 
+    static function removeSpecialCharacteres(string $string) : string
+    {
+        $letters = ['!'. '@', '#', '$', '%', '¨', '&', '*', '(', ')', "´". '"', '[', ']', '{', '}', '~', '^', ',', '.', '<', '>', ';', ':', '?', '/'];
+
+        foreach($letters as $letter) {
+            $string = str_replace($letter, '', $string);
+        }
+
+        return $string;
+    }
+
+    static function slugfy(string $string):string
+    {
+        return str_replace(' ','-',str_replace('  ',' ',trim(strtolower(Helpers::removeSpecialCharacteres(Helpers::removeAccents($string))))));
+    }
+
     static function verifyArrayFields(array $array, array $fieldNames, bool $acceptNull = true): bool
     {
         $hasFields = true;

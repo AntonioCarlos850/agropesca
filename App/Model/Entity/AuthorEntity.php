@@ -36,7 +36,7 @@ class AuthorEntity extends UserEntity
 
     public function setSlug(?string $slug)
     {
-        $this->slug = str_replace(" ", "-", strtolower(Helpers::removeAccents($slug ?: ("{$this->name} {$this->id}"))));
+        $this->slug = Helpers::slugfy($slug ?: "{$this->name} {$this->id}");
     }
 
     public function setDescription(?string $description)
