@@ -18,7 +18,9 @@ class Home extends Page {
             $olderPostsEntities = PostEntity::getPostsBySearch([], ['antigo'], 6);
             $categoriesEntities = PostCategoryEntity::getCategories(3);
         } catch (Exception $exception){
-            $postEntities = [];
+            $mostViewedPostsEntities = [];
+            $recentPostsEntities = [];
+            $olderPostsEntities = [];
             $categoriesEntities = [];
         }
 
