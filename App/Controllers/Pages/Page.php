@@ -40,7 +40,7 @@ class Page
     {
         $footer = $params['footer'] ?? '';
         if (!$footer && ($params['footer'] ?? true)) {
-            // $footer = View::render('Components/Page/footer');
+            $footer = View::render('Components/Page/footer');
         }
 
         return $footer;
