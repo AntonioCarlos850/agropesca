@@ -11,6 +11,11 @@
             <select name="category_id" id="category">
                 {{categories}}
             </select>
+            <div class="row w-100" id="div-active">
+                <span id="active">Ativo</span>
+                <input type="checkbox" id="toggle" name="active" value="active" {{checked}}/>
+                <label for="toggle" id="label-toggle"></label>
+            </div>
             <textarea name="body" id="textarea">
                 {{body}}
             </textarea>

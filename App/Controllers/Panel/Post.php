@@ -26,6 +26,7 @@ class Post
                 'id' => $postEntity->id,
                 'description' => $postEntity->description,
                 'body' => $postEntity->body,
+                'active' => $postEntity->active,
                 'categoryId' => $postEntity->category->id,
                 'imageSrc' => $postEntity->getImageUri(),
                 'imageAlt' => $postEntity->getImageAlt(),
@@ -55,7 +56,7 @@ class Post
             $postEntity->setDescription($postVars['description']);
             $postEntity->setBody($postVars['body']);
             $postEntity->setCategory(['category_id' => $postVars['category_id']]);
-            $postEntity->setActive($postVars['active'] ?? $postEntity->active);
+            $postEntity->setActive(isset($postVars['active']) && $postVars['active'] ? 1 : 0);
 
             $postEntity->update();
 
@@ -226,6 +227,7 @@ class Post
                 'message' => $params['message'] ?? null,
                 'imageSrc' => $params["imageSrc"] ?? null,
                 'imageAlt' => $params["imageAlt"] ?? null,
+                'checked' => isset($params["active"]) && $params["active"] ? 'checked' : '',
                 'categories' => array_map(function (PostCategoryEntity $postCategoryEntity) use ($params){
                     return View::render("/Components/UI/option", [
                         'value' => $postCategoryEntity->id,
