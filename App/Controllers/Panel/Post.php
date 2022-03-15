@@ -55,6 +55,7 @@ class Post
             $postEntity->setDescription($postVars['description']);
             $postEntity->setBody($postVars['body']);
             $postEntity->setCategory(['category_id' => $postVars['category_id']]);
+            $postEntity->setActive($postVars['active'] ?? $postEntity->active);
 
             $postEntity->update();
 
