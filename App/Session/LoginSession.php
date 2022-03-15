@@ -4,6 +4,7 @@ namespace App\Session;
 
 use App\Model\Entity\UserEntity;
 use App\Utils\Helpers;
+use Exception;
 
 class LoginSession extends Session{
     public static function setUserSession(UserEntity $objectUser): void{
@@ -22,18 +23,23 @@ class LoginSession extends Session{
         self::init();
 
         if(self::isLogged()){
-            if(!Helpers::verifyArrayFields($_SESSION['user'], [
-                'id', 'name', 'email', 'type_id', 'image_uri'
-            ])){
-                self::setUserSession(UserEntity::getUserById($_SESSION['user']['id']));
+            try {
+                if(!Helpers::verifyArrayFields($_SESSION['user'], [
+                    'id', 'name', 'email', 'type_id', 'image_uri'
+                ])){
+                    self::setUserSession(UserEntity::getUserById($_SESSION['user']['id']));
+                }
+            } catch (Exception $exception) {
+                unset($_SESSION['user']);
             }
+            
         }
     } 
 
     public static function getUserSession():array{
         self::init();
         self::refreshUserData();
-        return $_SESSION['user'];
+        return $_SESSION['user'] ?? null;
     }
 
     public static function isLogged():bool{
