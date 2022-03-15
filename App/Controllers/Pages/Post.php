@@ -42,7 +42,7 @@ class Post extends Page {
                     'authorImageSrc' => $postEntity->getAuthorImageUri(),
                     'authorImageAlt' => $postEntity->author->image ? $postEntity->author->image->alt : null,
                     'authorDescription' => $postEntity->author->description,
-                    'authorPageSrc' => "/busca?author={$postEntity->author->id}",
+                    'authorPageSrc' => "/autor/{$postEntity->author->slug}",
                     'authorName' => $postEntity->author->name,
                     'mostViewedPosts' => self::renderAuthorPosts($mostViewedPostsEntities),
                 ])
