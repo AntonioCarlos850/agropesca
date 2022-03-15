@@ -14,12 +14,20 @@ $router->get("/autor/{slug}", function (Request $request, $slug) {
     return new Response(Pages\Author::getAuthor($request, $slug));
 });
 
+$router->get("/post/{slug}", function ($slug, $request) {
+    return new Response(Pages\Post::getPost($slug, $request));
+});
+
 $router->get("/busca", function (Request $request) {
     return new Response(Pages\Busca::getBusca($request));
 });
 
 $router->post("/busca", function (Request $request) {
     return new Response(Pages\Busca::getBusca($request));
+});
+
+$router->get("/sobre-nos", function ($request) {
+    return new Response(Pages\AboutUs::getAboutUs($request));
 });
 
 $router->get("/session", function () {
