@@ -40,7 +40,7 @@ class PostEntity
         $this->setActive($postData["active"] ?? true);
 
         $this->setTitle($postData["title"]);
-        $this->setSlug($postData["slug"] ?? null);
+        $this->setSlug($postData["slug"] ?? ($postData["title"]." ".(new DateTime())->format("d-m-Y-h-i-s")));
         $this->setDescription($postData["description"] ?? null);
         $this->setBody($postData["body"] ?? null);
 
@@ -75,7 +75,7 @@ class PostEntity
 
     public function setSlug(?string $slug)
     {
-        $this->slug = str_replace(" ", "-", strtolower(Helpers::removeAccents($slug ?: $this->title)));
+        $this->slug = Helpers::slugfy($slug ?: "{$this->title} {$this->author->id} {$this->id}");
     }
 
     public function setDescription(?string $description)
