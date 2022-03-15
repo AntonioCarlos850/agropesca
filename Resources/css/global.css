@@ -108,11 +108,16 @@ body{
 footer{
     background-color: var(--dark-green);
     height: 35px;
+    width: 100vw !important;
 }
 
 
 footer a{
     text-decoration: none;
+    color: #fff;
+}
+
+footer a:visited{
     color: #fff;
 }
 
