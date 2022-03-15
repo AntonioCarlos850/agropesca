@@ -69,6 +69,7 @@ class Busca extends Page {
                 "mostViewsPosts" => self::renderMostViwedPosts($mostViewdPostEntities),
                 "weekPost" => self::renderWeekPosts($weekPostEntities),
                 "dropdownOptions" => self::renderOrderDropdownOptions($searchSessionData),
+                "extraOrderFields" => self::extraFields($searchSessionData),
                 "searchAuthor" => null,
                 "searchCategory" => null,
                 'pagination' => count($searchPostEntities) < $postsQuantity ? View::render('Components/Page/pagination', [    
@@ -165,6 +166,18 @@ class Busca extends Page {
                 'title' => $postEntity->title,
             ]);
         }, $postEntities);
+    }
+    public static function extraFields(array $searchSessionData = []) {
+        $extraLinks = [];
+        foreach($searchSessionData['conditions'] as $key => $value){
+            if($value){
+                $extraLinks[] = View::render('/Components/Page/extraOrderFields', [
+                    'name' => $key,
+                    'value' => $value,
+                ]);
+            }
+        }
+        return $extraLinks;
     }
     public static function renderWeekPosts(array $postEntities = []) {
         return array_map(function (PostEntity $postEntity){
