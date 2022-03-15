@@ -57,10 +57,10 @@ class PostCategoryEntity
         }
     }
 
-    public static function getCategories(): array
+    public static function getCategories(?int $limit = null): array
     {
         $postCategoryRepository = new PostCategoryRepository();
-        $categoriesData = $postCategoryRepository->getCategories();
+        $categoriesData = $postCategoryRepository->getCategories([], [], [], $limit);
 
         return array_map(function ($categoryData) {
             return new PostCategoryEntity($categoryData);

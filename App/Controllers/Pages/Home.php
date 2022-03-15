@@ -13,8 +13,10 @@ class Home extends Page {
      */
     public static function getHome() :string {
         try {
-            $postEntities = PostEntity::getActivePosts();
-            $categoriesEntities = PostCategoryEntity::getCategories();
+            $mostViewedPostsEntities = PostEntity::getPostsBySearch([], ['relevancia'], 6);
+            $recentPostsEntities = PostEntity::getPostsBySearch([], ['recente'], 3);
+            $olderPostsEntities = PostEntity::getPostsBySearch([], ['antigo'], 6);
+            $categoriesEntities = PostCategoryEntity::getCategories(3);
         } catch (Exception $exception){
             $postEntities = [];
             $categoriesEntities = [];
@@ -25,9 +27,9 @@ class Home extends Page {
             'css' => ['/Resources/css/home.css','/Resources/css/most_views.css'],
             'navbar' => true,
             'content' => View::render('pages/home', [
-                'mostViewsPosts' => self::renderMostViewPosts($postEntities),
-                'postSuggestions' => self::renderPosts($postEntities),
-                'ourPosts' => self::renderPosts($postEntities),
+                'mostViewsPosts' => self::renderMostViewPosts($recentPostsEntities),
+                'postSuggestions' => self::renderPosts($olderPostsEntities),
+                'ourPosts' => self::renderPosts($mostViewedPostsEntities),
                 'categories' => self::renderCategories($categoriesEntities)
             ]),
         ]);
