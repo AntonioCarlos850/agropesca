@@ -21,7 +21,7 @@ class Page
             "content" => $params["content"] ?? '',
             "footer" => self::getFooter($params),
 
-            "headScripts" => self::renderJs(array_merge($params["headScripts"] ?? [], ($params['navbar'] ?? false) ? ['https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js', '/Resources/js/navbar.js'] : [])),
+            "headScripts" => self::renderJs(array_merge($params["headScripts"] ?? [], ($params['navbar'] ?? true) ? ['https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js', '/Resources/js/navbar.js'] : [])),
             "endBodyScripts" => self::renderJs($params["endBodyScripts"] ?? []),
         ]);
     }
