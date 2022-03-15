@@ -15,6 +15,7 @@
                 <div id="order_div" class="center">
                     <p>Ordenar por:</p>
                     <form action="/busca" method="get">
+                        {{extraOrderFields}}
                         <select name="order" id="order" onchange="this.form.submit()">
                             {{dropdownOptions}}
                         </select>
