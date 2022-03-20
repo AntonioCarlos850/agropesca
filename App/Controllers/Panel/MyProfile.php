@@ -135,7 +135,7 @@ class MyProfile
                 $userEntity->update();
             }
 
-            return self::getMyProfile($request);
+            $request->getRouter()->redirect("/painel/myProfile");
         } catch (Exception $exception) {
             return self::getMyProfile($request);
         }
