@@ -13,10 +13,10 @@ class Home extends Page {
      */
     public static function getHome() :string {
         try {
-            $mostViewedPostsEntities = PostEntity::getPostsBySearch([], ['relevancia'], 6);
-            $recentPostsEntities = PostEntity::getPostsBySearch([], ['recente'], 3);
-            $olderPostsEntities = PostEntity::getPostsBySearch([], ['antigo'], 6);
-            $categoriesEntities = PostCategoryEntity::getCategories(3);
+            $mostViewedPostsEntities = PostEntity::getActivePosts(["blg_post.visits DESC"], [], 6);
+            $recentPostsEntities = PostEntity::getActivePosts(['blg_post.creation_date DESC'], [], 3);
+            $olderPostsEntities = PostEntity::getActivePosts(['blg_post.creation_date ASC'], [], 6);
+            $categoriesEntities = PostCategoryEntity::getCategories(4);
         } catch (Exception $exception){
             $mostViewedPostsEntities = [];
             $recentPostsEntities = [];
