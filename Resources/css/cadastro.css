@@ -64,9 +64,11 @@ body{
 .col-form{
     height: 100%;
     width: 70%;
+    max-height: 90vh;
 
     display: flex;
     justify-content: center;
+    align-items: center;
 
     background: var(--white);
 }
