@@ -152,7 +152,7 @@ class Busca extends Page {
                 'imageAlt' => $postEntity->getImageAlt(),
                 'title' => $postEntity->title,
                 'description' => $postEntity->description,
-                'authorName' => $postEntity->author->id,
+                'authorName' => $postEntity->author->name,
                 'date' => $postEntity->creation_date->format("d/m/Y"),
             ]);
         }, $postEntities);
