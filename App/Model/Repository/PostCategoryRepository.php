@@ -29,7 +29,7 @@ class PostCategoryRepository extends Repository
             " . (join(" ", $queryJoins)) . "
             " . (empty($queryConditions) ? "" : ("WHERE " . join(" AND ", $queryConditions))) . "
             ORDER BY " . (empty($queryOrders) ? "{$this->tableName}.{$this->columnReference} DESC" : join(", ", $queryOrders)) . "
-            " . ($limit ? "LIMIT $limit" : " LIMIT 1") . "
+            " . ($limit ? "LIMIT $limit" : "") . "
             " . ($limit && $offset ? "OFFSET $offset" : "") . "
             ",
             $data

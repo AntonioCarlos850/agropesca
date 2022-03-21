@@ -31,7 +31,7 @@ class Busca extends Page {
             );
 
             $mostViewdPostEntities = PostEntity::getActivePosts(["blg_post.visits DESC"],[],3);
-            $weekPostEntities = PostEntity::getActivePosts(["blg_post.creation_date DESC"],[],1);
+            $weekPostEntities = PostEntity::getActivePosts(["blg_post.creation_date DESC"],[],3);
         } catch (Exception $exception) {
             $searchPostEntities = [];
             $mostViewdPostEntities = [];
