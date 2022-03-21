@@ -15,6 +15,16 @@ class Post extends Page {
     public static function getPost($postSlug, Request $request) :string {
         try {
             $postEntity = PostEntity::getPostBySlug($postSlug);
+            if(!$postEntity->active){
+                if(LoginSession::isLogged()){
+                    $userSessionData = LoginSession::getUserSession();
+                    if($userSessionData['type_id'] != 3 && $userSessionData['id'] != $postEntity->author->id){
+                        $request->getRouter()->redirect("/");
+                    }
+                }else{
+                    $request->getRouter()->redirect("/");
+                }
+            }
             $mostViewedPostsEntities = PostEntity::getActivePosts(['blg_post.visits DESC', 'blg_post.id != '.$postEntity->id],[],4);
 
             if(LoginSession::isLogged()){

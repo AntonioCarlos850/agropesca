@@ -16,7 +16,7 @@ class SearchSession extends Session{
             ],
             'orders' => $param['orders'] ?? ($_SESSION['search']['orders'] ?? [ 'relevancia' ]),
             'page' => $param['page'] ?? ($_SESSION['search']['page'] ?? 1),
-            'itensPerPage' => 3
+            'itensPerPage' => 10
         ];
     }
 
